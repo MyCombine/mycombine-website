@@ -16,7 +16,7 @@ import {
   Trophy,
   User,
 } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const features = [
   {
