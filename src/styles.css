@@ -65,6 +65,7 @@ svg {
 }
 
 .hero {
+  width: min(1240px, calc(100% - 32px));
   min-height: 92svh;
   display: flex;
   flex-direction: column;
@@ -148,11 +149,12 @@ svg {
   grid-template-columns: 1fr;
   align-items: center;
   gap: 42px;
+  justify-content: space-between;
   min-width: 0;
 }
 
 .hero-copy {
-  max-width: 760px;
+  max-width: 700px;
   min-width: 0;
 }
 
@@ -176,7 +178,7 @@ p {
 h1 {
   max-width: 900px;
   margin-bottom: 18px;
-  font-size: clamp(3rem, 12vw, 8.9rem);
+  font-size: clamp(3rem, 11vw, 7.25rem);
   line-height: 0.9;
   font-weight: 950;
   letter-spacing: 0;
@@ -250,6 +252,8 @@ h1 {
 .hero-visual {
   position: relative;
   width: 100%;
+  max-width: 430px;
+  justify-self: center;
   min-height: 690px;
   display: grid;
   place-items: center;
@@ -258,7 +262,7 @@ h1 {
 
 .hero-device {
   position: relative;
-  width: min(100%, 390px);
+  width: min(100%, 410px);
   max-width: 100%;
   border: 1px solid rgba(255, 255, 255, 0.17);
   border-radius: 42px;
@@ -1083,7 +1087,6 @@ input:focus {
 }
 
 @media (min-width: 980px) {
-  .hero-grid,
   .product-section,
   .waitlist-section {
     grid-template-columns: 1.04fr 0.96fr;
@@ -1103,6 +1106,36 @@ input:focus {
 
   .feature-card {
     min-height: 285px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 700px) minmax(340px, 420px);
+    gap: clamp(48px, 5.5vw, 80px);
+  }
+
+  .hero-copy {
+    max-width: 700px;
+  }
+
+  .hero-visual {
+    justify-self: end;
+    max-width: 420px;
+  }
+
+  .hero-title {
+    font-size: clamp(4.7rem, 7.2vw, 7.25rem);
+  }
+}
+
+@media (min-width: 1180px) {
+  .hero-copy {
+    max-width: 700px;
+  }
+
+  .hero-title {
+    font-size: clamp(5.4rem, 7.2vw, 7.25rem);
   }
 }
 
@@ -1189,6 +1222,7 @@ input:focus {
 
   .hero-visual {
     min-height: auto;
+    max-width: 100%;
     padding-top: 10px;
   }
 
