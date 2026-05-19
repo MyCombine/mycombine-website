@@ -3,6 +3,7 @@ import {
   ArrowRight,
   Bolt,
   CalendarDays,
+  ChevronLeft,
   ChevronRight,
   Clock3,
   Dumbbell,
@@ -85,7 +86,11 @@ function App() {
               Coming Soon
             </span>
             <p className="kicker">Your combine in your pocket.</p>
-            <h1 id="hero-title">Test. Compete. Improve.</h1>
+            <h1 className="hero-title" id="hero-title">
+              <span>Test.</span>
+              <span>Compete.</span>
+              <span>Improve.</span>
+            </h1>
             <p className="hero-text">
               Portable speed and agility testing built for athletes who want measurable progress.
               Test speed, agility, and explosiveness. Track progress. Prepare for Official Test Day.
@@ -102,33 +107,83 @@ function App() {
             </div>
           </div>
 
-          <div className="hero-visual" aria-label="My Combine performance preview">
-            <div className="score-card">
-              <div>
-                <span>Official Test Day</span>
-                <strong>Locked</strong>
-              </div>
-              <Medal size={24} aria-hidden="true" />
-            </div>
-            <div className="phone-shell">
-              <div className="phone-top" />
-              <div className="phone-screen">
-                <div className="metric-row">
-                  <span>40 yd</span>
-                  <strong>4.72</strong>
+          <div className="hero-visual" aria-label="My Combine Speed Workout app preview">
+            <div className="hero-device">
+              <div className="hero-device-glass">
+                <div className="hero-app-screen">
+                  <div className="speed-back">
+                    <ChevronLeft size={19} aria-hidden="true" />
+                    <span>Back</span>
+                  </div>
+
+                  <div className="speed-brand-title">My Combine</div>
+
+                  <section className="speed-workout-card" aria-label="Speed Workout preview">
+                    <header className="speed-workout-header">
+                      <h3>Speed Workout</h3>
+                      <p>3 drills - 30 min</p>
+                    </header>
+
+                    <div className="speed-session">
+                      <h4>Session Focus</h4>
+                      <p>Straight-line acceleration and top-end sprint work</p>
+                      <span>Adjusted for: Beginner</span>
+                    </div>
+
+                    <button className="surface-control" type="button">
+                      <span>Surface: Grass / Turf</span>
+                      <strong>Change</strong>
+                    </button>
+
+                    <button className="edit-workout-control" type="button">Edit Workout</button>
+
+                    <div className="workout-lineup">
+                      <h4>Workout Lineup</h4>
+                      <div className="lineup-row">
+                        <div>
+                          <strong>1. 10-Yard Sprint</strong>
+                          <span>6 reps - Timer or gates · 10 yd</span>
+                        </div>
+                        <ChevronRight size={21} aria-hidden="true" />
+                      </div>
+                      <div className="lineup-row">
+                        <div>
+                          <strong>2. 20-Yard Sprint</strong>
+                          <span>5 reps - Timer or gates · 20 yd</span>
+                        </div>
+                        <ChevronRight size={21} aria-hidden="true" />
+                      </div>
+                      <div className="lineup-row">
+                        <div>
+                          <strong>3. 40-Yard Dash</strong>
+                          <span>3 reps - Timer or gates · 40 yd</span>
+                        </div>
+                        <ChevronRight size={21} aria-hidden="true" />
+                      </div>
+                    </div>
+
+                    <button className="start-workout-button" type="button">Start Workout</button>
+                  </section>
+
+                  <nav className="hero-app-nav" aria-label="My Combine app preview navigation">
+                    <span>
+                      <Home size={17} aria-hidden="true" />
+                      Home
+                    </span>
+                    <span className="active">
+                      <Dumbbell size={18} aria-hidden="true" />
+                      Workout
+                    </span>
+                    <span>
+                      <Trophy size={17} aria-hidden="true" />
+                      Results
+                    </span>
+                    <span>
+                      <User size={17} aria-hidden="true" />
+                      Me
+                    </span>
+                  </nav>
                 </div>
-                <div className="metric-row">
-                  <span>5-10-5</span>
-                  <strong>4.28</strong>
-                </div>
-                <div className="metric-row">
-                  <span>Broad</span>
-                  <strong>9'8"</strong>
-                </div>
-                <div className="progress-line">
-                  <span />
-                </div>
-                <p>PR trend</p>
               </div>
             </div>
           </div>
