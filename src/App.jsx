@@ -66,7 +66,7 @@ function App() {
         <div className="nav">
           <a className="brand" href="https://mycombineapp.com" aria-label="My Combine home">
             <span className="app-icon" aria-hidden="true">
-              MC
+              <img src="/mc-runner-logo.png" alt="" />
             </span>
             <span>
               <strong>My Combine</strong>
