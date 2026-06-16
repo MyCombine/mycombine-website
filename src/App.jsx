@@ -17,7 +17,13 @@ import {
   Trophy,
   User,
 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { termsDocument } from "./legalContent.js";
+import {
+  hasSessionWaitlistSubmission,
+  isValidWaitlistEmail,
+  submitWaitlistEmail,
+} from "./waitlist.js";
 
 const features = [
   {
@@ -50,14 +56,235 @@ const productPoints = [
   "Compare progress over time",
 ];
 
-function App() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
+const homeMeta = {
+  title: "My Combine | Test. Compete. Improve.",
+  description:
+    "My Combine is a sports performance testing app for speed, agility, explosiveness, and official athlete benchmarking.",
+};
 
-  const handleSubmit = (event) => {
+function usePageMeta(title, description) {
+  useEffect(() => {
+    document.title = title;
+
+    let metaDescription = document.querySelector('meta[name="description"]');
+
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      document.head.appendChild(metaDescription);
+    }
+
+    metaDescription.setAttribute("content", description);
+  }, [title, description]);
+}
+
+function parseLegalMarkdown(markdown) {
+  const blocks = [];
+  let listItems = [];
+
+  const flushList = () => {
+    if (listItems.length > 0) {
+      blocks.push({ type: "list", items: listItems });
+      listItems = [];
+    }
+  };
+
+  markdown.split("\n").forEach((line) => {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      flushList();
+      return;
+    }
+
+    if (trimmed.startsWith("### ")) {
+      flushList();
+      blocks.push({ type: "heading", level: 3, text: trimmed.slice(4) });
+      return;
+    }
+
+    if (trimmed.startsWith("## ")) {
+      flushList();
+      blocks.push({ type: "heading", level: 2, text: trimmed.slice(3) });
+      return;
+    }
+
+    if (trimmed.startsWith("# ")) {
+      flushList();
+      blocks.push({ type: "heading", level: 1, text: trimmed.slice(2) });
+      return;
+    }
+
+    if (trimmed.startsWith("- ")) {
+      listItems.push(trimmed.slice(2));
+      return;
+    }
+
+    flushList();
+    blocks.push({ type: "paragraph", text: trimmed });
+  });
+
+  flushList();
+  return blocks;
+}
+
+function renderLegalBlocks(markdown) {
+  return parseLegalMarkdown(markdown).map((block, index) => {
+    if (block.type === "heading" && block.level === 1) {
+      return null;
+    }
+
+    if (block.type === "heading" && block.level === 2) {
+      return <h2 key={`heading-${index}`}>{block.text}</h2>;
+    }
+
+    if (block.type === "heading" && block.level === 3) {
+      return <h3 key={`heading-${index}`}>{block.text}</h3>;
+    }
+
+    if (block.type === "list") {
+      return (
+        <ul key={`list-${index}`}>
+          {block.items.map((item, itemIndex) => (
+            <li key={`${item}-${itemIndex}`}>{item}</li>
+          ))}
+        </ul>
+      );
+    }
+
+    return <p key={`paragraph-${index}`}>{block.text}</p>;
+  });
+}
+
+function LegalHeader() {
+  return (
+    <header className="nav legal-nav">
+      <a className="brand" href="/" aria-label="My Combine home">
+        <span className="app-icon" aria-hidden="true">
+          <img src="/mc-runner-logo.png" alt="" />
+        </span>
+        <span>
+          <strong>My Combine</strong>
+          <small>TEST. COMPETE. IMPROVE.</small>
+        </span>
+      </a>
+      <a className="social-pill" href="/">
+        Back to home
+      </a>
+    </header>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="footer">
+      <div>
+        <strong>My Combine</strong>
+        <span>mycombineapp.com</span>
+      </div>
+      <nav className="footer-social" aria-label="Social links">
+        <a href="https://instagram.com/mycombineapp">Instagram: @mycombineapp</a>
+        <a href="https://tiktok.com/@mycombineapp">TikTok: @mycombineapp</a>
+      </nav>
+      <nav className="footer-links" aria-label="Legal and contact links">
+        <a href="/terms">Terms of Service</a>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="mailto:team@mycombineapp.com">Contact</a>
+      </nav>
+      <p>© 2026 My Combine. All rights reserved.</p>
+    </footer>
+  );
+}
+
+function LegalPage({ legalDocument }) {
+  usePageMeta(legalDocument.seoTitle, legalDocument.description);
+
+  return (
+    <main className="site-shell legal-shell">
+      <LegalHeader />
+      <article className="legal-page" aria-labelledby="legal-title">
+        <span className="status-badge legal-eyebrow">Legal</span>
+        <h1 id="legal-title">{legalDocument.title}</h1>
+        <p className="legal-summary">{legalDocument.description}</p>
+        <p className="legal-effective">Effective Date: {legalDocument.effectiveDate}</p>
+        <div className="legal-content">{renderLegalBlocks(legalDocument.body)}</div>
+        {legalDocument.pdfHref && (
+          <div className="legal-download">
+            <a href={legalDocument.pdfHref}>{legalDocument.pdfLabel}</a>
+          </div>
+        )}
+      </article>
+      <SiteFooter />
+    </main>
+  );
+}
+
+function PrivacySourceNeededPage() {
+  usePageMeta(
+    "My Combine Privacy Policy",
+    "Privacy Policy for the My Combine mobile application and website.",
+  );
+
+  return (
+    <main className="site-shell legal-shell">
+      <LegalHeader />
+      <section className="legal-page legal-pending" aria-labelledby="privacy-title">
+        <span className="status-badge legal-eyebrow">Legal</span>
+        <h1 id="privacy-title">Privacy Policy</h1>
+        <div className="source-needed">
+          <h2>Final Privacy Policy source needed</h2>
+          <p>
+            I found the final Terms of Service PDF, but a final Privacy Policy document was not
+            attached or discoverable in the local My Combine folders.
+          </p>
+          <p>
+            To avoid publishing placeholder legal text, this page is intentionally waiting for the
+            actual Privacy Policy source document.
+          </p>
+          <a className="button button-primary" href="mailto:team@mycombineapp.com">
+            Contact My Combine
+          </a>
+        </div>
+      </section>
+      <SiteFooter />
+    </main>
+  );
+}
+
+function LandingPage() {
+  usePageMeta(homeMeta.title, homeMeta.description);
+
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(() => hasSessionWaitlistSubmission());
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setSubmitted(true);
-    setEmail("");
+    setErrorMessage("");
+
+    if (submitted || hasSessionWaitlistSubmission()) {
+      setSubmitted(true);
+      setEmail("");
+      return;
+    }
+
+    if (!isValidWaitlistEmail(email)) {
+      setErrorMessage("Enter a valid email address.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await submitWaitlistEmail(email);
+      setSubmitted(true);
+      setEmail("");
+    } catch (error) {
+      setErrorMessage(error.message || "Waitlist submission failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -388,29 +615,41 @@ function App() {
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               placeholder="Enter your email"
+              disabled={isSubmitting || submitted}
               required
             />
-            <button className="button button-primary" type="submit">
-              Join Waitlist
+            <button className="button button-primary" type="submit" disabled={isSubmitting || submitted}>
+              {isSubmitting ? "Joining..." : submitted ? "Joined" : "Join Waitlist"}
             </button>
           </div>
-          {submitted && <p className="success-message">You're on the list.</p>}
+          <div className="waitlist-message" aria-live="polite">
+            {submitted && (
+              <p className="success-message">
+                You're on the list. We'll let you know when My Combine launches.
+              </p>
+            )}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+          </div>
         </form>
       </section>
 
-      <footer className="footer">
-        <div>
-          <strong>My Combine</strong>
-          <span>mycombineapp.com</span>
-        </div>
-        <nav aria-label="Social links">
-          <a href="https://instagram.com/mycombineapp">Instagram: @mycombineapp</a>
-          <a href="https://tiktok.com/@mycombineapp">TikTok: @mycombineapp</a>
-        </nav>
-        <p>© 2026 My Combine. All rights reserved.</p>
-      </footer>
+      <SiteFooter />
     </main>
   );
+}
+
+function App() {
+  const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
+
+  if (normalizedPath === "/terms") {
+    return <LegalPage legalDocument={termsDocument} />;
+  }
+
+  if (normalizedPath === "/privacy") {
+    return <PrivacySourceNeededPage />;
+  }
+
+  return <LandingPage />;
 }
 
 export default App;

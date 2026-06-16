@@ -37,6 +37,7 @@ npm run preview
 
 ## Notes
 
-- The waitlist form is frontend-only for now and shows `You're on the list.` after submission.
+- The waitlist form is ready to connect to Google Sheets through Apps Script. See `WAITLIST_SETUP.md`.
+- Legal routes are handled inside the Vite app at `/terms` and `/privacy`; `vercel.json` and `public/_redirects` keep direct refreshes working after deployment.
 - Screenshot, phone mockup, and loading GIF areas are polished placeholders ready to swap with real app media.
 - This project is separate from the My Combine mobile app code.
