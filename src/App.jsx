@@ -18,7 +18,7 @@ import {
   User,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { termsDocument } from "./legalContent.js";
+import { privacyDocument, termsDocument } from "./legalContent.js";
 import {
   hasSessionWaitlistSubmission,
   isValidWaitlistEmail,
@@ -214,38 +214,6 @@ function LegalPage({ legalDocument }) {
           </div>
         )}
       </article>
-      <SiteFooter />
-    </main>
-  );
-}
-
-function PrivacySourceNeededPage() {
-  usePageMeta(
-    "My Combine Privacy Policy",
-    "Privacy Policy for the My Combine mobile application and website.",
-  );
-
-  return (
-    <main className="site-shell legal-shell">
-      <LegalHeader />
-      <section className="legal-page legal-pending" aria-labelledby="privacy-title">
-        <span className="status-badge legal-eyebrow">Legal</span>
-        <h1 id="privacy-title">Privacy Policy</h1>
-        <div className="source-needed">
-          <h2>Final Privacy Policy source needed</h2>
-          <p>
-            I found the final Terms of Service PDF, but a final Privacy Policy document was not
-            attached or discoverable in the local My Combine folders.
-          </p>
-          <p>
-            To avoid publishing placeholder legal text, this page is intentionally waiting for the
-            actual Privacy Policy source document.
-          </p>
-          <a className="button button-primary" href="mailto:team@mycombineapp.com">
-            Contact My Combine
-          </a>
-        </div>
-      </section>
       <SiteFooter />
     </main>
   );
@@ -646,7 +614,7 @@ function App() {
   }
 
   if (normalizedPath === "/privacy") {
-    return <PrivacySourceNeededPage />;
+    return <LegalPage legalDocument={privacyDocument} />;
   }
 
   return <LandingPage />;
