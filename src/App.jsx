@@ -1,21 +1,11 @@
 import {
-  Activity,
   ArrowRight,
   Bolt,
-  CalendarDays,
-  ChevronLeft,
-  ChevronRight,
   Clock3,
   Dumbbell,
-  Flame,
-  Home,
   Instagram,
-  Medal,
   ShieldCheck,
-  Timer,
   TrendingUp,
-  Trophy,
-  User,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { privacyDocument, termsDocument } from "./legalContent.js";
@@ -54,6 +44,27 @@ const productPoints = [
   "Save PRs and drill history",
   "Prepare for Official Test Day",
   "Compare progress over time",
+];
+
+const appScreenshots = [
+  {
+    src: "/app-screens/img-8723-active-workout.png?v=8723",
+    title: "Active Workout",
+    label: "Field workout",
+    body: "Surface, drill setup, rep progress, timing controls, and live sprint guidance.",
+  },
+  {
+    src: "/app-screens/img-8724-training-feedback.png?v=8724",
+    title: "Training Feedback",
+    label: "Progress tracking",
+    body: "Rep timing, goal comparison, session bests, and official PR context.",
+  },
+  {
+    src: "/app-screens/img-8725-stat-card.png?v=8725",
+    title: "Official Stat Card",
+    label: "Benchmarking",
+    body: "Runner Score, athletic breakdowns, official PRs, archetype, and share-ready results.",
+  },
 ];
 
 const homeMeta = {
@@ -302,83 +313,14 @@ function LandingPage() {
             </div>
           </div>
 
-          <div className="hero-visual" aria-label="My Combine Speed Workout app preview">
+          <div className="hero-visual" aria-label="My Combine home dashboard app preview">
             <div className="hero-device">
               <div className="hero-device-glass">
-                <div className="hero-app-screen">
-                  <div className="speed-back">
-                    <ChevronLeft size={19} aria-hidden="true" />
-                    <span>Back</span>
-                  </div>
-
-                  <div className="speed-brand-title">My Combine</div>
-
-                  <section className="speed-workout-card" aria-label="Speed Workout preview">
-                    <header className="speed-workout-header">
-                      <h3>Speed Workout</h3>
-                      <p>3 drills - 30 min</p>
-                    </header>
-
-                    <div className="speed-session">
-                      <h4>Session Focus</h4>
-                      <p>Straight-line acceleration and top-end sprint work</p>
-                      <span>Adjusted for: Beginner</span>
-                    </div>
-
-                    <button className="surface-control" type="button">
-                      <span>Surface: Grass / Turf</span>
-                      <strong>Change</strong>
-                    </button>
-
-                    <button className="edit-workout-control" type="button">Edit Workout</button>
-
-                    <div className="workout-lineup">
-                      <h4>Workout Lineup</h4>
-                      <div className="lineup-row">
-                        <div>
-                          <strong>1. 10-Yard Sprint</strong>
-                          <span>6 reps - Timer or gates · 10 yd</span>
-                        </div>
-                        <ChevronRight size={21} aria-hidden="true" />
-                      </div>
-                      <div className="lineup-row">
-                        <div>
-                          <strong>2. 20-Yard Sprint</strong>
-                          <span>5 reps - Timer or gates · 20 yd</span>
-                        </div>
-                        <ChevronRight size={21} aria-hidden="true" />
-                      </div>
-                      <div className="lineup-row">
-                        <div>
-                          <strong>3. 40-Yard Dash</strong>
-                          <span>3 reps - Timer or gates · 40 yd</span>
-                        </div>
-                        <ChevronRight size={21} aria-hidden="true" />
-                      </div>
-                    </div>
-
-                    <button className="start-workout-button" type="button">Start Workout</button>
-                  </section>
-
-                  <nav className="hero-app-nav" aria-label="My Combine app preview navigation">
-                    <span>
-                      <Home size={17} aria-hidden="true" />
-                      Home
-                    </span>
-                    <span className="active">
-                      <Dumbbell size={18} aria-hidden="true" />
-                      Workout
-                    </span>
-                    <span>
-                      <Trophy size={17} aria-hidden="true" />
-                      Results
-                    </span>
-                    <span>
-                      <User size={17} aria-hidden="true" />
-                      Me
-                    </span>
-                  </nav>
-                </div>
+                <img
+                  className="app-screenshot"
+                  src="/app-screens/img-8722-home-dashboard.png?v=8722"
+                  alt="My Combine home dashboard showing Runner Score 55, Speed, Agility, Explosiveness, and Today's Workout."
+                />
               </div>
             </div>
           </div>
@@ -421,150 +363,20 @@ function LandingPage() {
           <h2 id="visual-title">Built for the field, track, turf, or training facility.</h2>
         </div>
         <div className="app-showcase">
-          <div className="device-frame" aria-label="My Combine app home screen preview">
-            <div className="device-side-button left" aria-hidden="true" />
-            <div className="device-side-button right" aria-hidden="true" />
-            <div className="device-glass">
-              <div className="dynamic-island" aria-hidden="true" />
-              <div className="app-dashboard">
-                <div className="app-status">
-                  <span>9:41</span>
-                  <span>5G 100%</span>
+          {appScreenshots.map((screen) => (
+            <article className="showcase-screen-card" key={screen.title}>
+              <div className="device-frame" aria-label={`${screen.title} app screenshot`}>
+                <div className="device-glass">
+                  <img className="app-screenshot" src={screen.src} alt={`${screen.title}: ${screen.body}`} />
                 </div>
-
-                <header className="app-home-header">
-                  <div>
-                    <p>Good morning, Jalen</p>
-                    <h3>My Combine</h3>
-                  </div>
-                  <div className="athlete-avatar" aria-hidden="true">
-                    JS
-                  </div>
-                </header>
-
-                <section className="runner-score-card" aria-label="Runner Score 86">
-                  <div>
-                    <span>Runner Score</span>
-                    <strong>86</strong>
-                    <p>Elite acceleration trend</p>
-                  </div>
-                  <div className="score-ring" aria-hidden="true">
-                    86
-                  </div>
-                </section>
-
-                <div className="stat-grid" aria-label="Personal records">
-                  <div>
-                    <span>40 Yard</span>
-                    <strong>4.91</strong>
-                    <small>PR</small>
-                  </div>
-                  <div>
-                    <span>Shuttle</span>
-                    <strong>4.32</strong>
-                    <small>PR</small>
-                  </div>
-                  <div>
-                    <span>Vertical</span>
-                    <strong>31"</strong>
-                    <small>PR</small>
-                  </div>
-                </div>
-
-                <section className="workout-card">
-                  <div className="card-title-row">
-                    <div>
-                      <span>Today</span>
-                      <h4>Acceleration Build</h4>
-                    </div>
-                    <ChevronRight size={18} aria-hidden="true" />
-                  </div>
-                  <div className="workout-meta">
-                    <span>
-                      <Timer size={14} aria-hidden="true" />
-                      34 min
-                    </span>
-                    <span>
-                      <Flame size={14} aria-hidden="true" />
-                      5 day streak
-                    </span>
-                  </div>
-                  <p>Last workout completed yesterday</p>
-                </section>
-
-                <section className="history-panel">
-                  <div className="card-title-row">
-                    <h4>Recent drill history</h4>
-                    <span>View all</span>
-                  </div>
-                  <div className="drill-row">
-                    <div>
-                      <strong>Flying 10</strong>
-                      <span>Turf · 3 reps</span>
-                    </div>
-                    <b>1.12s</b>
-                  </div>
-                  <div className="drill-row">
-                    <div>
-                      <strong>Pro Shuttle</strong>
-                      <span>Track · 2 reps</span>
-                    </div>
-                    <b>4.32s</b>
-                  </div>
-                </section>
-
-                <section className="test-day-card">
-                  <div>
-                    <span>Upcoming Official Test Day</span>
-                    <strong>Saturday · 9:00 AM</strong>
-                  </div>
-                  <Medal size={22} aria-hidden="true" />
-                </section>
-
-                <nav className="app-tabbar" aria-label="App preview navigation">
-                  <span className="active">
-                    <Home size={17} aria-hidden="true" />
-                    Home
-                  </span>
-                  <span>
-                    <Dumbbell size={17} aria-hidden="true" />
-                    Train
-                  </span>
-                  <span>
-                    <Trophy size={17} aria-hidden="true" />
-                    PRs
-                  </span>
-                  <span>
-                    <User size={17} aria-hidden="true" />
-                    Profile
-                  </span>
-                </nav>
               </div>
-            </div>
-          </div>
-
-          <aside className="showcase-panel" aria-label="App preview highlights">
-            <span className="status-badge">Home screen preview</span>
-            <h3>Training data that feels official.</h3>
-            <p>
-              A clean dashboard for workout readiness, verified testing, PR history, and athlete
-              progress at a glance.
-            </p>
-            <div className="showcase-metrics">
-              <div>
-                <Activity size={18} aria-hidden="true" />
-                <span>86 Runner Score</span>
+              <div className="showcase-screen-copy">
+                <span>{screen.label}</span>
+                <h3>{screen.title}</h3>
+                <p>{screen.body}</p>
               </div>
-              <div>
-                <CalendarDays size={18} aria-hidden="true" />
-                <span>Official Test Day ready</span>
-              </div>
-              <div>
-                <TrendingUp size={18} aria-hidden="true" />
-                <span>PRs tracked over time</span>
-              </div>
-            </div>
-          </aside>
+            </article>
+          ))}
         </div>
       </section>
 

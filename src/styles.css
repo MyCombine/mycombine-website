@@ -260,7 +260,7 @@ h1 {
   width: 100%;
   max-width: 430px;
   justify-self: center;
-  min-height: 690px;
+  min-height: 0;
   display: grid;
   place-items: center;
   overflow: visible;
@@ -289,199 +289,13 @@ h1 {
   background: #000;
 }
 
-.hero-app-screen {
-  display: flex;
-  min-height: 660px;
-  flex-direction: column;
-  background:
-    linear-gradient(180deg, rgba(42, 255, 22, 0.06), transparent 18%),
-    #050505;
-  padding: 20px 18px 16px;
-}
-
-.speed-back {
-  display: inline-flex;
-  width: max-content;
-  align-items: center;
-  gap: 4px;
-  color: #f7f7f7;
-  font-size: 0.9rem;
-  font-weight: 950;
-}
-
-.speed-brand-title {
-  margin: 18px 0 18px;
-  color: #ffffff;
-  font-size: clamp(1.9rem, 4vw, 2.72rem);
-  line-height: 0.95;
-  font-weight: 950;
-  letter-spacing: 0;
-  text-align: center;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.speed-workout-card {
-  display: grid;
-  gap: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 28px;
-  background: #151617;
-  padding: 20px 18px 16px;
-}
-
-.speed-workout-header {
-  text-align: center;
-}
-
-.speed-workout-header h3 {
-  margin: 0 0 8px;
-  font-size: clamp(1.55rem, 3vw, 2.15rem);
-  line-height: 1.05;
-  font-weight: 950;
-}
-
-.speed-workout-header p,
-.speed-session p,
-.speed-session span,
-.lineup-row span {
-  color: #a9a9ad;
-}
-
-.speed-workout-header p {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 750;
-}
-
-.speed-session h4,
-.workout-lineup h4 {
-  margin: 0 0 12px;
-  font-size: 1.12rem;
-  font-weight: 950;
-}
-
-.speed-session p {
-  margin-bottom: 12px;
-  line-height: 1.35;
-}
-
-.speed-session span {
+.app-screenshot {
   display: block;
-  font-size: 0.92rem;
-  font-weight: 750;
-}
-
-.surface-control,
-.edit-workout-control,
-.start-workout-button {
   width: 100%;
-  border-radius: 16px;
-  font-weight: 950;
-}
-
-.surface-control,
-.edit-workout-control {
-  min-height: 54px;
-  border: 1.5px solid #29ff18;
-  background: transparent;
-  color: #ffffff;
-}
-
-.surface-control {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 0 14px;
-  text-align: left;
-}
-
-.surface-control span,
-.surface-control strong {
-  min-width: 0;
-}
-
-.surface-control span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.surface-control strong {
-  color: #29ff18;
-  font-size: 0.82rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.edit-workout-control {
-  display: grid;
-  place-items: center;
-  font-size: 1.05rem;
-}
-
-.workout-lineup {
-  display: grid;
-  gap: 0;
-}
-
-.lineup-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 13px 0;
-}
-
-.lineup-row strong {
-  display: block;
-  color: #ffffff;
-  font-size: 1.05rem;
-  line-height: 1.1;
-}
-
-.lineup-row span {
-  display: block;
-  margin-top: 5px;
-  font-size: 0.8rem;
-  font-weight: 750;
-  line-height: 1.3;
-}
-
-.start-workout-button {
-  min-height: 56px;
-  border: 0;
-  background: #29ff18;
-  color: #030303;
-  font-size: 1.08rem;
-}
-
-.hero-app-nav {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-  margin-top: -8px;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 28px;
-  background: #050606;
-  padding: 12px 10px 10px;
-}
-
-.hero-app-nav span {
-  display: flex;
-  min-width: 0;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  color: #97999f;
-  font-size: 0.66rem;
-  font-weight: 900;
-}
-
-.hero-app-nav .active {
-  color: #29ff18;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center top;
 }
 
 .section {
@@ -595,19 +409,31 @@ h2 {
 .app-showcase {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 26px;
-  align-items: center;
+  gap: 18px;
+  align-items: start;
   margin-top: 34px;
   min-width: 0;
 }
 
+.showcase-screen-card {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: var(--radius-card);
+  background:
+    linear-gradient(160deg, rgba(124, 255, 47, 0.08), transparent 42%),
+    rgba(255, 255, 255, 0.035);
+  padding: 16px;
+}
+
 .device-frame {
   position: relative;
-  width: min(100%, 390px);
+  width: min(100%, 360px);
   max-width: 100%;
   margin: 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 48px;
+  border-radius: 40px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.22), transparent 16%),
     linear-gradient(320deg, rgba(124, 255, 47, 0.28), transparent 22%),
@@ -615,353 +441,40 @@ h2 {
   box-shadow:
     0 48px 95px rgba(0, 0, 0, 0.48),
     0 0 0 8px rgba(255, 255, 255, 0.025);
-  padding: 12px;
-}
-
-.device-side-button {
-  position: absolute;
-  width: 4px;
-  border-radius: 999px;
-  background: #2c3032;
-}
-
-.device-side-button.left {
-  top: 120px;
-  left: -4px;
-  height: 74px;
-}
-
-.device-side-button.right {
-  top: 176px;
-  right: -4px;
-  height: 108px;
+  padding: 9px;
 }
 
 .device-glass {
   position: relative;
   overflow: hidden;
-  min-height: 744px;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 38px;
+  border-radius: 31px;
   background: #030404;
 }
 
-.dynamic-island {
-  position: absolute;
-  z-index: 3;
-  top: 12px;
-  left: 50%;
-  width: 104px;
-  height: 28px;
-  transform: translateX(-50%);
-  border-radius: 999px;
-  background: #020303;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+.showcase-screen-copy {
+  min-width: 0;
 }
 
-.app-dashboard {
-  display: flex;
-  min-height: 744px;
-  flex-direction: column;
-  gap: 10px;
-  background:
-    radial-gradient(circle at 92% 12%, rgba(124, 255, 47, 0.18), transparent 10rem),
-    linear-gradient(180deg, #0d1111 0%, #050606 56%, #030404 100%);
-  padding: 14px 14px 12px;
-}
-
-.app-status {
-  display: flex;
-  justify-content: space-between;
-  padding: 2px 9px 20px;
-  color: rgba(255, 255, 255, 0.88);
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.app-home-header,
-.runner-score-card,
-.card-title-row,
-.drill-row,
-.test-day-card,
-.app-tabbar {
-  display: flex;
-  align-items: center;
-}
-
-.app-home-header {
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.app-home-header p,
-.runner-score-card p,
-.workout-card p {
-  margin: 0;
-}
-
-.app-home-header p {
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 800;
-}
-
-.app-home-header h3 {
-  margin: 2px 0 0;
-  font-size: 1.35rem;
-  font-weight: 950;
-}
-
-.athlete-avatar {
-  display: grid;
-  width: 42px;
-  height: 42px;
-  place-items: center;
-  border: 1px solid rgba(124, 255, 47, 0.35);
-  border-radius: 999px;
-  background: rgba(124, 255, 47, 0.12);
+.showcase-screen-copy span {
+  display: block;
+  margin-bottom: 8px;
   color: var(--green);
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   font-weight: 950;
-}
-
-.runner-score-card {
-  justify-content: space-between;
-  gap: 16px;
-  min-height: 118px;
-  border: 1px solid rgba(124, 255, 47, 0.22);
-  border-radius: 18px;
-  background:
-    linear-gradient(135deg, rgba(124, 255, 47, 0.2), transparent 54%),
-    rgba(255, 255, 255, 0.055);
-  padding: 16px;
-}
-
-.runner-score-card span,
-.workout-card span,
-.history-panel .card-title-row span,
-.test-day-card span,
-.stat-grid span {
-  color: var(--muted);
-  font-size: 0.68rem;
-  font-weight: 900;
   text-transform: uppercase;
 }
 
-.runner-score-card strong {
-  display: block;
-  color: var(--green);
-  font-size: 3rem;
-  line-height: 0.95;
-  font-weight: 950;
+.showcase-screen-copy h3 {
+  margin: 0 0 8px;
+  font-size: clamp(1.25rem, 3vw, 1.55rem);
+  line-height: 1.1;
 }
 
-.runner-score-card p {
-  color: #dbe1df;
-  font-size: 0.76rem;
-  font-weight: 800;
-}
-
-.score-ring {
-  display: grid;
-  width: 78px;
-  height: 78px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle, #111515 55%, transparent 56%),
-    conic-gradient(var(--green) 0 86%, rgba(255, 255, 255, 0.12) 86% 100%);
-  color: var(--green);
-  font-size: 0.9rem;
-  font-weight: 950;
-}
-
-.stat-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.stat-grid div {
-  min-height: 74px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.045);
-  padding: 10px;
-}
-
-.stat-grid strong {
-  display: block;
-  margin-top: 7px;
-  color: #ffffff;
-  font-size: 1.24rem;
-  line-height: 1;
-}
-
-.stat-grid small {
-  display: block;
-  margin-top: 4px;
-  color: var(--green);
-  font-size: 0.62rem;
-  font-weight: 950;
-}
-
-.workout-card,
-.history-panel,
-.test-day-card {
-  border: 1px solid rgba(255, 255, 255, 0.085);
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.052);
-  padding: 14px;
-}
-
-.card-title-row {
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.card-title-row h4,
-.workout-card h4 {
+.showcase-screen-copy p {
   margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.15;
-}
-
-.workout-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.workout-meta span {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 30px;
-  border-radius: 999px;
-  background: rgba(124, 255, 47, 0.1);
-  padding: 0 10px;
-  color: var(--green);
-}
-
-.workout-card p {
-  margin-top: 11px;
   color: var(--muted);
-  font-size: 0.76rem;
-  font-weight: 800;
-}
-
-.history-panel {
-  display: grid;
-  gap: 10px;
-}
-
-.drill-row {
-  justify-content: space-between;
-  min-height: 42px;
-  gap: 14px;
-}
-
-.drill-row strong,
-.test-day-card strong {
-  display: block;
-  color: #ffffff;
-  font-size: 0.86rem;
-}
-
-.drill-row span {
-  display: block;
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 800;
-}
-
-.drill-row b {
-  color: var(--green);
-  font-size: 0.95rem;
-}
-
-.test-day-card {
-  justify-content: space-between;
-  gap: 12px;
-  border-color: rgba(124, 255, 47, 0.22);
-  background: rgba(124, 255, 47, 0.08);
-}
-
-.app-tabbar {
-  justify-content: space-around;
-  gap: 4px;
-  min-height: 60px;
-  margin-top: auto;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 22px;
-  background: rgba(3, 4, 4, 0.82);
-  backdrop-filter: blur(16px);
-}
-
-.app-tabbar span {
-  display: inline-flex;
-  min-width: 58px;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  color: #7d8587;
-  font-size: 0.64rem;
-  font-weight: 850;
-}
-
-.app-tabbar .active {
-  color: var(--green);
-}
-
-.showcase-panel {
-  width: 100%;
-  min-width: 0;
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: var(--radius-card);
-  background:
-    linear-gradient(160deg, rgba(124, 255, 47, 0.09), transparent 42%),
-    rgba(255, 255, 255, 0.035);
-  padding: 24px;
-}
-
-.showcase-panel h3 {
-  margin: 22px 0 12px;
-  font-size: clamp(1.7rem, 5vw, 3.2rem);
-  line-height: 1;
-  text-transform: uppercase;
-  overflow-wrap: break-word;
-}
-
-.showcase-panel p {
-  color: var(--muted);
-  line-height: 1.65;
-}
-
-.showcase-metrics {
-  display: grid;
-  gap: 10px;
-  margin-top: 24px;
-}
-
-.showcase-metrics div {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-  border-left: 3px solid var(--green);
-  background: rgba(255, 255, 255, 0.045);
-  padding: 12px;
-  color: #edf0f1;
-  font-weight: 900;
-}
-
-.showcase-metrics span {
-  min-width: 0;
-  overflow-wrap: break-word;
+  line-height: 1.55;
 }
 
 .waitlist-section {
@@ -1193,16 +706,18 @@ input:focus {
   }
 
   .app-showcase {
-    grid-template-columns: minmax(320px, 430px) minmax(0, 1fr);
-    gap: clamp(28px, 5vw, 72px);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(16px, 2vw, 24px);
   }
 
   .device-frame {
-    margin: 0;
+    width: min(100%, 340px);
+    margin: 0 auto;
   }
 
-  .showcase-panel {
-    align-self: center;
+  .showcase-screen-card {
+    align-content: start;
+    height: 100%;
   }
 
   .footer {
@@ -1317,7 +832,7 @@ input:focus {
     min-width: 0;
     padding: 0 14px;
     font-size: 0.83rem;
-   }
+  }
 
   .hero {
     min-height: auto;
@@ -1403,107 +918,13 @@ input:focus {
     border-radius: 28px;
   }
 
-  .hero-app-screen {
-    min-height: auto;
-    padding: 15px 12px 12px;
-  }
-
-  .speed-back {
-    font-size: 0.78rem;
-  }
-
-  .speed-brand-title {
-    margin: 14px 0 14px;
-    font-size: clamp(1.72rem, 8.2vw, 2.05rem);
-  }
-
-  .speed-workout-card {
-    gap: 12px;
-    border-radius: 22px;
-    padding: 16px 14px 14px;
-  }
-
-  .speed-workout-header h3 {
-    font-size: clamp(1.32rem, 7vw, 1.62rem);
-  }
-
-  .speed-workout-header p {
-    font-size: 0.85rem;
-  }
-
-  .speed-session h4,
-  .workout-lineup h4 {
-    margin-bottom: 9px;
-    font-size: 0.98rem;
-  }
-
-  .speed-session p {
-    margin-bottom: 9px;
-    font-size: 0.84rem;
-  }
-
-  .speed-session span {
-    font-size: 0.8rem;
-  }
-
-  .surface-control,
-  .edit-workout-control {
-    min-height: 46px;
-    border-radius: 14px;
-  }
-
-  .surface-control {
-    padding: 0 11px;
-  }
-
-  .surface-control span,
-  .edit-workout-control {
-    font-size: 0.88rem;
-  }
-
-  .surface-control strong {
-    font-size: 0.72rem;
-  }
-
-  .lineup-row {
-    gap: 10px;
-    padding: 10px 0;
-  }
-
-  .lineup-row strong {
-    font-size: 0.88rem;
-  }
-
-  .lineup-row span {
-    font-size: 0.68rem;
-  }
-
-  .start-workout-button {
-    min-height: 48px;
-    border-radius: 14px;
-    font-size: 0.95rem;
-  }
-
-  .hero-app-nav {
-    border-radius: 22px;
-    padding: 10px 8px 9px;
-  }
-
-  .hero-app-nav span {
-    font-size: 0.58rem;
-  }
-
   .feature-card {
     padding: 20px;
   }
 
   .app-showcase {
-    gap: 22px;
+    gap: 18px;
     margin-top: 26px;
-  }
-
-  .device-side-button {
-    display: none;
   }
 
   .device-frame {
@@ -1515,153 +936,17 @@ input:focus {
     padding: 8px;
   }
 
-  .device-glass,
-  .app-dashboard {
-    min-height: auto;
-  }
-
   .device-glass {
     border-radius: 28px;
   }
 
-  .app-dashboard {
-    gap: 7px;
-    padding: 11px 9px 9px;
+  .showcase-screen-card {
+    gap: 14px;
+    padding: 14px;
   }
 
-  .dynamic-island {
-    top: 10px;
-    width: 90px;
-    height: 24px;
-  }
-
-  .app-status {
-    padding: 2px 8px 18px;
-    font-size: 0.68rem;
-  }
-
-  .app-home-header h3 {
-    font-size: 1.18rem;
-  }
-
-  .app-home-header p {
-    font-size: 0.72rem;
-  }
-
-  .athlete-avatar {
-    width: 38px;
-    height: 38px;
-    font-size: 0.76rem;
-  }
-
-  .runner-score-card {
-    min-height: 102px;
-    gap: 10px;
-    border-radius: 14px;
-    padding: 12px;
-  }
-
-  .runner-score-card strong {
-    font-size: 2.35rem;
-  }
-
-  .runner-score-card span,
-  .workout-card span,
-  .history-panel .card-title-row span,
-  .test-day-card span,
-  .stat-grid span {
-    font-size: 0.59rem;
-  }
-
-  .runner-score-card p,
-  .workout-card p {
-    font-size: 0.7rem;
-  }
-
-  .score-ring {
-    width: 58px;
-    height: 58px;
-    font-size: 0.78rem;
-  }
-
-  .stat-grid {
-    gap: 6px;
-  }
-
-  .stat-grid div {
-    min-height: 64px;
-    border-radius: 12px;
-    padding: 8px;
-  }
-
-  .stat-grid strong {
-    font-size: 1rem;
-  }
-
-  .workout-card,
-  .history-panel,
-  .test-day-card {
-    border-radius: 14px;
-    padding: 11px;
-  }
-
-  .card-title-row {
-    gap: 8px;
-  }
-
-  .card-title-row h4,
-  .workout-card h4 {
-    font-size: 0.88rem;
-  }
-
-  .workout-meta {
-    gap: 6px;
-    margin-top: 11px;
-  }
-
-  .workout-meta span {
-    min-height: 28px;
-    padding: 0 8px;
-  }
-
-  .drill-row {
-    min-height: 38px;
-    gap: 8px;
-  }
-
-  .drill-row strong,
-  .test-day-card strong {
-    font-size: 0.78rem;
-  }
-
-  .drill-row span {
-    font-size: 0.66rem;
-  }
-
-  .drill-row b {
-    font-size: 0.86rem;
-  }
-
-  .test-day-card {
-    align-items: flex-start;
-  }
-
-  .app-tabbar span {
-    min-width: auto;
-    font-size: 0.58rem;
-  }
-
-  .app-tabbar {
-    min-height: 56px;
-    border-radius: 18px;
-  }
-
-  .showcase-panel {
-    padding: 18px;
-  }
-
-  .showcase-panel h3 {
-    font-size: clamp(1.55rem, 8vw, 2.2rem);
+  .showcase-screen-copy h3 {
+    font-size: 1.25rem;
   }
 
   .waitlist-form {
@@ -1698,50 +983,12 @@ input:focus {
     padding: 7px;
   }
 
-  .hero-app-screen {
-    padding: 13px 9px 10px;
-  }
-
-  .speed-brand-title {
-    font-size: 1.55rem;
-  }
-
-  .speed-workout-card {
-    padding: 14px 11px 12px;
-  }
-
-  .surface-control span,
-  .edit-workout-control {
-    font-size: 0.8rem;
-  }
-
-  .lineup-row strong {
-    font-size: 0.82rem;
-  }
-
-  .lineup-row span {
-    font-size: 0.64rem;
-  }
-
   .device-frame {
     width: 100%;
     padding: 7px;
   }
 
-  .app-dashboard {
-    padding: 10px 8px 8px;
-  }
-
-  .runner-score-card strong {
-    font-size: 2.1rem;
-  }
-
-  .score-ring {
-    width: 52px;
-    height: 52px;
-  }
-
-  .stat-grid strong {
-    font-size: 0.92rem;
+  .showcase-screen-card {
+    padding: 12px;
   }
 }
