@@ -69,9 +69,11 @@ function doPost(e) {
     hasLock = true;
 
     const sheet = getWaitlistSheet_();
+    const archiveSheet = getSignupArchiveSheet_();
     ensureHeaderRow_(sheet);
+    ensureHeaderRow_(archiveSheet);
 
-    if (emailExists_(sheet, email)) {
+    if (emailExistsInSheets_([sheet, archiveSheet], email)) {
       return jsonResponse_({
         success: true,
         alreadyRegistered: true,
@@ -79,7 +81,7 @@ function doPost(e) {
       });
     }
 
-    const signupNumber = getNextSignupNumber_(sheet);
+    const signupNumber = getNextSignupNumber_([sheet, archiveSheet]);
     const signupDate = new Date();
     const storedFirstName = sanitizeCellText_(firstName);
     const storedSource = sanitizeCellText_(source);
@@ -97,7 +99,7 @@ function doPost(e) {
     ];
 
     sheet.appendRow(signupRow);
-    appendSignupArchiveRow_(signupRow, signupNumber);
+    appendSignupArchiveRow_(archiveSheet, signupRow, signupNumber);
 
     sendNewSignupNotification_({
       signupNumber,
@@ -149,6 +151,11 @@ function getWaitlistSheet_() {
   return getOrCreateSheet_(spreadsheet, SHEET_NAME);
 }
 
+function getSignupArchiveSheet_() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  return getOrCreateSheet_(spreadsheet, ARCHIVE_SHEET_NAME);
+}
+
 function getOrCreateSheet_(spreadsheet, sheetName) {
   let sheet = spreadsheet.getSheetByName(sheetName);
 
@@ -187,6 +194,10 @@ function isLegacyHeader_(headers) {
   return headers[0] === "Timestamp" && headers[1] === "Email Address";
 }
 
+function emailExistsInSheets_(sheets, normalizedEmail) {
+  return sheets.some((sheet) => emailExists_(sheet, normalizedEmail));
+}
+
 function emailExists_(sheet, normalizedEmail) {
   const lastRow = sheet.getLastRow();
 
@@ -198,28 +209,31 @@ function emailExists_(sheet, normalizedEmail) {
   return emailValues.some((row) => normalizeEmail_(row[0]) === normalizedEmail);
 }
 
-function getNextSignupNumber_(sheet) {
+function getNextSignupNumber_(sheets) {
+  const highestSignupNumber = sheets.reduce((max, sheet) => {
+    const sheetMax = getHighestSignupNumber_(sheet);
+    return sheetMax > max ? sheetMax : max;
+  }, 0);
+
+  return highestSignupNumber + 1;
+}
+
+function getHighestSignupNumber_(sheet) {
   const lastRow = sheet.getLastRow();
 
   if (lastRow < 2) {
-    return 1;
+    return 0;
   }
 
   const signupValues = sheet.getRange(2, 1, lastRow - 1, 1).getValues();
-  const maxSignupNumber = signupValues.reduce((max, row) => {
+  return signupValues.reduce((max, row) => {
     const value = Number(row[0]);
     return Number.isFinite(value) && value > max ? value : max;
   }, 0);
-
-  return maxSignupNumber + 1;
 }
 
-function appendSignupArchiveRow_(signupRow, signupNumber) {
+function appendSignupArchiveRow_(archiveSheet, signupRow, signupNumber) {
   try {
-    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
-    const archiveSheet = getOrCreateSheet_(spreadsheet, ARCHIVE_SHEET_NAME);
-
-    ensureHeaderRow_(archiveSheet);
     archiveSheet.appendRow(signupRow);
   } catch (error) {
     Logger.log(
