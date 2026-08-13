@@ -538,6 +538,15 @@ When you create an account, we may collect:
 - Password credentials (stored securely through authentication providers)
 - Profile information you choose to provide
 
+### Website Waitlist Information
+When you voluntarily join the My Combine website waitlist, we may collect:
+
+- Email address
+- Optional first name
+- Date and time of signup
+- Signup source
+- Marketing attribution information, such as UTM source parameters
+
 ### Performance and Workout Data
 We may collect and store:
 
@@ -616,6 +625,10 @@ We may use collected information to:
 - Improve platform functionality
 - Process subscriptions and payments
 - Respond to customer support requests
+- Maintain and administer the My Combine waitlist
+- Provide launch announcements, early-access information, and availability updates
+- Communicate information about Founders or early-user opportunities if offered
+- Understand which marketing sources are generating interest in My Combine
 - Maintain platform security
 - Detect fraud and abuse
 - Conduct analytics and research
@@ -635,6 +648,7 @@ We may share information with trusted third-party providers that help us operate
 - Payment processors
 - Customer support providers
 - Authentication providers
+- Infrastructure providers used to process or store waitlist information, including Google services such as Google Sheets and Google Apps Script
 
 ### Legal Compliance
 We may disclose information if required to:
@@ -734,5 +748,316 @@ Email: team@mycombineapp.com
 
 ### Effective Date
 This Privacy Policy is effective as of June 2026.
+`.trim(),
+};
+
+export const assumptionOfRiskDocument = {
+  slug: "assumption-of-risk",
+  title: "Assumption of Risk / Liability Agreement",
+  seoTitle: "My Combine Assumption of Risk / Liability Agreement",
+  description:
+    "Read the My Combine Assumption of Risk / Liability Agreement for athletic testing, training, workouts, and related services.",
+  effectiveDate: "2026-08-13",
+  pdfHref: "/legal/assumption-of-risk-liability-agreement.pdf",
+  pdfLabel: "Download Assumption of Risk / Liability Agreement (PDF)",
+  body: `
+# My Combine Assumption of Risk / Liability Agreement
+
+This Assumption of Risk / Liability Agreement (“Agreement”) applies to your use of the My Combine mobile application, website, training programs, testing features, workouts, drills, and related services (collectively, the “Services”) provided by My Combine LLC (“My Combine,” “we,” “us,” or “our”).
+
+Please read this Agreement carefully before participating in any physical activity through My Combine.
+
+## 1. Voluntary Participation
+My Combine provides tools and information related to athletic performance testing and training, including sprinting, acceleration, agility, change-of-direction, jumping, explosiveness, reaction, warmups, drills, workouts, and other physical activities.
+
+Your participation in any activity performed in connection with My Combine is voluntary.
+
+You are responsible for deciding whether you are physically capable of safely participating in an activity and whether the location, surface, equipment, weather, and surrounding conditions are appropriate for that activity.
+
+## 2. Inherent Risks of Athletic Activity
+You understand and acknowledge that sprinting, jumping, agility training, change-of-direction movements, maximal or near-maximal exertion, and other athletic activities involve inherent and potentially serious risks.
+
+These risks may include, but are not limited to:
+
+- Slips, trips, and falls
+- Collisions with people, equipment, structures, or other objects
+- Muscle strains or tears
+- Sprains and ligament injuries
+- Tendon injuries
+- Joint injuries
+- Cuts, bruises, and abrasions
+- Head injuries
+- Heat-related illness
+- Dehydration
+- Dizziness or fainting
+- Cardiovascular events
+- Injuries resulting from fatigue or overexertion
+- Injuries caused or aggravated by uneven, wet, slippery, hard, damaged, or otherwise unsuitable training surfaces
+- Injuries related to improper technique, insufficient warmup, equipment placement, environmental conditions, or physical limitations
+- Other serious injury, permanent disability, or, in rare circumstances, death
+
+You understand that not all risks can be predicted, prevented, or eliminated.
+
+## 3. Assumption of Risk
+To the fullest extent permitted by applicable law, you knowingly and voluntarily assume the inherent risks associated with participating in athletic testing, training, workouts, drills, and other physical activities performed in connection with My Combine.
+
+You understand that My Combine cannot inspect or control the location where you train and cannot determine whether your environment is safe.
+
+You are responsible for inspecting your surroundings and determining whether you have adequate space, appropriate footwear and equipment, a suitable training surface, and safe environmental conditions before beginning an activity.
+
+## 4. Personal Responsibility
+You agree to exercise reasonable judgment when using My Combine.
+
+You are responsible for:
+
+- Selecting an appropriate and safe training area
+- Checking the training surface for hazards
+- Maintaining adequate clearance from vehicles, walls, equipment, people, and other obstacles
+- Using appropriate footwear and equipment
+- Following applicable instructions and safety guidance
+- Performing an appropriate warmup
+- Remaining aware of weather and environmental conditions
+- Staying adequately hydrated
+- Selecting activities appropriate for your experience and physical capabilities
+- Stopping an activity when conditions become unsafe
+
+You should not attempt a drill, workout, test, or movement that you do not believe you can perform safely.
+
+## 5. Health and Medical Responsibility
+My Combine is not a medical provider.
+
+The Services do not provide medical advice, medical diagnosis, medical treatment, physical therapy, or individualized medical clearance.
+
+My Combine does not determine whether you are medically or physically fit to exercise.
+
+You are responsible for determining whether participation is appropriate for you and for seeking advice or clearance from an appropriate qualified healthcare professional when necessary.
+
+You should stop exercising and seek appropriate medical attention if you experience symptoms such as chest pain, fainting, severe dizziness, unusual shortness of breath, significant pain, loss of coordination, or other concerning symptoms.
+
+## 6. Performance Results and Scores
+My Combine may provide timing results, personal records, performance history, scores, benchmarks, comparisons, categories, or other athletic-performance information.
+
+These results are intended for athletic performance and informational purposes.
+
+They are not medical evaluations, medical diagnoses, guarantees of athletic ability, recruiting evaluations, or guarantees of future performance.
+
+Performance measurements may also be affected by timing method, device behavior, surface, environment, setup, user input, equipment, and other conditions.
+
+You are responsible for using reasonable judgment when interpreting and relying on performance information.
+
+## 7. Equipment and Timing Technology
+My Combine may support or interact with phones, timing controls, remote timing hardware, sensors, or other equipment.
+
+Technology can malfunction, disconnect, produce inaccurate measurements, experience latency, or otherwise fail.
+
+You should not rely on My Combine or associated technology as a safety device or emergency system.
+
+Timing equipment, phones, cones, and other equipment should be positioned so they do not create hazards during physical activity.
+
+## 8. Release and Limitation of Liability
+To the fullest extent permitted by applicable law, you agree that My Combine LLC and its owners, officers, employees, contractors, affiliates, agents, and service providers will not be liable for injuries, losses, damages, or claims arising solely from the ordinary and inherent risks of voluntary participation in physical activities performed through or in connection with the Services, except to the extent liability cannot lawfully be waived, released, or limited.
+
+Nothing in this Agreement is intended to waive, release, or limit liability that cannot legally be waived, released, or limited under applicable law.
+
+## 9. No Guarantee of Safety
+Safety information, instructions, demonstrations, recommendations, warnings, or other content provided by My Combine are intended to help users make informed decisions.
+
+They cannot eliminate the inherent risks associated with athletic activity.
+
+Following an instruction or recommendation does not guarantee that an activity will be safe or injury-free.
+
+## 10. Minors
+If a minor is permitted to use My Combine, a parent or legal guardian is responsible for reviewing the Services, determining whether participation is appropriate, supervising the minor when appropriate, and providing any consent required by applicable law.
+
+Nothing in this Agreement should be interpreted as creating a waiver or release concerning a minor that would be unenforceable under applicable law.
+
+## 11. Emergency Situations
+My Combine is not an emergency service and does not monitor users during workouts or testing.
+
+If you believe you are experiencing a medical emergency, stop activity and seek immediate assistance through appropriate local emergency services.
+
+## 12. Acknowledgment
+By accepting this Agreement and participating in activities through My Combine, you acknowledge that:
+
+- You have read and understood this Agreement
+- You understand that athletic activity involves inherent risks
+- You voluntarily choose to participate
+- You accept responsibility for evaluating your health, environment, equipment, and training conditions
+- You agree to follow reasonable safety precautions
+- You understand that My Combine is not providing medical clearance or medical advice
+- You agree to the assumption-of-risk and liability provisions above to the fullest extent permitted by applicable law
+
+## 13. Contact
+Questions regarding this Agreement may be directed to My Combine using the contact information provided through the My Combine website.
+
+My Combine LLC
+
+mycombineapp.com
+`.trim(),
+};
+
+export const healthSafetyDocument = {
+  slug: "health-safety",
+  title: "Health & Safety Notice",
+  seoTitle: "My Combine Health & Safety Notice",
+  description:
+    "Read the My Combine Health & Safety Notice for safe participation in My Combine athletic testing and training activities.",
+  effectiveDate: "2026-08-13",
+  pdfHref: "/legal/health-safety-notice.pdf",
+  pdfLabel: "Download Health & Safety Notice (PDF)",
+  body: `
+# My Combine Health & Safety Notice
+
+My Combine includes athletic testing and training activities that may involve sprinting, jumping, rapid acceleration, deceleration, change-of-direction movements, agility work, and maximal or near-maximal physical exertion.
+
+Your safety comes before any workout, score, personal record, or test result.
+
+Please review this Health & Safety Notice before participating.
+
+## 1. Know Your Health and Physical Condition
+My Combine is designed for athletic performance testing and training. It is not medical advice and does not determine whether you are medically fit to exercise.
+
+Before participating, consider your current health, physical condition, training experience, injuries, and limitations.
+
+Consult an appropriate qualified healthcare professional before beginning or continuing strenuous physical activity when you have concerns about your ability to participate safely or have been advised to obtain medical clearance.
+
+Do not participate while impaired by alcohol, recreational drugs, or anything else that makes it unsafe for you to exercise.
+
+## 2. Stop When Something Feels Wrong
+Stop exercising if you experience concerning symptoms, including:
+
+- Chest pain or pressure
+- Fainting or feeling as though you may faint
+- Severe or unusual dizziness
+- Unusual or severe shortness of breath
+- Sudden or significant pain
+- Loss of coordination or balance
+- Confusion
+- Severe weakness
+- Symptoms of heat illness
+- Any other symptom that makes continued exercise feel unsafe
+
+Seek appropriate medical attention when necessary.
+
+Do not continue a test or workout simply to complete a score, personal record, streak, or training session.
+
+## 3. Inspect Your Training Area
+Before beginning any My Combine activity, inspect the area where you will train.
+
+Make sure:
+
+- You have enough space to complete the drill and safely decelerate afterward
+- The area is clear of vehicles, pedestrians, equipment, walls, fences, holes, debris, and other obstacles
+- The surface is reasonably level and appropriate for the activity
+- The surface is not excessively wet, slippery, damaged, or otherwise unsafe
+- Cones, phones, timing devices, and other equipment are positioned where they will not become hazards
+- Lighting and visibility are adequate
+
+Never sprint into traffic, through an active roadway, or toward a dangerous obstruction.
+
+## 4. Allow Enough Space to Stop
+Sprint and agility drills require more space than the measured drill distance.
+
+Always leave sufficient additional room after the finish point to decelerate safely.
+
+Do not position finish lines, timing devices, cones, walls, fences, equipment, or other obstacles in a way that requires sudden or unsafe stopping.
+
+## 5. Warm Up Before High-Intensity Activity
+Complete an appropriate warmup before sprinting, jumping, agility testing, maximal-effort testing, or other high-intensity exercise.
+
+Do not perform maximal or near-maximal efforts when your body is not adequately prepared.
+
+Follow the warmup and instructional guidance provided by My Combine when appropriate, while recognizing that you remain responsible for determining what preparation is appropriate for you.
+
+## 6. Use Appropriate Footwear and Equipment
+Wear footwear appropriate for the surface and activity.
+
+Inspect your footwear and any equipment before use.
+
+Do not use damaged, unstable, improperly positioned, or inappropriate equipment.
+
+Phones, timing remotes, cones, tripods, sensors, and other equipment should be placed so they do not interfere with your running path or deceleration area.
+
+## 7. Consider Weather and Environmental Conditions
+Environmental conditions can substantially affect safety and performance.
+
+Use caution when training in:
+
+- Extreme heat
+- High humidity
+- Extreme cold
+- Rain
+- Wet or slippery conditions
+- Poor visibility
+- Strong wind
+- Lightning or thunderstorms
+- Other hazardous weather
+
+Postpone or modify training when conditions are unsafe.
+
+Maintain appropriate hydration and take additional rest when environmental conditions increase physical stress.
+
+## 8. Manage Fatigue
+Fatigue can reduce coordination, reaction time, running mechanics, and judgment.
+
+Take appropriate rest between high-intensity efforts.
+
+Stop or modify a workout when fatigue makes proper execution difficult or unsafe.
+
+Do not sacrifice safety or technique to achieve a faster time, higher score, personal record, or completed workout.
+
+## 9. Use Appropriate Technique and Progression
+Perform drills and exercises within your current capabilities.
+
+Beginners should progress gradually and should not feel pressured to immediately perform advanced drills or maximal efforts.
+
+Review available technique instructions before attempting unfamiliar movements.
+
+If you do not understand how to safely perform an activity, do not attempt it until you have obtained appropriate instruction.
+
+## 10. Training Alone
+Use additional caution when performing high-intensity exercise alone.
+
+When appropriate, consider having another person nearby, particularly during maximal-effort testing, unfamiliar activities, or training in isolated locations.
+
+Make sure you have reasonable access to communication and assistance if needed.
+
+## 11. Performance Technology Is Not Safety Technology
+My Combine may use phones, software, timing controls, remote hardware, or other technology to measure athletic performance.
+
+Do not rely on these systems to detect injuries, medical emergencies, unsafe conditions, or environmental hazards.
+
+Technology may fail, disconnect, or provide inaccurate results.
+
+A timing result is never more important than your safety.
+
+## 12. Minors
+Minors should use My Combine only with appropriate parent or legal guardian involvement, consent, and supervision consistent with their age, maturity, activity, and applicable law.
+
+Parents and guardians should review the planned activities and training environment before allowing a minor to participate.
+
+## 13. Emergencies
+My Combine does not monitor your workout and cannot contact emergency services on your behalf.
+
+If you experience or observe a medical emergency, stop activity and contact appropriate local emergency services immediately.
+
+## 14. Your Responsibility
+You are ultimately responsible for deciding:
+
+- Whether you are physically prepared to participate
+- Whether the activity is appropriate for you
+- Whether the training environment is safe
+- Whether weather and surface conditions are appropriate
+- Whether you have adequate space and equipment
+- Whether you should stop, modify, or postpone an activity
+
+When in doubt, prioritize safety over completing the workout or recording a performance result.
+
+## Contact
+Questions regarding this Health & Safety Notice may be directed to My Combine using the contact information available through the My Combine website.
+
+My Combine LLC
+
+mycombineapp.com
 `.trim(),
 };

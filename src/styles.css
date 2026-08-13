@@ -501,11 +501,26 @@ h2 {
   font-weight: 900;
 }
 
+.form-honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .input-row {
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
   min-width: 0;
+}
+
+.waitlist-input-row .button {
+  width: 100%;
 }
 
 input {
@@ -691,6 +706,14 @@ input:focus {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 
+  .waitlist-input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .waitlist-input-row .button {
+    width: 100%;
+  }
+
   .hero-actions {
     flex-direction: row;
   }
@@ -718,6 +741,14 @@ input:focus {
   .showcase-screen-card {
     align-content: start;
     height: 100%;
+  }
+
+  .waitlist-input-row {
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr) auto;
+  }
+
+  .waitlist-input-row .button {
+    width: max-content;
   }
 
   .footer {

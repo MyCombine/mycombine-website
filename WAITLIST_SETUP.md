@@ -1,26 +1,43 @@
-# My Combine Waitlist Setup
+# My Combine Waitlist + Founders List Setup
 
-This website is ready to submit waitlist emails to a Google Sheet through a Google Apps Script Web App.
+This website is prepared to send waitlist signups to a Google Sheet through a Google Apps Script Web App.
 
-## What You Will Create
+The website code does not contain a Google Sheet ID or Google credentials. The only value the website needs is the Apps Script Web App URL.
 
-- A Google Sheet with:
-  - Column A: `Timestamp`
-  - Column B: `Email Address`
-- A Google Apps Script Web App that receives email submissions.
-- One Web App URL pasted into the website code.
+## Sheet Schema
 
-## 1. Create the Google Sheet
+Create a `Waitlist` sheet with this exact header row:
+
+| Column | Header |
+| --- | --- |
+| A | Signup # |
+| B | Signup Date |
+| C | First Name |
+| D | Email |
+| E | Source |
+| F | UTM Source |
+| G | Founder Eligible |
+| H | Founder Claimed |
+| I | Status |
+
+Do not use formulas for `Signup #`. The Apps Script assigns permanent signup numbers server-side.
+
+## 1. Create The Google Sheet
 
 1. Go to [Google Sheets](https://sheets.google.com).
 2. Create a blank spreadsheet.
 3. Name it something like `My Combine Waitlist`.
-4. Create or rename a sheet tab to `Waitlist`.
-5. Add these headers:
-   - Cell `A1`: `Timestamp`
-   - Cell `B1`: `Email Address`
+4. Rename the first sheet tab to `Waitlist`.
+5. Add the header row exactly as shown above.
 
-## 2. Paste the Google Apps Script Code
+If you already have an older sheet with only `Timestamp` and `Email Address`, do not paste the new script over it and hope it migrates automatically. Create a backup copy first, then either:
+
+- Create a fresh `Waitlist` tab with the new schema, or
+- Manually migrate old rows into the new columns before using the new script.
+
+The new Apps Script intentionally refuses to write to the old two-column schema so existing data is not silently damaged.
+
+## 2. Paste The Apps Script Code
 
 1. In your Google Sheet, click `Extensions`.
 2. Click `Apps Script`.
@@ -28,25 +45,25 @@ This website is ready to submit waitlist emails to a Google Sheet through a Goog
 4. Paste the full code from [google-apps-script/waitlist.gs](./google-apps-script/waitlist.gs).
 5. Click the save icon.
 
-This script uses `SpreadsheetApp.getActiveSpreadsheet()`, so the Sheet ID stays inside Google and is not exposed in the website frontend.
+The script uses `SpreadsheetApp.getActiveSpreadsheet()`, so it writes only to the spreadsheet where the script is installed.
 
-## 3. Deploy the Script as a Web App
+## 3. Deploy The Script As A Web App
 
 1. In Apps Script, click `Deploy`.
 2. Click `New deployment`.
 3. Click the gear icon next to `Select type`.
 4. Choose `Web app`.
-5. Set `Description` to something like `My Combine Waitlist`.
+5. Set `Description` to `My Combine Waitlist`.
 6. Set `Execute as` to `Me`.
 7. Set `Who has access` to `Anyone`.
 8. Click `Deploy`.
 9. Google may ask for authorization. Approve the permissions for your account.
 
-## 4. Get the Web App URL
+## 4. Copy The Web App URL
 
 After deployment, Google shows a `Web app URL`.
 
-Copy the URL. It usually looks like:
+Copy the `/exec` URL. It usually looks like:
 
 ```text
 https://script.google.com/macros/s/AKfycb.../exec
@@ -54,47 +71,110 @@ https://script.google.com/macros/s/AKfycb.../exec
 
 Use the `/exec` URL, not the `/dev` URL.
 
-## 5. Paste the URL in the Website
+## 5. Connect The Website Locally
 
-Open [src/waitlist.js](./src/waitlist.js).
+Create a local file named `.env.local` in the project root:
 
-Replace this placeholder on line 1:
-
-```js
-export const WAITLIST_WEB_APP_URL = "PASTE_GOOGLE_APPS_SCRIPT_WEB_APP_URL_HERE";
+```text
+VITE_WAITLIST_WEB_APP_URL=https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
 ```
 
-With your Web App URL:
+Do not commit `.env.local`.
 
-```js
-export const WAITLIST_WEB_APP_URL = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
-```
-
-That is the only website code value you need to change.
-
-## 6. Test the Form
-
-1. Run the website locally:
+Then run:
 
 ```bash
 npm run dev
 ```
 
-2. Enter a real email in the waitlist form.
-3. Click `Join Waitlist`.
-4. Confirm the success message appears:
+## 6. Test A New Signup
+
+1. Open the local website.
+2. Enter an optional first name.
+3. Enter a real email address.
+4. Click `Join Waitlist`.
+5. Confirm the success message appears:
 
 ```text
 You're on the list. We'll let you know when My Combine launches.
 ```
 
-5. Go back to your Google Sheet and confirm a new row was added.
+6. Open Google Sheets and confirm exactly one new row appears.
 
-## Notes
+Expected values:
 
-- The frontend validates email format before submitting.
-- The frontend prevents duplicate submissions in the same browser session.
-- The frontend sends `email` and `timestamp`.
-- The Apps Script writes timestamp to column A and email to column B.
-- If submission fails, the website shows an error message instead of silently failing.
-- If you update the Apps Script later, create a new deployment version or edit the existing deployment from `Deploy` → `Manage deployments`.
+- `Signup #`: next permanent number
+- `Signup Date`: generated by Apps Script
+- `First Name`: optional value
+- `Email`: normalized lowercase email
+- `Source`: `Website`
+- `UTM Source`: blank unless the URL includes `utm_source`
+- `Founder Eligible`: blank
+- `Founder Claimed`: `No`
+- `Status`: `Waitlist`
+
+## 7. Test UTM Source
+
+Open the local website with a UTM source:
+
+```text
+http://localhost:5173/?utm_source=instagram
+```
+
+Submit a unique email. Confirm the new row stores:
+
+```text
+UTM Source = instagram
+```
+
+## 8. Test Duplicate Email Protection
+
+1. Submit `athlete@example.com`.
+2. Submit `ATHLETE@example.com`.
+3. Confirm the second submission shows:
+
+```text
+You're already on the My Combine waitlist.
+```
+
+4. Confirm Google Sheets did not create another row.
+5. Confirm no additional `Signup #` was assigned.
+
+Duplicate protection happens in Apps Script, not in the browser.
+
+## 9. Connect In Vercel
+
+When you are ready to deploy:
+
+1. Open the Vercel project for `mycombineapp.com`.
+2. Go to `Settings`.
+3. Go to `Environment Variables`.
+4. Add:
+
+```text
+VITE_WAITLIST_WEB_APP_URL=https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec
+```
+
+5. Apply it to `Production`.
+6. Redeploy the website from GitHub/Vercel.
+
+The Apps Script Web App URL is not a secret credential. It will be visible in the browser bundle because the browser needs to send the signup request there. Security comes from the Apps Script validating input, assigning protected fields server-side, checking duplicates server-side, and ignoring unexpected client fields.
+
+## 10. What The Browser Can And Cannot Control
+
+The browser submits:
+
+- First name
+- Email
+- Source
+- UTM source
+
+The backend controls:
+
+- Signup #
+- Signup Date
+- Founder Eligible
+- Founder Claimed
+- Status
+
+Do not add Founders pricing logic until the final Founders Price Lock rules are decided.

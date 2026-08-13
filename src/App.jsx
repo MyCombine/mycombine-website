@@ -8,11 +8,16 @@ import {
   TrendingUp,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { privacyDocument, termsDocument } from "./legalContent.js";
 import {
-  hasSessionWaitlistSubmission,
+  assumptionOfRiskDocument,
+  healthSafetyDocument,
+  privacyDocument,
+  termsDocument,
+} from "./legalContent.js";
+import {
+  getWaitlistUtmSource,
   isValidWaitlistEmail,
-  submitWaitlistEmail,
+  submitWaitlistSignup,
 } from "./waitlist.js";
 
 const features = [
@@ -200,6 +205,8 @@ function SiteFooter() {
       <nav className="footer-links" aria-label="Legal and contact links">
         <a href="/terms">Terms of Service</a>
         <a href="/privacy">Privacy Policy</a>
+        <a href="/assumption-of-risk">Assumption of Risk</a>
+        <a href="/health-safety">Health & Safety</a>
         <a href="mailto:team@mycombineapp.com">Contact</a>
       </nav>
       <p>© 2026 My Combine. All rights reserved.</p>
@@ -233,8 +240,10 @@ function LegalPage({ legalDocument }) {
 function LandingPage() {
   usePageMeta(homeMeta.title, homeMeta.description);
 
+  const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(() => hasSessionWaitlistSubmission());
+  const [submitted, setSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -242,9 +251,7 @@ function LandingPage() {
     event.preventDefault();
     setErrorMessage("");
 
-    if (submitted || hasSessionWaitlistSubmission()) {
-      setSubmitted(true);
-      setEmail("");
+    if (submitted) {
       return;
     }
 
@@ -256,11 +263,28 @@ function LandingPage() {
     setIsSubmitting(true);
 
     try {
-      await submitWaitlistEmail(email);
+      const result = await submitWaitlistSignup({
+        firstName,
+        email,
+        source: "Website",
+        utmSource: getWaitlistUtmSource(),
+        company: event.currentTarget.elements.company?.value || "",
+      });
+
+      setSuccessMessage(
+        result.alreadyRegistered
+          ? "You're already on the My Combine waitlist."
+          : "You're on the list. We'll let you know when My Combine launches.",
+      );
       setSubmitted(true);
+      setFirstName("");
       setEmail("");
     } catch (error) {
-      setErrorMessage(error.message || "Waitlist submission failed. Please try again.");
+      if (import.meta.env.DEV) {
+        console.error("Waitlist submission failed:", error);
+      }
+
+      setErrorMessage("We couldn't add you to the waitlist. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -388,7 +412,29 @@ function LandingPage() {
         </div>
         <form className="waitlist-form" onSubmit={handleSubmit}>
           <label htmlFor="email">Get early access</label>
-          <div className="input-row">
+          <div className="form-honeypot" aria-hidden="true">
+            <label htmlFor="company">Company</label>
+            <input
+              id="company"
+              name="company"
+              type="text"
+              tabIndex="-1"
+              autoComplete="off"
+              disabled={isSubmitting || submitted}
+            />
+          </div>
+          <div className="input-row waitlist-input-row">
+            <input
+              id="first-name"
+              type="text"
+              value={firstName}
+              onChange={(event) => setFirstName(event.target.value)}
+              placeholder="First name (optional)"
+              aria-label="First name optional"
+              disabled={isSubmitting || submitted}
+              maxLength={80}
+              autoComplete="given-name"
+            />
             <input
               id="email"
               type="email"
@@ -396,6 +442,8 @@ function LandingPage() {
               onChange={(event) => setEmail(event.target.value)}
               placeholder="Enter your email"
               disabled={isSubmitting || submitted}
+              maxLength={254}
+              autoComplete="email"
               required
             />
             <button className="button button-primary" type="submit" disabled={isSubmitting || submitted}>
@@ -403,11 +451,7 @@ function LandingPage() {
             </button>
           </div>
           <div className="waitlist-message" aria-live="polite">
-            {submitted && (
-              <p className="success-message">
-                You're on the list. We'll let you know when My Combine launches.
-              </p>
-            )}
+            {successMessage && <p className="success-message">{successMessage}</p>}
             {errorMessage && <p className="error-message">{errorMessage}</p>}
           </div>
         </form>
@@ -427,6 +471,14 @@ function App() {
 
   if (normalizedPath === "/privacy") {
     return <LegalPage legalDocument={privacyDocument} />;
+  }
+
+  if (normalizedPath === "/assumption-of-risk") {
+    return <LegalPage legalDocument={assumptionOfRiskDocument} />;
+  }
+
+  if (normalizedPath === "/health-safety") {
+    return <LegalPage legalDocument={healthSafetyDocument} />;
   }
 
   return <LandingPage />;

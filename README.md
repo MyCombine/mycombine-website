@@ -37,7 +37,7 @@ npm run preview
 
 ## Notes
 
-- The waitlist form is ready to connect to Google Sheets through Apps Script. See `WAITLIST_SETUP.md`.
-- Legal routes are handled inside the Vite app at `/terms` and `/privacy`; `vercel.json` and `public/_redirects` keep direct refreshes working after deployment.
-- Screenshot, phone mockup, and loading GIF areas are polished placeholders ready to swap with real app media.
+- The waitlist form is ready to connect to a Google Sheets + Apps Script Founders-ready waitlist backend. See `WAITLIST_SETUP.md`.
+- Legal routes are handled inside the Vite app at `/terms`, `/privacy`, `/assumption-of-risk`, and `/health-safety`; `vercel.json` and `public/_redirects` keep direct refreshes working after deployment.
+- The landing page uses real My Combine app screenshots in responsive phone mockups.
 - This project is separate from the My Combine mobile app code.
