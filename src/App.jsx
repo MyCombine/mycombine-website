@@ -377,11 +377,10 @@ function LegalHeader() {
     <header className="nav legal-nav">
       <a className="brand" href="/" aria-label="My Combine home">
         <span className="app-icon" aria-hidden="true">
-          <img src="/mc-runner-logo.png" alt="" />
+          <img src="/mycombine-app-face.png" alt="" />
         </span>
-        <span>
-          <strong>My Combine</strong>
-          <small>TEST. COMPETE. IMPROVE.</small>
+        <span className="brand-mark" aria-hidden="true">
+          <img className="brand-wordmark" src="/mycombine-primary-logo.png" alt="" />
         </span>
       </a>
       <a className="social-pill" href="/">
@@ -395,7 +394,7 @@ function SiteFooter() {
   return (
     <footer className="footer">
       <div>
-        <strong>My Combine</strong>
+        <img className="footer-logo" src="/mycombine-primary-logo.png" alt="My Combine" />
         <span>mycombineapp.com</span>
       </div>
       <nav className="footer-social" aria-label="Social links">
@@ -446,11 +445,10 @@ function LandingPage() {
         <div className="nav">
           <a className="brand" href="https://mycombineapp.com" aria-label="My Combine home">
             <span className="app-icon" aria-hidden="true">
-              <img src="/mc-runner-logo.png" alt="" />
+              <img src="/mycombine-app-face.png" alt="" />
             </span>
-            <span>
-              <strong>My Combine</strong>
-              <small>TEST. COMPETE. IMPROVE.</small>
+            <span className="brand-mark" aria-hidden="true">
+              <img className="brand-wordmark" src="/mycombine-primary-logo.png" alt="" />
             </span>
           </a>
           <div className="nav-actions">
@@ -607,11 +605,10 @@ function FoundersPage() {
         <div className="nav">
           <a className="brand" href="/" aria-label="My Combine home">
             <span className="app-icon" aria-hidden="true">
-              <img src="/mc-runner-logo.png" alt="" />
+              <img src="/mycombine-app-face.png" alt="" />
             </span>
-            <span>
-              <strong>My Combine</strong>
-              <small>TEST. COMPETE. IMPROVE.</small>
+            <span className="brand-mark" aria-hidden="true">
+              <img className="brand-wordmark" src="/mycombine-primary-logo.png" alt="" />
             </span>
           </a>
           <div className="nav-actions">
