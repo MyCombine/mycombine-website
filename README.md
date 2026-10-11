@@ -1,6 +1,6 @@
-# My Combine Landing Page
+# My Combine Website
 
-A standalone one-page teaser landing page for **My Combine** at `mycombineapp.com`.
+A standalone My Combine marketing website. This project is separate from the mobile app.
 
 ## Tech Stack
 
@@ -37,7 +37,10 @@ npm run preview
 
 ## Notes
 
-- The waitlist form is ready to connect to a Google Sheets + Apps Script Founders-ready waitlist backend. See `WAITLIST_SETUP.md`.
-- Legal routes are handled inside the Vite app at `/terms`, `/privacy`, `/assumption-of-risk`, and `/health-safety`; `vercel.json` and `public/_redirects` keep direct refreshes working after deployment.
-- The landing page uses real My Combine app screenshots in responsive phone mockups.
-- This project is separate from the My Combine mobile app code.
+- Marketing pages: `/`, `/product`, `/founders`, and `/support`.
+- Legal pages: `/terms`, `/privacy`, `/assumption-of-risk`, and `/health-safety`. The legal copy and PDFs remain as previously supplied.
+- Each route has its own HTML entry with page-specific title, description, canonical URL, and social metadata. `vercel.json` and `public/_redirects` support direct navigation and refreshes after deployment.
+- The site uses approved My Combine logo assets and real app screenshots.
+- The HTML Privacy Policy includes website-waitlist disclosure that the current downloadable Privacy PDF does not contain. These should be reconciled from approved canonical text before publication; neither legal source was changed in this redesign.
+- The waitlist posts to the existing Google Apps Script endpoint configured with `VITE_WAITLIST_WEB_APP_URL` in `.env.local`. See `WAITLIST_SETUP.md`. Founder interest is recorded as a distinct signup source for new emails; it is not an approval or reservation. An email already on the waitlist remains a duplicate and is not reclassified automatically.
+- This redesign is for local review only. Pricing, program benefits, purchase mechanics, and launch timing require confirmation before publication.

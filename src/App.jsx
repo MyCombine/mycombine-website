@@ -1,16 +1,15 @@
 import {
+  Activity,
   ArrowRight,
-  Bolt,
-  CheckCircle2,
+  ChartNoAxesCombined,
   Clock3,
   Dumbbell,
   Instagram,
-  Medal,
-  ShieldCheck,
-  TrendingUp,
+  Mail,
+  Timer,
   UsersRound,
 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   assumptionOfRiskDocument,
   healthSafetyDocument,
@@ -23,167 +22,151 @@ import {
   submitWaitlistSignup,
 } from "./waitlist.js";
 
-const features = [
+const productFeatures = [
   {
-    icon: ShieldCheck,
-    title: "Official Test Day",
-    body: "Benchmark your speed, agility, and explosiveness with a locked performance test.",
+    icon: Timer,
+    label: "01 / Test",
+    title: "Put a number on the work.",
+    body: "Record sprint, agility, and explosive efforts in one place.",
   },
   {
     icon: Dumbbell,
-    title: "Daily Training",
-    body: "Follow structured workouts built to improve your athletic performance.",
+    label: "02 / Train",
+    title: "Show up with a session.",
+    body: "Follow a workout, see the drill lineup, and keep training purposeful.",
   },
   {
-    icon: TrendingUp,
-    title: "Track PRs",
-    body: "Save drill history, reps, surfaces, and personal records over time.",
+    icon: ChartNoAxesCombined,
+    label: "03 / Review",
+    title: "See what changed.",
+    body: "Keep your results and personal records together as you progress.",
   },
-  {
-    icon: Bolt,
-    title: "Future Hardware Ready",
-    body: "Built for manual timing now, with laser gate support planned.",
-  },
-];
-
-const productPoints = [
-  "Track sprint, agility, and explosive drills",
-  "Complete daily workouts",
-  "Save PRs and drill history",
-  "Prepare for Official Test Day",
-  "Compare progress over time",
 ];
 
 const appScreenshots = [
   {
     src: "/app-screens/img-8723-active-workout.png?v=8723",
-    title: "Active Workout",
-    label: "Field workout",
-    body: "Surface, drill setup, rep progress, timing controls, and live sprint guidance.",
+    title: "A workout you can take outside.",
+    label: "01 / Train",
+    body: "See your current drill, session progress, and setup before each effort.",
+    alt: "My Combine active workout screen showing a 10-yard sprint drill and setup diagram.",
   },
   {
     src: "/app-screens/img-8724-training-feedback.png?v=8724",
-    title: "Training Feedback",
-    label: "Progress tracking",
-    body: "Rep timing, goal comparison, session bests, and official PR context.",
+    title: "Review the rep, then keep moving.",
+    label: "02 / Measure",
+    body: "Put a result beside your previous effort and your current goal.",
+    alt: "My Combine training feedback screen comparing a sprint rep with a goal and session best.",
   },
   {
     src: "/app-screens/img-8725-stat-card.png?v=8725",
-    title: "Official Stat Card",
-    label: "Benchmarking",
-    body: "Runner Score, athletic breakdowns, official PRs, archetype, and share-ready results.",
+    title: "Bring your progress together.",
+    label: "03 / Track",
+    body: "See the performance picture alongside the marks behind it.",
+    alt: "My Combine stat card preview with a Runner Score and sprint, agility, and jump marks.",
   },
-];
-
-const founderBenefits = [
-  "Protected $39.99 annual rate while continuously subscribed",
-  "Founding Athlete profile badge/status",
-  "Optional Founder #001-#200 identity",
-  "Opt-in Founders recognition",
-  "Founder/Alumni community role while the community exists",
-  "One-time remote preorder/priority opportunity",
-];
-
-const foundingSeasonItems = [
-  "Founder updates",
-  "Early previews / release candidates",
-  "Group AMA / office-hour opportunities",
-  "Product surveys",
-  "Advisory product votes",
-  "Targeted feedback opportunities",
-  "Founder community access",
-  "Recognition for useful feedback",
 ];
 
 const founderSteps = [
   {
     number: "01",
-    title: "Join the waitlist",
-    body: "Get on the My Combine early-access list.",
+    title: "Tell us you're interested",
+    body: "Use the form below to join the My Combine waitlist and express interest in the planned Founder offer.",
   },
   {
     number: "02",
-    title: "Watch for your invite",
-    body: "Founding Athlete memberships will be opened in controlled groups as the production app is ready.",
+    title: "We review interest",
+    body: "A waitlist signup is not an approval, reservation, or place in the 200-person group.",
   },
   {
     number: "03",
-    title: "Claim a founding membership",
-    body: "Eligible invited athletes can activate the $39.99/year Founding Athlete plan while spots remain.",
-  },
-  {
-    number: "04",
-    title: "Help shape what comes next",
-    body: "Use My Combine, train, test, give feedback and participate in the Founding Season.",
+    title: "Get the final details",
+    body: "If an offer is made, its price, benefits, and subscription terms will be provided before any purchase.",
   },
 ];
 
 const founderFaqs = [
   {
-    question: "How many Founding Athletes will there be?",
-    answer: "Founding Athlete memberships will be limited to 200.",
+    question: "Does joining reserve one of the 200 places?",
+    answer: "No. This form records interest only. Founder participation requires a separate approval and offer.",
   },
   {
-    question: "How much does it cost?",
-    answer: "$39.99/year.",
+    question: "What is the Founder price?",
+    answer: "Final pricing has not been confirmed. Approved athletes will see the full price and terms before deciding whether to subscribe.",
   },
   {
-    question: "Is there a monthly Founder plan?",
-    answer: "No. Founding Athlete pricing is annual-only.",
+    question: "How will approvals work?",
+    answer: "The approval process is still being finalized. Waitlist order alone does not guarantee selection.",
   },
   {
-    question: "How does the protected rate work?",
-    answer:
-      "The $39.99 annual Founder rate remains protected while the subscription remains continuously active, subject to normal platform billing/grace/recovery behavior.",
+    question: "Is joining the waitlist a purchase?",
+    answer: "No. Joining the waitlist does not start a subscription or charge you.",
   },
   {
-    question: "What happens if I cancel?",
-    answer:
-      "Founder identity/status remains, but the protected subscription price ends and Pro access ends according to the subscription terms.",
+    question: "Can I leave the waitlist?",
+    answer: "Yes. Email team@mycombineapp.com to request removal or ask about the information we hold.",
   },
   {
-    question: "Is Founder Pro different from normal Pro?",
-    answer:
-      "The core Pro product is the same. Founders receive the protected early-supporter price and Founder identity/community benefits rather than a permanently separate version of My Combine.",
-  },
-  {
-    question: "Does joining the waitlist guarantee a Founder spot?",
-    answer:
-      "No. Founding Athlete memberships are limited to 200 and will be offered during the controlled Founding Season rollout.",
-  },
-  {
-    question: "Do Founders control product decisions?",
-    answer:
-      "No. Founder feedback and votes are advisory, but Founding Athletes will have meaningful opportunities to help shape the early product.",
+    question: "What if I'm already on the waitlist?",
+    answer: "Email team@mycombineapp.com to express Founder interest. Sending the same email through this form does not update an existing waitlist entry.",
   },
 ];
 
 const homeMeta = {
   title: "My Combine | Test. Compete. Improve.",
   description:
-    "My Combine is a sports performance testing app for speed, agility, explosiveness, and official athlete benchmarking.",
+    "Test speed, agility, and explosiveness. Train with structure and track your progress with My Combine. Join the launch waitlist.",
 };
 
 const foundersMeta = {
-  title: "My Combine Founding Athlete Program",
+  title: "Founding Athletes | My Combine",
   description:
-    "Join the My Combine Founders Waitlist. 200 Founding Athlete memberships will be available at $39.99/year with a protected early-supporter rate while continuously subscribed.",
+    "Express interest in My Combine's planned Founding Athlete offer for up to 200 approved people. Joining the waitlist does not reserve a place.",
 };
 
-function usePageMeta(title, description) {
+const productMeta = {
+  title: "The Product | My Combine",
+  description:
+    "Explore the My Combine app experience through real workout, training feedback, and performance screens.",
+};
+
+const supportMeta = {
+  title: "Support | My Combine",
+  description:
+    "Contact the My Combine team about the waitlist, your account, or the app. Find legal and safety information.",
+};
+
+function usePageMeta(title, description, path = "/") {
   useEffect(() => {
     document.title = title;
+    const url = `https://www.mycombineapp.com${path === "/" ? "/" : path}`;
+    const metadata = [
+      ['meta[name="description"]', "name", "description", description],
+      ['meta[property="og:title"]', "property", "og:title", title],
+      ['meta[property="og:description"]', "property", "og:description", description],
+      ['meta[property="og:url"]', "property", "og:url", url],
+      ['meta[name="twitter:title"]', "name", "twitter:title", title],
+      ['meta[name="twitter:description"]', "name", "twitter:description", description],
+    ];
 
-    let metaDescription = document.querySelector('meta[name="description"]');
+    metadata.forEach(([selector, attribute, name, content]) => {
+      let element = document.querySelector(selector);
+      if (!element) {
+        element = document.createElement("meta");
+        element.setAttribute(attribute, name);
+        document.head.appendChild(element);
+      }
+      element.setAttribute("content", content);
+    });
 
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.head.appendChild(metaDescription);
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
     }
-
-    metaDescription.setAttribute("content", description);
-  }, [title, description]);
+    canonical.setAttribute("href", url);
+  }, [title, description, path]);
 }
 
 function parseLegalMarkdown(markdown) {
@@ -267,7 +250,8 @@ function renderLegalBlocks(markdown) {
 function WaitlistForm({
   formId = "waitlist-form",
   buttonText = "Join Waitlist",
-  joinedText = "Joined",
+  source = "Website",
+  duplicateMessage = "You're already on the My Combine waitlist.",
 }) {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
@@ -275,10 +259,19 @@ function WaitlistForm({
   const [successMessage, setSuccessMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const emailRef = useRef(null);
+
+  useEffect(() => {
+    if (errorMessage && !isSubmitting) {
+      emailRef.current?.focus();
+    }
+  }, [errorMessage, isSubmitting]);
 
   const firstNameId = `${formId}-first-name`;
   const emailId = `${formId}-email`;
   const companyId = `${formId}-company`;
+  const helpId = `${formId}-help`;
+  const errorId = `${formId}-error`;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -299,14 +292,14 @@ function WaitlistForm({
       const result = await submitWaitlistSignup({
         firstName,
         email,
-        source: "Website",
+        source,
         utmSource: getWaitlistUtmSource(),
         company: event.currentTarget.elements.company?.value || "",
       });
 
       setSuccessMessage(
         result.alreadyRegistered
-          ? "You're already on the My Combine waitlist."
+          ? duplicateMessage
           : "You're on the list. We'll let you know when My Combine launches.",
       );
       setSubmitted(true);
@@ -324,8 +317,7 @@ function WaitlistForm({
   };
 
   return (
-    <form className="waitlist-form" onSubmit={handleSubmit}>
-      <label htmlFor={emailId}>Get early access</label>
+    <form className="waitlist-form mc-waitlist-form" onSubmit={handleSubmit} noValidate>
       <div className="form-honeypot" aria-hidden="true">
         <label htmlFor={companyId}>Company</label>
         <input
@@ -337,52 +329,109 @@ function WaitlistForm({
           disabled={isSubmitting || submitted}
         />
       </div>
-      <div className="input-row waitlist-input-row">
-        <input
-          id={firstNameId}
-          type="text"
-          value={firstName}
-          onChange={(event) => setFirstName(event.target.value)}
-          placeholder="First name (optional)"
-          aria-label="First name optional"
-          disabled={isSubmitting || submitted}
-          maxLength={80}
-          autoComplete="given-name"
-        />
-        <input
-          id={emailId}
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="Enter your email"
-          disabled={isSubmitting || submitted}
-          maxLength={254}
-          autoComplete="email"
-          required
-        />
-        <button className="button button-primary" type="submit" disabled={isSubmitting || submitted}>
-          {isSubmitting ? "Joining..." : submitted ? joinedText : buttonText}
-        </button>
+      <div className="mc-form-fields">
+        <div className="mc-field">
+          <label htmlFor={firstNameId}>First name <span>(optional)</span></label>
+          <input
+            id={firstNameId}
+            name="firstName"
+            type="text"
+            value={firstName}
+            onChange={(event) => setFirstName(event.target.value)}
+            placeholder="Your first name"
+            disabled={isSubmitting || submitted}
+            maxLength={80}
+            autoComplete="given-name"
+          />
+        </div>
+        <div className="mc-field">
+          <label htmlFor={emailId}>Email address <span>(required)</span></label>
+          <input
+            ref={emailRef}
+            id={emailId}
+            name="email"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            placeholder="you@example.com"
+            disabled={isSubmitting || submitted}
+            maxLength={254}
+            autoComplete="email"
+            aria-invalid={errorMessage === "Enter a valid email address."}
+            aria-describedby={`${helpId}${errorMessage ? ` ${errorId}` : ""}`}
+            required
+          />
+        </div>
       </div>
-      <div className="waitlist-message" aria-live="polite">
-        {successMessage && <p className="success-message">{successMessage}</p>}
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
+      <p className="mc-form-help" id={helpId}>
+        We'll use your email for My Combine launch and early-access updates. Read our{" "}
+        <a href="/privacy">Privacy Policy</a>.
+      </p>
+      <button className="button button-primary mc-submit" type="submit" disabled={isSubmitting || submitted}>
+        {isSubmitting ? "Joining..." : submitted ? "Joined" : buttonText}
+        {!isSubmitting && !submitted && <ArrowRight size={18} aria-hidden="true" />}
+      </button>
+      <div className="waitlist-message mc-form-message" aria-live="polite" aria-atomic="true">
+        {successMessage && <p className="success-message" role="status">{successMessage}</p>}
+        {errorMessage && <p className="error-message" id={errorId} role="alert">{errorMessage}</p>}
       </div>
     </form>
+  );
+}
+
+function BrandLink() {
+  return (
+    <a className="brand mc-brand" href="/" aria-label="My Combine home">
+      <span className="app-icon" aria-hidden="true">
+        <img src="/mycombine-app-face.png" alt="" />
+      </span>
+      <span className="brand-mark" aria-hidden="true">
+        <img className="brand-wordmark" src="/mycombine-primary-logo.png" alt="" />
+      </span>
+    </a>
+  );
+}
+
+function MarketingHeader({ current, waitlistHref = "/#waitlist" }) {
+  return (
+    <header className="mc-header">
+      <BrandLink />
+      <nav className="mc-primary-nav" aria-label="Primary navigation">
+        <a href="/product" aria-current={current === "product" ? "page" : undefined}>Product</a>
+        <a href="/founders" aria-current={current === "founders" ? "page" : undefined}>Founding Athletes</a>
+        <a href="/support" aria-current={current === "support" ? "page" : undefined}>Support</a>
+      </nav>
+      <a className="mc-header-cta" href={waitlistHref}>Join waitlist <ArrowRight size={16} aria-hidden="true" /></a>
+    </header>
+  );
+}
+
+function WaitlistSection({ founders = false }) {
+  return (
+    <section className="mc-waitlist-section" id={founders ? "founder-interest" : "waitlist"} aria-labelledby={founders ? "founder-interest-title" : "waitlist-title"}>
+      <div className="mc-waitlist-copy">
+        <span className="mc-eyebrow">{founders ? "Founding Athlete interest" : "Early access"}</span>
+        <h2 id={founders ? "founder-interest-title" : "waitlist-title"}>{founders ? "Put your name in the conversation." : "Be there from the start."}</h2>
+        <p>{founders
+          ? "This is an expression of interest only. It does not approve you or reserve one of the planned 200 places."
+          : "Get launch and early-access updates as My Combine gets ready for the field."}</p>
+      </div>
+      <WaitlistForm
+        formId={founders ? "founder-interest-form" : "home-waitlist-form"}
+        buttonText={founders ? "Join waitlist" : "Join the waitlist"}
+        source={founders ? "Website - Founder Interest" : "Website"}
+        duplicateMessage={founders
+          ? "You're already on the waitlist. Email team@mycombineapp.com to record Founder interest."
+          : "You're already on the My Combine waitlist."}
+      />
+    </section>
   );
 }
 
 function LegalHeader() {
   return (
     <header className="nav legal-nav">
-      <a className="brand" href="/" aria-label="My Combine home">
-        <span className="app-icon" aria-hidden="true">
-          <img src="/mycombine-app-face.png" alt="" />
-        </span>
-        <span className="brand-mark" aria-hidden="true">
-          <img className="brand-wordmark" src="/mycombine-primary-logo.png" alt="" />
-        </span>
-      </a>
+      <BrandLink />
       <a className="social-pill" href="/">
         Back to home
       </a>
@@ -392,11 +441,17 @@ function LegalHeader() {
 
 function SiteFooter() {
   return (
-    <footer className="footer">
+    <footer className="footer mc-footer">
       <div>
         <img className="footer-logo" src="/mycombine-primary-logo.png" alt="My Combine" />
         <span>mycombineapp.com</span>
       </div>
+      <nav className="footer-site" aria-label="Site links">
+        <a href="/">Home</a>
+        <a href="/product">Product</a>
+        <a href="/founders">Founding Athletes</a>
+        <a href="/support">Support</a>
+      </nav>
       <nav className="footer-social" aria-label="Social links">
         <a href="https://instagram.com/mycombineapp">Instagram: @mycombineapp</a>
         <a href="https://tiktok.com/@mycombineapp">TikTok: @mycombineapp</a>
@@ -414,7 +469,7 @@ function SiteFooter() {
 }
 
 function LegalPage({ legalDocument }) {
-  usePageMeta(legalDocument.seoTitle, legalDocument.description);
+  usePageMeta(legalDocument.seoTitle, legalDocument.description, `/${legalDocument.slug}`);
 
   return (
     <main className="site-shell legal-shell">
@@ -436,388 +491,276 @@ function LegalPage({ legalDocument }) {
   );
 }
 
+function ScreenPreview({ screen, className = "" }) {
+  return (
+    <div className={`mc-screen-preview ${className}`}>
+      <img src={screen.src} alt={screen.alt} loading="lazy" />
+    </div>
+  );
+}
+
 function LandingPage() {
   usePageMeta(homeMeta.title, homeMeta.description);
 
   return (
-    <main className="site-shell">
-      <section className="hero" aria-labelledby="hero-title">
-        <div className="nav">
-          <a className="brand" href="https://mycombineapp.com" aria-label="My Combine home">
-            <span className="app-icon" aria-hidden="true">
-              <img src="/mycombine-app-face.png" alt="" />
-            </span>
-            <span className="brand-mark" aria-hidden="true">
-              <img className="brand-wordmark" src="/mycombine-primary-logo.png" alt="" />
-            </span>
-          </a>
-          <div className="nav-actions">
-            <a className="nav-link" href="/founders">
-              Founders
-            </a>
-            <a className="social-pill" href="https://instagram.com/mycombineapp">
-              <Instagram size={16} aria-hidden="true" />
-              @mycombineapp
-            </a>
-          </div>
-        </div>
-
-        <div className="hero-grid">
-          <div className="hero-copy">
-            <span className="status-badge">
-              <Clock3 size={15} aria-hidden="true" />
-              Coming Soon
-            </span>
-            <p className="kicker">Your combine in your pocket.</p>
-            <h1 className="hero-title" id="hero-title">
-              <span>Test.</span>
-              <span>Compete.</span>
-              <span>Improve.</span>
-            </h1>
-            <p className="hero-text">
-              Portable speed and agility testing built for athletes who want measurable progress.
-              Test speed, agility, and explosiveness. Track progress. Prepare for Official Test Day.
-            </p>
-            <div className="hero-actions" aria-label="Primary actions">
-              <a className="button button-primary" href="#waitlist">
-                Join the Waitlist
-                <ArrowRight size={18} aria-hidden="true" />
-              </a>
-              <a className="button button-secondary" href="https://instagram.com/mycombineapp">
-                <Instagram size={18} aria-hidden="true" />
-                Follow @mycombineapp
-              </a>
+    <div className="site-shell mc-site">
+      <MarketingHeader current="home" />
+      <main>
+        <section className="mc-home-hero mc-container" aria-labelledby="home-title">
+          <div className="mc-home-hero-copy">
+            <span className="mc-eyebrow"><Clock3 size={16} aria-hidden="true" /> Coming soon</span>
+            <h1 id="home-title" className="mc-home-title"><span>Test.</span><span>Compete.</span><span>Improve.</span></h1>
+            <p className="mc-lede">Your combine, wherever you train. Test speed, agility, and explosiveness, then see how your work adds up over time.</p>
+            <div className="mc-actions">
+              <a className="button button-primary" href="#waitlist">Join the waitlist <ArrowRight size={18} aria-hidden="true" /></a>
+              <a className="button button-secondary" href="/product">Explore the product</a>
             </div>
+            <p className="mc-hero-note">Structured sessions. Recorded results. A clearer view of progress.</p>
           </div>
+          <div className="mc-home-phone" aria-label="My Combine app dashboard preview">
+            <img src="/app-screens/img-8722-home-dashboard.png?v=8722" alt="My Combine home screen preview with Runner Score, performance categories, and a daily workout." />
+          </div>
+        </section>
 
-          <div className="hero-visual" aria-label="My Combine home dashboard app preview">
-            <div className="hero-device">
-              <div className="hero-device-glass">
-                <img
-                  className="app-screenshot"
-                  src="/app-screens/img-8722-home-dashboard.png?v=8722"
-                  alt="My Combine home dashboard showing Runner Score 55, Speed, Agility, Explosiveness, and Today's Workout."
-                />
-              </div>
+        <section className="mc-measure-band" aria-labelledby="measure-title">
+          <div className="mc-container mc-measure-inner">
+            <div>
+              <span className="mc-eyebrow">Built around the work</span>
+              <h2 id="measure-title">Train with purpose. Measure the change.</h2>
             </div>
+            <p>My Combine brings workouts, drill results, and performance history into one athletic training experience.</p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="section product-section" aria-labelledby="product-title">
-        <div className="section-heading">
-          <span>Performance tracking</span>
-          <h2 id="product-title">Built for measurable athletic progress.</h2>
-        </div>
-        <div className="product-copy">
-          <p>
-            My Combine helps athletes test, train, and track speed, agility, and explosiveness
-            through structured workouts, drill history, PR tracking, and Official Test Day scoring.
-          </p>
-          <ul>
-            {productPoints.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
-      <section className="section feature-section" aria-label="My Combine features">
-        {features.map(({ icon: Icon, title, body }) => (
-          <article className="feature-card" key={title}>
-            <div className="feature-icon">
-              <Icon size={22} aria-hidden="true" />
-            </div>
-            <h3>{title}</h3>
-            <p>{body}</p>
-          </article>
-        ))}
-      </section>
-
-      <section className="section founders-spotlight" aria-labelledby="founders-spotlight-title">
-        <div className="founders-spotlight-copy">
-          <span className="section-eyebrow">Founding Athlete Program</span>
-          <h2 id="founders-spotlight-title">Be one of the first 200.</h2>
-          <p>
-            Founding Athletes get full My Combine Pro at a protected early-supporter rate while
-            continuously subscribed, plus permanent Founder status and access to the Founding Season.
-          </p>
-          <div className="founders-spotlight-actions">
-            <a className="button button-primary" href="/founders">
-              Explore Founding Athletes
-              <ArrowRight size={18} aria-hidden="true" />
-            </a>
-            <a className="button button-secondary" href="#waitlist">
-              Join the Waitlist
-            </a>
-          </div>
-        </div>
-        <div className="founders-price-lock" aria-label="Founding Athlete pricing">
-          <span>Founding Athlete</span>
-          <strong>$39.99 / YEAR</strong>
-          <p>Standard Pro: $59.99/year</p>
-        </div>
-      </section>
-
-      <section className="section visual-section" aria-labelledby="visual-title">
-        <div className="section-heading">
-          <span>Field ready</span>
-          <h2 id="visual-title">Built for the field, track, turf, or training facility.</h2>
-        </div>
-        <div className="app-showcase">
-          {appScreenshots.map((screen) => (
-            <article className="showcase-screen-card" key={screen.title}>
-              <div className="device-frame" aria-label={`${screen.title} app screenshot`}>
-                <div className="device-glass">
-                  <img className="app-screenshot" src={screen.src} alt={`${screen.title}: ${screen.body}`} />
-                </div>
-              </div>
-              <div className="showcase-screen-copy">
-                <span>{screen.label}</span>
-                <h3>{screen.title}</h3>
-                <p>{screen.body}</p>
-              </div>
+        <section className="mc-container mc-feature-section" aria-label="How My Combine helps athletes">
+          {productFeatures.map(({ icon: Icon, label, title, body }) => (
+            <article className="mc-feature" key={label}>
+              <div className="mc-feature-top"><span>{label}</span><Icon size={28} aria-hidden="true" /></div>
+              <h3>{title}</h3>
+              <p>{body}</p>
             </article>
           ))}
-        </div>
-      </section>
+        </section>
 
-      <section className="section waitlist-section" id="waitlist" aria-labelledby="waitlist-title">
-        <div>
-          <span className="status-badge">Get early access</span>
-          <h2 id="waitlist-title">Be first on the field.</h2>
-          <p>Join the launch list for My Combine updates and early access.</p>
-        </div>
-        <WaitlistForm formId="home-waitlist" />
-      </section>
+        <section className="mc-container mc-home-product" aria-labelledby="home-product-title">
+          <div className="mc-home-product-image"><ScreenPreview screen={appScreenshots[0]} /></div>
+          <div className="mc-home-product-copy">
+            <span className="mc-eyebrow">Inside the app</span>
+            <h2 id="home-product-title">The session is right there with you.</h2>
+            <p>See the drill, set up your space, and keep the next rep in focus.</p>
+            <a className="mc-text-link" href="/product">See the app experience <ArrowRight size={18} aria-hidden="true" /></a>
+          </div>
+        </section>
 
+        <section className="mc-container mc-founder-teaser" aria-labelledby="founder-teaser-title">
+          <div className="mc-founder-teaser-number" aria-hidden="true">200<span>planned limit</span></div>
+          <div>
+            <span className="mc-eyebrow">Founding Athletes</span>
+            <h2 id="founder-teaser-title">For the athletes here early.</h2>
+            <p>We're collecting interest in a planned Founding Athlete offer for up to 200 approved people. Joining the waitlist is interest only; it does not reserve a place.</p>
+            <a className="mc-text-link" href="/founders">Explore Founding Athletes <ArrowRight size={18} aria-hidden="true" /></a>
+          </div>
+        </section>
+
+        <div className="mc-container"><WaitlistSection /></div>
+      </main>
       <SiteFooter />
-    </main>
+    </div>
+  );
+}
+
+function ProductPage() {
+  usePageMeta(productMeta.title, productMeta.description, "/product");
+
+  return (
+    <div className="site-shell mc-site">
+      <MarketingHeader current="product" />
+      <main>
+        <section className="mc-container mc-page-hero mc-product-hero" aria-labelledby="product-title">
+          <div>
+            <span className="mc-eyebrow">The My Combine experience</span>
+            <h1 id="product-title">Know where you stand.<br /><em>Know what to work on.</em></h1>
+            <p className="mc-lede">A training companion for athletes who want their work and results in the same place.</p>
+            <div className="mc-actions">
+              <a className="button button-primary" href="/#waitlist">Join the waitlist <ArrowRight size={18} aria-hidden="true" /></a>
+            </div>
+          </div>
+          <ScreenPreview screen={{ src: "/app-screens/img-8722-home-dashboard.png?v=8722", alt: "My Combine dashboard preview with Runner Score and a daily workout." }} className="mc-product-hero-screen" />
+        </section>
+
+        <section className="mc-container mc-product-sequence" aria-labelledby="sequence-title">
+          <div className="mc-section-heading">
+            <span className="mc-eyebrow">A clearer training loop</span>
+            <h2 id="sequence-title">From session to result.</h2>
+            <p>These screens show the current My Combine app experience. Details may change before launch.</p>
+          </div>
+          {appScreenshots.map((screen, index) => (
+            <article className="mc-product-step" key={screen.label}>
+              <div className="mc-product-step-copy">
+                <span className="mc-eyebrow">{screen.label}</span>
+                <h3>{screen.title}</h3>
+                <p>{screen.body}</p>
+                <span className="mc-step-count">0{index + 1} / 03</span>
+              </div>
+              <ScreenPreview screen={screen} />
+            </article>
+          ))}
+        </section>
+
+        <section className="mc-container mc-product-summary" aria-labelledby="product-summary-title">
+          <div>
+            <span className="mc-eyebrow">Your work, in context</span>
+            <h2 id="product-summary-title">Make the next session count.</h2>
+          </div>
+          <ul>
+            <li><Activity size={22} aria-hidden="true" /> Speed, agility, and explosive efforts</li>
+            <li><Dumbbell size={22} aria-hidden="true" /> Structured workout sessions</li>
+            <li><ChartNoAxesCombined size={22} aria-hidden="true" /> Results and personal records over time</li>
+          </ul>
+        </section>
+
+        <section className="mc-container mc-simple-cta" aria-labelledby="product-cta-title">
+          <h2 id="product-cta-title">Get the launch update.</h2>
+          <p>Join the My Combine waitlist for news about early access.</p>
+          <a className="button button-primary" href="/#waitlist">Join the waitlist <ArrowRight size={18} aria-hidden="true" /></a>
+        </section>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
 
 function FoundersPage() {
-  usePageMeta(foundersMeta.title, foundersMeta.description);
+  usePageMeta(foundersMeta.title, foundersMeta.description, "/founders");
 
   return (
-    <main className="site-shell founders-shell">
-      <section className="founders-hero" aria-labelledby="founders-title">
-        <div className="nav">
-          <a className="brand" href="/" aria-label="My Combine home">
-            <span className="app-icon" aria-hidden="true">
-              <img src="/mycombine-app-face.png" alt="" />
-            </span>
-            <span className="brand-mark" aria-hidden="true">
-              <img className="brand-wordmark" src="/mycombine-primary-logo.png" alt="" />
-            </span>
-          </a>
-          <div className="nav-actions">
-            <a className="nav-link" href="/">
-              Home
-            </a>
-            <a className="social-pill nav-cta" href="#founders-waitlist">
-              Join Waitlist
-            </a>
-          </div>
-        </div>
-
-        <div className="founders-hero-grid">
-          <div className="founders-hero-copy">
-            <span className="status-badge">Founding Athlete Program</span>
-            <h1 className="founders-title" id="founders-title">
-              The First 200.
-            </h1>
-            <p className="founders-lede">
-              My Combine is opening its first 200 paid memberships to the athletes who are there
-              from the beginning.
-            </p>
-            <div className="founder-rate-block">
-              <span>My Combine Pro</span>
-              <strong>$39.99 / YEAR</strong>
-              <p>Founder rate protected while continuously subscribed.</p>
+    <div className="site-shell mc-site">
+      <MarketingHeader current="founders" waitlistHref="#founder-interest" />
+      <main>
+        <section className="mc-container mc-page-hero mc-founders-hero" aria-labelledby="founders-title">
+          <div>
+            <span className="mc-eyebrow"><UsersRound size={16} aria-hidden="true" /> Planned Founding Athlete offer</span>
+            <h1 id="founders-title">A place for the athletes who show up early.</h1>
+            <p className="mc-lede">We're gathering interest in a limited Founding Athlete offer for up to <strong>200 approved people</strong>.</p>
+            <p className="mc-caveat">Joining the waitlist does not make you a Founder, approve you, or reserve a place.</p>
+            <div className="mc-actions">
+              <a className="button button-primary" href="#founder-interest">Express interest <ArrowRight size={18} aria-hidden="true" /></a>
+              <a className="button button-secondary" href="#how-it-works">How it works</a>
             </div>
-            <div className="hero-actions founders-hero-actions" aria-label="Founding Athlete actions">
-              <a className="button button-primary" href="#founders-waitlist">
-                Join the Founders Waitlist
-                <ArrowRight size={18} aria-hidden="true" />
-              </a>
-              <a className="button button-secondary" href="#founder-benefits">
-                See What Founders Get
-              </a>
-            </div>
-            <p className="founders-clarification">
-              Joining the waitlist does not guarantee a Founding Athlete membership. Founding
-              Athlete memberships will be limited to 200.
-            </p>
           </div>
-
-          <aside className="founding-class-card" aria-label="200 Founding Athletes">
-            <span className="class-label">200</span>
-            <h2>Founding Athletes</h2>
-            <p>One founding group. Built with the athletes who were here first.</p>
-            <div className="class-meta">
-              <span>Annual-only</span>
-              <span>Full Pro</span>
-              <span>Founder identity</span>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <section className="section founders-comparison" aria-labelledby="comparison-title">
-        <div className="section-heading">
-          <span>Founder price vs Standard Pro</span>
-          <h2 id="comparison-title">Same Pro. Early-supporter rate.</h2>
-        </div>
-        <div className="pricing-grid">
-          <article className="pricing-card pricing-card-featured">
-            <span className="pricing-eyebrow">Founding Athlete</span>
-            <strong>$39.99/year</strong>
-            <ul>
-              <li>Annual-only</li>
-              <li>Full My Combine Pro</li>
-              <li>Founder rate protected while continuously subscribed</li>
-              <li>Permanent Founder identity/status</li>
-            </ul>
-          </article>
-          <article className="pricing-card">
-            <span className="pricing-eyebrow">Standard Pro</span>
-            <strong>$59.99/year</strong>
-            <p>or $7.99/month</p>
-            <ul>
-              <li>Full My Combine Pro</li>
-              <li>Normal standard pricing</li>
-              <li>Same core product experience</li>
-            </ul>
-          </article>
-        </div>
-        <div className="comparison-note">
-          <p>
-            Same Pro. Founders keep the early-supporter rate while they remain continuously
-            subscribed.
-          </p>
-          <span>$20 annual difference</span>
-        </div>
-      </section>
-
-      <section className="section founder-benefits-section" id="founder-benefits" aria-labelledby="benefits-title">
-        <div className="section-heading">
-          <span>What Founders keep</span>
-          <h2 id="benefits-title">Founding status doesn't disappear.</h2>
-        </div>
-        <div className="benefits-grid">
-          {founderBenefits.map((benefit) => (
-            <article className="benefit-card" key={benefit}>
-              <CheckCircle2 size={20} aria-hidden="true" />
-              <p>{benefit}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section founding-season-section" aria-labelledby="season-title">
-        <div className="season-intro">
-          <span className="section-eyebrow">The Founding Season</span>
-          <h2 id="season-title">6-8 weeks to help shape what comes next.</h2>
-          <p>
-            The first Founders will use the real production product, provide feedback, and help
-            shape My Combine before broader launch.
-          </p>
-        </div>
-        <div className="season-card">
-          <div className="season-duration">
-            <Medal size={26} aria-hidden="true" />
-            <strong>6-8 weeks</strong>
-            <span>Founding Season</span>
+          <div className="mc-founders-figure" aria-label="Planned limit of up to 200 approved people">
+            <span>Up to</span>
+            <strong>200</strong>
+            <p>approved people<br />planned for the offer</p>
           </div>
-          <ul className="season-list">
-            {foundingSeasonItems.map((item) => (
-              <li key={item}>{item}</li>
+        </section>
+
+        <section className="mc-founder-principle" aria-labelledby="founder-principle-title">
+          <div className="mc-container">
+            <span className="mc-eyebrow">The current plan</span>
+            <h2 id="founder-principle-title">Interest first. Details before any decision.</h2>
+            <p>The intended offer is an annual Founder rate for approved athletes while an eligible subscription continues. Final pricing, benefits, and purchase terms still need confirmation and will be presented before any purchase.</p>
+          </div>
+        </section>
+
+        <section className="mc-container mc-founder-process" id="how-it-works" aria-labelledby="founder-process-title">
+          <div className="mc-section-heading">
+            <span className="mc-eyebrow">How it works</span>
+            <h2 id="founder-process-title">Three steps. No implied spot.</h2>
+          </div>
+          <div className="mc-process-grid">
+            {founderSteps.map((step) => (
+              <article key={step.number}>
+                <span>{step.number}</span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
+              </article>
             ))}
-          </ul>
-        </div>
-        <p className="season-note">
-          Founder feedback helps shape My Combine. Final product decisions remain with My Combine.
-        </p>
-      </section>
-
-      <section className="section how-it-works-section" aria-labelledby="how-it-works-title">
-        <div className="section-heading">
-          <span>How it works</span>
-          <h2 id="how-it-works-title">From waitlist to Founding Season.</h2>
-        </div>
-        <div className="steps-grid">
-          {founderSteps.map((step) => (
-            <article className="step-card" key={step.number}>
-              <span>{step.number}</span>
-              <h3>{step.title}</h3>
-              <p>{step.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section founder-rules-section" aria-labelledby="rules-title">
-        <div className="rules-card">
-          <div className="rules-heading">
-            <ShieldCheck size={28} aria-hidden="true" />
-            <div>
-              <span className="section-eyebrow">Price protection</span>
-              <h2 id="rules-title">Protected while continuously subscribed.</h2>
-            </div>
           </div>
-          <div className="rules-grid">
-            <p>Normal billing retry/grace periods do not immediately remove Founder pricing.</p>
-            <p>Platform-supported short billing recovery should preserve the Founder rate.</p>
-            <p>Voluntary cancellation ends the protected subscription price.</p>
-            <p>A long lapse ends the protected price.</p>
-            <p>Founder status/badge remains even if the subscription later ends.</p>
-            <p>Pro access ends normally when the paid subscription ends.</p>
-            <p>Founder membership/rate cannot be transferred, sold or gifted.</p>
+        </section>
+
+        <section className="mc-container mc-founder-faq" aria-labelledby="founder-faq-title">
+          <div className="mc-section-heading">
+            <span className="mc-eyebrow">Good to know</span>
+            <h2 id="founder-faq-title">Founding Athlete questions.</h2>
           </div>
-        </div>
-      </section>
+          <div className="mc-faq-list">
+            {founderFaqs.map((faq) => (
+              <details key={faq.question}>
+                <summary>{faq.question}</summary>
+                <p>{faq.answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
 
-      <section className="section founder-faq-section" aria-labelledby="faq-title">
-        <div className="section-heading">
-          <span>FAQ</span>
-          <h2 id="faq-title">Founding Athlete details.</h2>
-        </div>
-        <div className="faq-list">
-          {founderFaqs.map((faq) => (
-            <details key={faq.question}>
-              <summary>{faq.question}</summary>
-              <p>{faq.answer}</p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <section className="section waitlist-section founders-waitlist-section" id="founders-waitlist" aria-labelledby="founders-waitlist-title">
-        <div>
-          <span className="status-badge">
-            <UsersRound size={15} aria-hidden="true" />
-            Join the Founders Waitlist
-          </span>
-          <h2 id="founders-waitlist-title">Start with the athletes who were here first.</h2>
-          <p>
-            This uses the same My Combine waitlist. Joining preserves your early-access signup and
-            does not automatically grant Founder status.
-          </p>
-        </div>
-        <WaitlistForm formId="founders-waitlist-form" buttonText="Join Founders Waitlist" />
-      </section>
-
+        <div className="mc-container"><WaitlistSection founders /></div>
+      </main>
       <SiteFooter />
-    </main>
+    </div>
+  );
+}
+
+function SupportPage() {
+  usePageMeta(supportMeta.title, supportMeta.description, "/support");
+
+  return (
+    <div className="site-shell mc-site">
+      <MarketingHeader current="support" />
+      <main>
+        <section className="mc-container mc-page-hero mc-support-hero" aria-labelledby="support-title">
+          <div>
+            <span className="mc-eyebrow"><Mail size={16} aria-hidden="true" /> My Combine support</span>
+            <h1 id="support-title">Let's get you to the right place.</h1>
+            <p className="mc-lede">Questions about the waitlist, the app, or your account? Reach the My Combine team directly.</p>
+            <a className="button button-primary" href="mailto:team@mycombineapp.com">Email the team <ArrowRight size={18} aria-hidden="true" /></a>
+          </div>
+          <div className="mc-support-address">
+            <span>Contact</span>
+            <a href="mailto:team@mycombineapp.com">team@mycombineapp.com</a>
+            <p>Please do not send passwords or payment details by email.</p>
+          </div>
+        </section>
+
+        <section className="mc-container mc-support-topics" aria-labelledby="support-topics-title">
+          <div className="mc-section-heading">
+            <span className="mc-eyebrow">Common questions</span>
+            <h2 id="support-topics-title">Start here.</h2>
+          </div>
+          <div className="mc-faq-list">
+            <details><summary>How do I update or remove my waitlist information?</summary><p>Email <a href="mailto:team@mycombineapp.com">team@mycombineapp.com</a> with your request. Please use the email address you joined with if possible.</p></details>
+            <details><summary>Does the waitlist guarantee early access or a Founder place?</summary><p>No. It records interest and lets us share launch and early-access updates. Founder participation requires a separate approval and offer.</p></details>
+            <details><summary>When will My Combine launch?</summary><p>We have not announced a launch date. Join the waitlist for updates.</p></details>
+            <details><summary>Where can I read the legal and safety information?</summary><p>Read the <a href="/terms">Terms of Service</a>, <a href="/privacy">Privacy Policy</a>, <a href="/assumption-of-risk">Assumption of Risk</a>, and <a href="/health-safety">Health & Safety Notice</a>.</p></details>
+          </div>
+        </section>
+
+        <section className="mc-container mc-support-social" aria-labelledby="support-social-title">
+          <div><span className="mc-eyebrow">Keep in touch</span><h2 id="support-social-title">Follow along.</h2></div>
+          <div className="mc-social-actions">
+            <a href="https://instagram.com/mycombineapp"><Instagram size={19} aria-hidden="true" /> Instagram @mycombineapp</a>
+            <a href="https://tiktok.com/@mycombineapp">TikTok @mycombineapp <ArrowRight size={18} aria-hidden="true" /></a>
+          </div>
+        </section>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
 
 function App() {
   const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
 
+  if (normalizedPath === "/product") {
+    return <ProductPage />;
+  }
+
   if (normalizedPath === "/founders") {
     return <FoundersPage />;
+  }
+
+  if (normalizedPath === "/support") {
+    return <SupportPage />;
   }
 
   if (normalizedPath === "/terms") {

@@ -1,5 +1,12 @@
 {
   "rewrites": [
+    { "source": "/product", "destination": "/product/index.html" },
+    { "source": "/founders", "destination": "/founders/index.html" },
+    { "source": "/support", "destination": "/support/index.html" },
+    { "source": "/terms", "destination": "/terms/index.html" },
+    { "source": "/privacy", "destination": "/privacy/index.html" },
+    { "source": "/assumption-of-risk", "destination": "/assumption-of-risk/index.html" },
+    { "source": "/health-safety", "destination": "/health-safety/index.html" },
     {
       "source": "/(.*)",
       "destination": "/index.html"
