@@ -5,7 +5,9 @@
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://script.google.com https://script.googleusercontent.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'" }
       ]
     }
   ],
@@ -16,10 +18,6 @@
     { "source": "/terms", "destination": "/terms/index.html" },
     { "source": "/privacy", "destination": "/privacy/index.html" },
     { "source": "/assumption-of-risk", "destination": "/assumption-of-risk/index.html" },
-    { "source": "/health-safety", "destination": "/health-safety/index.html" },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/health-safety", "destination": "/health-safety/index.html" }
   ]
 }

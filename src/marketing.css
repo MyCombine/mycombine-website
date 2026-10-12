@@ -213,6 +213,18 @@
   height: auto;
 }
 
+.mc-preview-label {
+  display: block;
+  padding: 9px 12px;
+  background: #101610;
+  color: #d5ded5;
+  font-size: 0.68rem;
+  font-weight: 800;
+  line-height: 1.3;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .mc-measure-band,
 .mc-founder-principle {
   border-block: 1px solid var(--mc-line);

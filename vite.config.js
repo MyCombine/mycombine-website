@@ -35,6 +35,7 @@ function routeHtml() {
 
 export default defineConfig({
   plugins: [react(), routeHtml()],
+  appType: "mpa",
   build: {
     rollupOptions: {
       input: {

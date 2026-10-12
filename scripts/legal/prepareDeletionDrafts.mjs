@@ -115,7 +115,7 @@ function writeDraft(document, body, slug) {
   const directory = join(draftRoot, slug);
   mkdirSync(directory, { recursive: true });
   const banner = "DRAFT FOR REVIEW - NOT APPROVED OR IN FORCE";
-  const note = "The candidate account-deletion backend is not live. The baseline effective date remains unchanged pending legal approval.";
+  const note = "Firebase Functions and Firestore rules are live, and the account-deletion callable is enabled. End-to-end real-account deletion and the first scheduled reconciler run remain unverified. The baseline effective date remains unchanged pending legal approval.";
   const markdown = `${banner}\n\n# ${document.title}\n\nBaseline effective date: ${document.effectiveDate}. ${note}\n\n${body.replace(/^\s*# [^\n]+\n/, "").trim()}\n`;
   writeFileSync(join(directory, `${slug}.md`), markdown);
   writeFileSync(join(directory, "index.html"), `<!doctype html>

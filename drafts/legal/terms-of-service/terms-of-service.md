@@ -2,7 +2,7 @@ DRAFT FOR REVIEW - NOT APPROVED OR IN FORCE
 
 # Terms of Service
 
-Baseline effective date: June 2026. The candidate account-deletion backend is not live. The baseline effective date remains unchanged pending legal approval.
+Baseline effective date: June 2026. Firebase Functions and Firestore rules are live, and the account-deletion callable is enabled. End-to-end real-account deletion and the first scheduled reconciler run remain unverified. The baseline effective date remains unchanged pending legal approval.
 
 ## 1. Acceptance of Terms
 Welcome to My Combine.

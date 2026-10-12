@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 const config = JSON.parse(await readFile(new URL("../../vercel.json", import.meta.url), "utf8"));
+const netlifyRedirects = await readFile(new URL("../../public/_redirects", import.meta.url), "utf8");
+const viteConfigSource = await readFile(new URL("../../vite.config.js", import.meta.url), "utf8");
 
 test("Vercel applies baseline headers to every path", () => {
   const rule = config.headers.find((entry) => entry.source === "/(.*)");
@@ -11,11 +13,31 @@ test("Vercel applies baseline headers to every path", () => {
   assert.equal(headers["X-Content-Type-Options"], "nosniff");
   assert.equal(headers["Referrer-Policy"], "strict-origin-when-cross-origin");
   assert.equal(headers["Permissions-Policy"], "camera=(), microphone=(), geolocation=()");
-  assert.equal(headers["Content-Security-Policy"], undefined);
-  assert.equal(headers["X-Frame-Options"], undefined);
+  assert.equal(headers["X-Frame-Options"], "DENY");
+
+  const directives = Object.fromEntries(
+    headers["Content-Security-Policy"].split(";").map((part) => {
+      const [name, ...values] = part.trim().split(/\s+/);
+      return [name, values];
+    }),
+  );
+  assert.deepEqual(directives["default-src"], ["'self'"]);
+  assert.deepEqual(directives["script-src"], ["'self'"]);
+  assert.deepEqual(directives["style-src"], ["'self'"]);
+  assert.deepEqual(directives["img-src"], ["'self'"]);
+  assert.deepEqual(directives["connect-src"], [
+    "'self'",
+    "https://script.google.com",
+    "https://script.googleusercontent.com",
+  ]);
+  assert.deepEqual(directives["object-src"], ["'none'"]);
+  assert.deepEqual(directives["frame-ancestors"], ["'none'"]);
+  assert.deepEqual(directives["form-action"], ["'self'"]);
+  assert.ok(!headers["Content-Security-Policy"].includes("unsafe-inline"));
+  assert.ok(!headers["Content-Security-Policy"].includes("unsafe-eval"));
 });
 
-test("public routes keep their dedicated pages before the fallback", () => {
+test("public routes use dedicated pages without a homepage catch-all", () => {
   const routes = [
     "/product",
     "/founders",
@@ -31,5 +53,8 @@ test("public routes keep their dedicated pages before the fallback", () => {
       `missing direct rewrite for ${route}`,
     );
   }
-  assert.deepEqual(config.rewrites.at(-1), { source: "/(.*)", destination: "/index.html" });
+  assert.equal(config.rewrites.length, routes.length);
+  assert.ok(!config.rewrites.some(({ source }) => source === "/(.*)"));
+  assert.ok(!netlifyRedirects.includes("/* /index.html 200"));
+  assert.match(viteConfigSource, /appType:\s*["']mpa["']/);
 });

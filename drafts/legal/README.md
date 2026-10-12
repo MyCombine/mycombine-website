@@ -1,8 +1,9 @@
 # Account Deletion Legal Drafts
 
 These are review copies only. They are not Vite build entries, published routes,
-or approved legal documents. The current production account-deletion backend
-has not been switched to the candidate described here.
+or approved legal documents. Firebase Functions and Firestore rules are live,
+and the account-deletion callable is enabled. End-to-end real-account deletion
+and the first scheduled reconciler run remain unverified.
 
 Each document has a local HTML review page, a Markdown copy, and a PDF copy.
 They are generated from the unchanged `src/legalContent.js` baseline and the
@@ -21,8 +22,9 @@ the proposed wording.
 
 Before any canonical update, Joey and legal counsel need to approve the exact
 Privacy and Terms language and effective date; confirm deletion behavior in the
-intended backend; identify any provider, backup, billing, log, or legally
-required records outside the app deletion inventory; and resolve the broader
+live backend, including a real-account deletion and scheduled reconciliation;
+identify any provider, backup, billing, log, or legally required records outside
+the app deletion inventory; and resolve the broader
 Terms "Effect of Termination" clause. Then update the routed page source and
 public PDFs together, verify text parity and rendering, and obtain separate
 approval for build and publication.

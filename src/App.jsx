@@ -45,29 +45,10 @@ const productFeatures = [
   },
 ];
 
-const appScreenshots = [
-  {
-    src: "/app-screens/img-8723-active-workout.png?v=8723",
-    title: "A workout you can take outside.",
-    label: "01 / Train",
-    body: "See your current drill, session progress, and setup before each effort.",
-    alt: "My Combine active workout screen showing a 10-yard sprint drill and setup diagram.",
-  },
-  {
-    src: "/app-screens/img-8724-training-feedback.png?v=8724",
-    title: "Review the rep, then keep moving.",
-    label: "02 / Measure",
-    body: "Put a result beside your previous effort and your current goal.",
-    alt: "My Combine training feedback screen comparing a sprint rep with a goal and session best.",
-  },
-  {
-    src: "/app-screens/img-8725-stat-card.png?v=8725",
-    title: "Bring your progress together.",
-    label: "03 / Track",
-    body: "See the performance picture alongside the marks behind it.",
-    alt: "My Combine stat card preview with a Runner Score and sprint, agility, and jump marks.",
-  },
-];
+const workoutPreview = {
+  src: "/app-screens/img-8723-active-workout.png?v=8723",
+  alt: "Earlier illustrative My Combine workout screen showing a sprint drill and setup diagram.",
+};
 
 const founderSteps = [
   {
@@ -129,7 +110,7 @@ const foundersMeta = {
 const productMeta = {
   title: "The Product | My Combine",
   description:
-    "Explore the My Combine app experience through real workout, training feedback, and performance screens.",
+    "Explore My Combine workouts and training features. Earlier illustrative screens may differ from the app at launch.",
 };
 
 const supportMeta = {
@@ -539,6 +520,7 @@ function LegalPage({ legalDocument }) {
 function ScreenPreview({ screen, className = "" }) {
   return (
     <div className={`mc-screen-preview ${className}`}>
+      <span className="mc-preview-label">Earlier illustrative preview</span>
       <img src={screen.src} alt={screen.alt} loading="lazy" />
     </div>
   );
@@ -563,7 +545,8 @@ function LandingPage() {
             <p className="mc-hero-note">Structured sessions. Recorded results. A clearer view of progress.</p>
           </div>
           <div className="mc-home-phone" aria-label="My Combine app dashboard preview">
-            <img src="/app-screens/img-8722-home-dashboard.png?v=8722" alt="My Combine home screen preview with Runner Score, performance categories, and a daily workout." />
+            <span className="mc-preview-label">Earlier illustrative preview</span>
+            <img src="/app-screens/img-8722-home-dashboard.png?v=8722" alt="Earlier illustrative My Combine dashboard with Runner Score and a daily workout." />
           </div>
         </section>
 
@@ -589,7 +572,7 @@ function LandingPage() {
         </section>
 
         <section className="mc-container mc-home-product" aria-labelledby="home-product-title">
-          <div className="mc-home-product-image"><ScreenPreview screen={appScreenshots[0]} /></div>
+          <div className="mc-home-product-image"><ScreenPreview screen={workoutPreview} /></div>
           <div className="mc-home-product-copy">
             <span className="mc-eyebrow">Inside the app</span>
             <h2 id="home-product-title">The session is right there with you.</h2>
@@ -631,26 +614,23 @@ function ProductPage() {
               <a className="button button-primary" href="/#waitlist">Join the waitlist <ArrowRight size={18} aria-hidden="true" /></a>
             </div>
           </div>
-          <ScreenPreview screen={{ src: "/app-screens/img-8722-home-dashboard.png?v=8722", alt: "My Combine dashboard preview with Runner Score and a daily workout." }} className="mc-product-hero-screen" />
+          <ScreenPreview screen={{ src: "/app-screens/img-8722-home-dashboard.png?v=8722", alt: "Earlier illustrative My Combine dashboard with Runner Score and a daily workout." }} className="mc-product-hero-screen" />
         </section>
 
         <section className="mc-container mc-product-sequence" aria-labelledby="sequence-title">
           <div className="mc-section-heading">
-            <span className="mc-eyebrow">A clearer training loop</span>
-            <h2 id="sequence-title">From session to result.</h2>
-            <p>These My Combine app screenshots are previews. Screens and available features may change before launch.</p>
+            <span className="mc-eyebrow">Inside a workout</span>
+            <h2 id="sequence-title">Set up the next effort.</h2>
+            <p>This is an earlier illustrative app screen. Layout and available features may differ at launch.</p>
           </div>
-          {appScreenshots.map((screen, index) => (
-            <article className="mc-product-step" key={screen.label}>
-              <div className="mc-product-step-copy">
-                <span className="mc-eyebrow">{screen.label}</span>
-                <h3>{screen.title}</h3>
-                <p>{screen.body}</p>
-                <span className="mc-step-count">0{index + 1} / 03</span>
-              </div>
-              <ScreenPreview screen={screen} />
-            </article>
-          ))}
+          <article className="mc-product-step">
+            <div className="mc-product-step-copy">
+              <span className="mc-eyebrow">Workout preview</span>
+              <h3>A workout you can take outside.</h3>
+              <p>See your current drill, session progress, and setup before each effort.</p>
+            </div>
+            <ScreenPreview screen={workoutPreview} />
+          </article>
         </section>
 
         <section className="mc-container mc-product-summary" aria-labelledby="product-summary-title">
