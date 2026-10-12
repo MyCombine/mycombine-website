@@ -1,0 +1,17 @@
+# My Combine Website Asset-Rights Manifest
+
+Scope: visual assets referenced by the current website source. This is not proof of what is deployed at mycombineapp.com or of ownership, license compliance, or release clearance. Possession of a file, its appearance in Git, and approval of a design direction do not establish legal rights.
+
+| Website asset | Intended use | Known origin evidence | Rights evidence |
+| --- | --- | --- | --- |
+| `public/mycombine-app-face.png` | Header app mark; favicon, Apple touch icon, and social-preview image on the site pages | The project owner supplied `MyCombine_AppFace-app-green.png` as the new app face in this chat. The earlier source path was unavailable for byte comparison during this review. | **RIGHTS UNKNOWN**: no ownership or usage-grant paperwork reviewed. |
+| `public/mycombine-primary-logo.png` | Header wordmark and footer logo | The project owner supplied `MyCombine_Primary- Transparent.png` for primary-logo placement in this chat. The earlier source path was unavailable for byte comparison during this review. | **RIGHTS UNKNOWN**: no ownership or usage-grant paperwork reviewed. |
+| `public/app-screens/img-8722-home-dashboard.png` | Home and Product dashboard previews | The project owner supplied `IMG_8722.PNG`. The website file is a prepared 900 x 1674 export, not byte-identical to the available 1290 x 2796 source. | **RIGHTS UNKNOWN**: no screenshot, underlying UI, or depicted-content release reviewed. |
+| `public/app-screens/img-8723-active-workout.png` | Home workout preview and Product sequence | The project owner supplied `IMG_8723.PNG`. The website file is a prepared 900 x 1674 export, not byte-identical to the available 1290 x 2796 source. | **RIGHTS UNKNOWN**: no screenshot, underlying UI, or depicted-content release reviewed. |
+| `public/app-screens/img-8724-training-feedback.png` | Product sequence | The project owner supplied `IMG_8724.PNG`. The website file is a prepared 900 x 1674 export, not byte-identical to the available 1290 x 2796 source. | **RIGHTS UNKNOWN**: no screenshot, underlying UI, or depicted-content release reviewed. |
+| `public/app-screens/img-8725-stat-card.png` | Product sequence | The project owner supplied `IMG_8725.PNG`. The website file is a prepared 900 x 1674 export, not byte-identical to the available 1290 x 2796 source. | **RIGHTS UNKNOWN**: no screenshot, underlying UI, or depicted-content release reviewed. |
+| `lucide-react` icons in `src/App.jsx` | Navigation, feature, status, and CTA icons | Installed package version 0.468.0; the site imports icons from the package. Its ISC notice is in `public/THIRD_PARTY_NOTICES.txt`. | Third-party license text is recorded there; this manifest does not assert license compliance or ownership. |
+
+No other image, video, external font, or CSS media URL is referenced by the current site source. `public/mc-runner-logo.png` exists in the repository but is not referenced by the current pages, so it is not in the used-asset table. Legal PDFs are documents, not creative covered by this manifest; their text and approval require a separate review.
+
+Before publication, retain evidence of brand-asset rights and any screenshot or depicted-content releases, review the prepared crops for personal or third-party material, and confirm the four previews match an approved current app build. **Current-build parity of the website screenshots is unproved.** Keep the third-party notice separately available; this manifest does not replace it.

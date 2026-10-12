@@ -1,5 +1,7 @@
 const SHEET_NAME = "Waitlist";
 const ARCHIVE_SHEET_NAME = "Signup Archive";
+const MARKETING_PREFERENCES_SHEET_NAME = "Marketing Preferences";
+const MARKETING_SUPPRESSIONS_SHEET_NAME = "Marketing Suppressions";
 const HEADERS = [
   "Signup #",
   "Signup Date",
@@ -11,8 +13,25 @@ const HEADERS = [
   "Founder Claimed",
   "Status",
 ];
+const MARKETING_PREFERENCE_HEADERS = [
+  "Recorded At",
+  "Email",
+  "Source",
+  "Choice",
+  "Purpose Version",
+  "Purpose Text",
+];
+const MARKETING_SUPPRESSION_HEADERS = ["Suppressed At", "Email"];
+const MARKETING_PURPOSE_VERSION = "marketing-updates-v2";
+const MARKETING_PURPOSE_TEXT = "I would like My Combine launch, early-access, and product updates by email. This request is optional and requires email-address verification before updates can be sent.";
+const PENDING_MARKETING_CHOICE = "Pending Yes";
+const VERIFIED_MARKETING_CHOICE = "Verified Yes";
+// Reserved for a separate, trusted ownership-verification process; doPost never writes it.
+const VERIFIED_MARKETING_SOURCE = "Verified Ownership";
 
 const DEFAULT_SOURCE = "Website";
+const FOUNDER_INTEREST_SOURCE = "Website - Founder Interest";
+const ALLOWED_SOURCES = [DEFAULT_SOURCE, FOUNDER_INTEREST_SOURCE];
 const DEFAULT_FOUNDER_CLAIMED = "No";
 const DEFAULT_STATUS = "Waitlist";
 const NOTIFICATION_RECIPIENT = "team@mycombineapp.com";
@@ -56,6 +75,14 @@ function doPost(e) {
     const firstName = normalizeText_(payload.firstName, MAX_FIRST_NAME_LENGTH);
     const source = normalizeText_(payload.source, MAX_SOURCE_LENGTH) || DEFAULT_SOURCE;
     const utmSource = normalizeText_(payload.utmSource, MAX_UTM_SOURCE_LENGTH);
+    const marketingPreference = parseMarketingPreference_(payload);
+
+    if (ALLOWED_SOURCES.indexOf(source) === -1) {
+      return jsonResponse_({
+        success: false,
+        error: "invalid_source",
+      });
+    }
 
     lock = LockService.getScriptLock();
 
@@ -84,13 +111,14 @@ function doPost(e) {
     const signupNumber = getNextSignupNumber_([sheet, archiveSheet]);
     const signupDate = new Date();
     const storedFirstName = sanitizeCellText_(firstName);
+    const storedEmail = sanitizeCellText_(email);
     const storedSource = sanitizeCellText_(source);
     const storedUtmSource = sanitizeCellText_(utmSource);
     const signupRow = [
       signupNumber,
       signupDate,
       storedFirstName,
-      email,
+      storedEmail,
       storedSource,
       storedUtmSource,
       "",
@@ -100,22 +128,23 @@ function doPost(e) {
 
     sheet.appendRow(signupRow);
     appendSignupArchiveRow_(archiveSheet, signupRow, signupNumber);
+    const preferenceRecorded = recordMarketingPreference_(email, source, marketingPreference);
 
     sendNewSignupNotification_({
       signupNumber,
       signupDate,
       firstName: storedFirstName,
-      email,
+      email: storedEmail,
       source: storedSource,
       utmSource: storedUtmSource,
       status: DEFAULT_STATUS,
     });
 
-    return jsonResponse_({
+    return jsonResponse_(withMarketingPreferenceResult_({
       success: true,
       alreadyRegistered: false,
       status: "created",
-    });
+    }, marketingPreference, preferenceRecorded));
   } catch (error) {
     return jsonResponse_({
       success: false,
@@ -144,6 +173,158 @@ function parsePayload_(e) {
   } catch (error) {
     throw new Error("invalid_json_payload");
   }
+}
+
+function parseMarketingPreference_(payload) {
+  if (!Object.prototype.hasOwnProperty.call(payload, "marketingPreference")) {
+    return null;
+  }
+
+  const preference = payload.marketingPreference;
+  if (
+    !preference ||
+    typeof preference !== "object" ||
+    Array.isArray(preference) ||
+    typeof preference.choice !== "boolean" ||
+    preference.purposeVersion !== MARKETING_PURPOSE_VERSION ||
+    preference.purposeText !== MARKETING_PURPOSE_TEXT
+  ) {
+    return { valid: false };
+  }
+
+  return { valid: true, choice: preference.choice };
+}
+
+function recordMarketingPreference_(email, source, preference) {
+  if (preference === null) {
+    return null;
+  }
+
+  if (!preference.valid) {
+    return false;
+  }
+
+  try {
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    const preferenceSheet = getOrCreateSheet_(spreadsheet, MARKETING_PREFERENCES_SHEET_NAME);
+    const suppressionSheet = getOrCreateSheet_(spreadsheet, MARKETING_SUPPRESSIONS_SHEET_NAME);
+    ensureAdditionalHeaderRow_(preferenceSheet, MARKETING_PREFERENCE_HEADERS);
+    ensureAdditionalHeaderRow_(suppressionSheet, MARKETING_SUPPRESSION_HEADERS);
+    preferenceSheet.appendRow([
+      new Date(),
+      email,
+      source,
+      preference.choice ? PENDING_MARKETING_CHOICE : "No",
+      MARKETING_PURPOSE_VERSION,
+      MARKETING_PURPOSE_TEXT,
+    ]);
+    return true;
+  } catch (error) {
+    Logger.log(`Marketing preference write failed: ${error.message || error}`);
+    return false;
+  }
+}
+
+function withMarketingPreferenceResult_(response, preference, recorded) {
+  if (preference !== null && recorded !== null) {
+    response.marketingPreferenceRecorded = recorded;
+    if (recorded) {
+      response.marketingPreferenceChoice = preference.choice;
+      response.marketingPurposeVersion = MARKETING_PURPOSE_VERSION;
+      response.marketingPreferenceStatus = preference.choice ? "pending_verification" : "not_requested";
+    }
+  }
+  return response;
+}
+
+function ensureAdditionalHeaderRow_(sheet, headers) {
+  const range = sheet.getRange(1, 1, 1, headers.length);
+  const current = range.getValues()[0].map((value) => String(value || "").trim());
+  if (current.every((value) => value === "")) {
+    range.setValues([headers]);
+  } else if (!headers.every((header, index) => current[index] === header)) {
+    throw new Error("unexpected_marketing_schema");
+  }
+  sheet.setFrozenRows(1);
+}
+
+// Not exposed by doPost: an operator must verify a removal request before calling this helper.
+function recordMarketingSuppression_(email) {
+  const normalizedEmail = normalizeEmail_(email);
+  if (!isValidEmail_(normalizedEmail)) {
+    throw new Error("invalid_email");
+  }
+
+  const lock = LockService.getScriptLock();
+  if (!lock.tryLock(10000)) {
+    throw new Error("temporarily_unavailable");
+  }
+  try {
+    const sheet = getOrCreateSheet_(SpreadsheetApp.getActiveSpreadsheet(), MARKETING_SUPPRESSIONS_SHEET_NAME);
+    ensureAdditionalHeaderRow_(sheet, MARKETING_SUPPRESSION_HEADERS);
+    sheet.appendRow([new Date(), normalizedEmail]);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function canSendMarketingUpdate_(email) {
+  const normalizedEmail = normalizeEmail_(email);
+  if (!isValidEmail_(normalizedEmail)) {
+    return false;
+  }
+
+  try {
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    const preferenceSheet = spreadsheet.getSheetByName(MARKETING_PREFERENCES_SHEET_NAME);
+    const suppressionSheet = spreadsheet.getSheetByName(MARKETING_SUPPRESSIONS_SHEET_NAME);
+    if (!preferenceSheet || !suppressionSheet ||
+        !hasAdditionalHeaderRow_(preferenceSheet, MARKETING_PREFERENCE_HEADERS) ||
+        !hasAdditionalHeaderRow_(suppressionSheet, MARKETING_SUPPRESSION_HEADERS)) {
+      return false;
+    }
+
+    const suppressionCount = suppressionSheet.getLastRow() - 1;
+    if (suppressionCount > 0 && suppressionSheet.getRange(2, 2, suppressionCount, 1)
+      .getValues().some((row) => normalizeEmail_(row[0]) === normalizedEmail)) {
+      return false;
+    }
+
+    const preferenceCount = preferenceSheet.getLastRow() - 1;
+    if (preferenceCount < 1) {
+      return false;
+    }
+    const rows = preferenceSheet.getRange(2, 1, preferenceCount, 6).getValues()
+      .filter((row) => normalizeEmail_(row[1]) === normalizedEmail);
+    if (rows.length < 2) {
+      return false;
+    }
+
+    const [requestAt, requestEmail, requestSource, requestChoice, requestVersion, requestPurpose] = rows[rows.length - 2];
+    const [verifiedAt, verifiedEmail, verifiedSource, verifiedChoice, verifiedVersion, verifiedPurpose] = rows[rows.length - 1];
+    const requestTime = new Date(requestAt).getTime();
+    const verifiedTime = new Date(verifiedAt).getTime();
+    return requestEmail === verifiedEmail &&
+      Number.isFinite(requestTime) &&
+      Number.isFinite(verifiedTime) &&
+      verifiedTime > requestTime &&
+      ALLOWED_SOURCES.indexOf(requestSource) !== -1 &&
+      requestChoice === PENDING_MARKETING_CHOICE &&
+      requestVersion === MARKETING_PURPOSE_VERSION &&
+      requestPurpose === MARKETING_PURPOSE_TEXT &&
+      verifiedSource === VERIFIED_MARKETING_SOURCE &&
+      verifiedChoice === VERIFIED_MARKETING_CHOICE &&
+      verifiedVersion === requestVersion &&
+      verifiedPurpose === requestPurpose;
+  } catch (error) {
+    Logger.log(`Marketing eligibility check failed: ${error.message || error}`);
+  }
+  return false;
+}
+
+function hasAdditionalHeaderRow_(sheet, headers) {
+  const current = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+  return headers.every((header, index) => current[index] === header);
 }
 
 function getWaitlistSheet_() {
@@ -297,7 +478,7 @@ function hasHoneypotValue_(payload) {
 }
 
 function normalizeEmail_(email) {
-  return String(email || "").trim().toLowerCase().slice(0, MAX_EMAIL_LENGTH);
+  return String(email || "").trim().toLowerCase();
 }
 
 function normalizeText_(value, maxLength) {
@@ -321,6 +502,8 @@ function isValidEmail_(email) {
   return (
     email.length > 0 &&
     email.length <= MAX_EMAIL_LENGTH &&
+    !/[\u0000-\u001f\u007f]/.test(email) &&
+    !/^[=+\-@]/.test(email) &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
   );
 }

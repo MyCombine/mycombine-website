@@ -528,6 +528,7 @@
 
 .mc-founders-hero h1 {
   max-width: 720px;
+  font-size: 5.2rem;
 }
 
 .mc-founders-hero .mc-lede strong {
@@ -727,8 +728,36 @@
   line-height: 1.55;
 }
 
+.mc-waitlist-form .mc-marketing-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 20px 0 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.mc-marketing-choice input {
+  flex: 0 0 22px;
+  width: 22px;
+  min-width: 22px;
+  height: 22px;
+  min-height: 22px;
+  margin: 1px 0 0;
+  padding: 0;
+  border-radius: 3px;
+  accent-color: var(--mc-green);
+}
+
 .mc-form-help a {
   color: #e6f8e5;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mc-form-message a {
+  color: var(--mc-green);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -864,6 +893,10 @@
 
   .mc-home-title {
     font-size: clamp(3.2rem, 7vw, 5rem) !important;
+  }
+
+  .mc-founders-hero h1 {
+    font-size: 4rem;
   }
 
   .mc-footer {
@@ -1028,6 +1061,10 @@
     font-size: clamp(2.65rem, 11vw, 4.5rem);
   }
 
+  .mc-founders-hero h1 {
+    font-size: 3rem;
+  }
+
   .mc-product-hero-screen {
     max-height: 360px;
     overflow: hidden;
@@ -1127,6 +1164,10 @@
 }
 
 @media (max-width: 359px) {
+  .mc-founders-hero h1 {
+    font-size: 2.65rem;
+  }
+
   .mc-brand .brand-wordmark {
     width: 106px;
   }

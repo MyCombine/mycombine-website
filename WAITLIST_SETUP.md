@@ -22,6 +22,14 @@ Create a `Waitlist` sheet with this exact header row:
 
 Do not use formulas for `Signup #`. The Apps Script assigns permanent signup numbers server-side.
 
+## Optional Email Updates (Local Source Only)
+
+Joining either waitlist records interest; it does not enroll someone in future marketing email. The website's separate email-updates request starts unchecked. New submissions send the exact displayed purpose and version with the choice. The updated Apps Script records an unchecked `No` or a checked `Pending Yes` in a separate `Marketing Preferences` sheet with a server timestamp, normalized email, and allowlisted source. It also creates a separate empty `Marketing Suppressions` sheet. Existing emails cannot change their preference through the public form. The existing `Waitlist` and `Signup Archive` columns do not change.
+
+Legacy clients without a preference field remain **unknown/not opted in**. The current request purpose is version `marketing-updates-v2`; older purpose text and versions are not current consent. A checked request is acknowledged as **pending address verification** only when the backend confirms its write. If the waitlist row succeeds but the request write fails, the website reports waitlist success and a separate warning. The local `canSendMarketingUpdate_` helper fails closed unless the latest matching ledger event is a separate trusted `Verified Yes` ownership event following a current-purpose `Pending Yes`, and no suppression exists. Neither `doPost` nor the website can write a verified event; an approved ownership-verification process is not implemented yet. Historical `Yes` rows are not send-eligible. No marketing send is implemented here. `recordMarketingSuppression_` is an internal helper, not a public Web App action. Identity verification, removal from both waitlist sheets, and retention rules still require an approved operational process.
+
+**Deployment order, after separate approval:** first verify the revised script and both new sheet headers in a non-production copy; then deploy the backend version; then deploy the website. The old website can still create waitlist rows against the revised backend, but its old-purpose email-update choice fails closed and shows a partial-success warning. If the new website reaches the old backend first, waitlist signups can still succeed, but a checked email-update request cannot be confirmed as pending and the user sees the same warning. Do not send marketing messages or treat historical waitlist entries as opted in during this transition.
+
 ## 1. Create The Google Sheet
 
 1. Go to [Google Sheets](https://sheets.google.com).
@@ -96,7 +104,7 @@ npm run dev
 5. Confirm the success message appears:
 
 ```text
-You're on the list. We'll let you know when My Combine launches.
+You're on the My Combine waitlist.
 ```
 
 6. Open Google Sheets and confirm exactly one new row appears.

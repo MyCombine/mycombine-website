@@ -18,7 +18,9 @@ import {
 } from "./legalContent.js";
 import {
   getWaitlistUtmSource,
+  hasRecordedMarketingRequest,
   isValidWaitlistEmail,
+  MARKETING_PURPOSE_TEXT,
   submitWaitlistSignup,
 } from "./waitlist.js";
 
@@ -75,8 +77,8 @@ const founderSteps = [
   },
   {
     number: "02",
-    title: "We review interest",
-    body: "A waitlist signup is not an approval, reservation, or place in the 200-person group.",
+    title: "Interest only for now",
+    body: "Founder approvals are not open yet. A waitlist signup is not an approval, reservation, or place in the planned group.",
   },
   {
     number: "03",
@@ -121,7 +123,7 @@ const homeMeta = {
 const foundersMeta = {
   title: "Founding Athletes | My Combine",
   description:
-    "Express interest in My Combine's planned Founding Athlete offer for up to 200 approved people. Joining the waitlist does not reserve a place.",
+    "Express interest in My Combine's planned Founding Athlete program. Joining the waitlist does not approve you or reserve a place.",
 };
 
 const productMeta = {
@@ -251,12 +253,17 @@ function WaitlistForm({
   formId = "waitlist-form",
   buttonText = "Join Waitlist",
   source = "Website",
+  purposeText = "Joining records your interest in My Combine. You can separately request email updates, subject to address verification.",
+  newSignupMessage = "You're on the My Combine waitlist.",
   duplicateMessage = "You're already on the My Combine waitlist.",
 }) {
   const [firstName, setFirstName] = useState("");
   const [email, setEmail] = useState("");
+  const [marketingUpdates, setMarketingUpdates] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [marketingMessage, setMarketingMessage] = useState("");
+  const [marketingWarning, setMarketingWarning] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const emailRef = useRef(null);
@@ -272,6 +279,7 @@ function WaitlistForm({
   const companyId = `${formId}-company`;
   const helpId = `${formId}-help`;
   const errorId = `${formId}-error`;
+  const marketingId = `${formId}-marketing`;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -295,16 +303,27 @@ function WaitlistForm({
         source,
         utmSource: getWaitlistUtmSource(),
         company: event.currentTarget.elements.company?.value || "",
+        marketingUpdates,
       });
 
       setSuccessMessage(
         result.alreadyRegistered
           ? duplicateMessage
-          : "You're on the list. We'll let you know when My Combine launches.",
+          : newSignupMessage,
       );
+      if (marketingUpdates) {
+        if (result.alreadyRegistered) {
+          setMarketingWarning("Your email-update request was not recorded for this existing signup. Contact team@mycombineapp.com to ask about updates.");
+        } else if (hasRecordedMarketingRequest(result)) {
+          setMarketingMessage("Your email-update request was recorded and is pending address verification. You are not enrolled in updates yet.");
+        } else {
+          setMarketingWarning("You're on the waitlist, but your email-update request was not recorded. Contact team@mycombineapp.com if you want updates.");
+        }
+      }
       setSubmitted(true);
       setFirstName("");
       setEmail("");
+      setMarketingUpdates(false);
     } catch (error) {
       if (import.meta.env.DEV) {
         console.error("Waitlist submission failed:", error);
@@ -363,16 +382,33 @@ function WaitlistForm({
           />
         </div>
       </div>
+      <label className="mc-marketing-choice" htmlFor={marketingId}>
+        <input
+          id={marketingId}
+          name="marketingUpdates"
+          type="checkbox"
+          checked={marketingUpdates}
+          onChange={(event) => setMarketingUpdates(event.target.checked)}
+          disabled={isSubmitting || submitted}
+        />
+        <span>{MARKETING_PURPOSE_TEXT}</span>
+      </label>
       <p className="mc-form-help" id={helpId}>
-        We'll use your email for My Combine launch and early-access updates. Read our{" "}
-        <a href="/privacy">Privacy Policy</a>.
+        {purposeText} We record your signup source and any campaign source in the link.
+        Existing signups cannot change an email-update preference through this form.
+        To stop updates or request removal, email{" "}
+        <a href="mailto:team@mycombineapp.com">team@mycombineapp.com</a>.
+        Read our <a href="/privacy">Privacy Policy</a>.
       </p>
       <button className="button button-primary mc-submit" type="submit" disabled={isSubmitting || submitted}>
         {isSubmitting ? "Joining..." : submitted ? "Joined" : buttonText}
         {!isSubmitting && !submitted && <ArrowRight size={18} aria-hidden="true" />}
       </button>
-      <div className="waitlist-message mc-form-message" aria-live="polite" aria-atomic="true">
+      <div className="waitlist-message mc-form-message">
+        {isSubmitting && <p role="status">Joining the waitlist...</p>}
         {successMessage && <p className="success-message" role="status">{successMessage}</p>}
+        {marketingMessage && <p className="success-message" role="status">{marketingMessage}</p>}
+        {marketingWarning && <p className="error-message" role="alert">{marketingWarning}</p>}
         {errorMessage && <p className="error-message" id={errorId} role="alert">{errorMessage}</p>}
       </div>
     </form>
@@ -414,14 +450,20 @@ function WaitlistSection({ founders = false }) {
         <h2 id={founders ? "founder-interest-title" : "waitlist-title"}>{founders ? "Put your name in the conversation." : "Be there from the start."}</h2>
         <p>{founders
           ? "This is an expression of interest only. It does not approve you or reserve one of the planned 200 places."
-          : "Get launch and early-access updates as My Combine gets ready for the field."}</p>
+          : "Join the My Combine interest list. Email updates are optional."}</p>
       </div>
       <WaitlistForm
         formId={founders ? "founder-interest-form" : "home-waitlist-form"}
-        buttonText={founders ? "Join waitlist" : "Join the waitlist"}
+        buttonText={founders ? "Express interest" : "Join the waitlist"}
         source={founders ? "Website - Founder Interest" : "Website"}
+        purposeText={founders
+          ? "For new signups, we'll record your Founder interest. This does not approve you or reserve a place. You can separately request email updates, subject to address verification."
+          : undefined}
+        newSignupMessage={founders
+          ? "You're on the waitlist. Your Founding Athlete interest was recorded; this is not approval or a reserved place."
+          : undefined}
         duplicateMessage={founders
-          ? "You're already on the waitlist. Email team@mycombineapp.com to record Founder interest."
+          ? <>You're already on the waitlist. <a href="mailto:team@mycombineapp.com">Email the team</a> to express Founder interest.</>
           : "You're already on the My Combine waitlist."}
       />
     </section>
@@ -461,6 +503,7 @@ function SiteFooter() {
         <a href="/privacy">Privacy Policy</a>
         <a href="/assumption-of-risk">Assumption of Risk</a>
         <a href="/health-safety">Health & Safety</a>
+        <a href="/THIRD_PARTY_NOTICES.txt">Third-party notices</a>
         <a href="mailto:team@mycombineapp.com">Contact</a>
       </nav>
       <p>© 2026 My Combine. All rights reserved.</p>
@@ -472,22 +515,24 @@ function LegalPage({ legalDocument }) {
   usePageMeta(legalDocument.seoTitle, legalDocument.description, `/${legalDocument.slug}`);
 
   return (
-    <main className="site-shell legal-shell">
+    <div className="site-shell legal-shell">
       <LegalHeader />
-      <article className="legal-page" aria-labelledby="legal-title">
-        <span className="status-badge legal-eyebrow">Legal</span>
-        <h1 id="legal-title">{legalDocument.title}</h1>
-        <p className="legal-summary">{legalDocument.description}</p>
-        <p className="legal-effective">Effective Date: {legalDocument.effectiveDate}</p>
-        <div className="legal-content">{renderLegalBlocks(legalDocument.body)}</div>
-        {legalDocument.pdfHref && (
-          <div className="legal-download">
-            <a href={legalDocument.pdfHref}>{legalDocument.pdfLabel}</a>
-          </div>
-        )}
-      </article>
+      <main id="main-content">
+        <article className="legal-page" aria-labelledby="legal-title">
+          <span className="status-badge legal-eyebrow">Legal</span>
+          <h1 id="legal-title">{legalDocument.title}</h1>
+          <p className="legal-summary">{legalDocument.description}</p>
+          <p className="legal-effective">Effective Date: {legalDocument.effectiveDate}</p>
+          <div className="legal-content">{renderLegalBlocks(legalDocument.body)}</div>
+          {legalDocument.pdfHref && (
+            <div className="legal-download">
+              <a href={legalDocument.pdfHref}>{legalDocument.pdfLabel}</a>
+            </div>
+          )}
+        </article>
+      </main>
       <SiteFooter />
-    </main>
+    </div>
   );
 }
 
@@ -505,7 +550,7 @@ function LandingPage() {
   return (
     <div className="site-shell mc-site">
       <MarketingHeader current="home" />
-      <main>
+      <main id="main-content">
         <section className="mc-home-hero mc-container" aria-labelledby="home-title">
           <div className="mc-home-hero-copy">
             <span className="mc-eyebrow"><Clock3 size={16} aria-hidden="true" /> Coming soon</span>
@@ -532,7 +577,8 @@ function LandingPage() {
           </div>
         </section>
 
-        <section className="mc-container mc-feature-section" aria-label="How My Combine helps athletes">
+        <section className="mc-container mc-feature-section" aria-labelledby="home-features-title">
+          <h2 className="visually-hidden" id="home-features-title">How My Combine helps athletes</h2>
           {productFeatures.map(({ icon: Icon, label, title, body }) => (
             <article className="mc-feature" key={label}>
               <div className="mc-feature-top"><span>{label}</span><Icon size={28} aria-hidden="true" /></div>
@@ -575,7 +621,7 @@ function ProductPage() {
   return (
     <div className="site-shell mc-site">
       <MarketingHeader current="product" />
-      <main>
+      <main id="main-content">
         <section className="mc-container mc-page-hero mc-product-hero" aria-labelledby="product-title">
           <div>
             <span className="mc-eyebrow">The My Combine experience</span>
@@ -592,7 +638,7 @@ function ProductPage() {
           <div className="mc-section-heading">
             <span className="mc-eyebrow">A clearer training loop</span>
             <h2 id="sequence-title">From session to result.</h2>
-            <p>These screens show the current My Combine app experience. Details may change before launch.</p>
+            <p>These My Combine app screenshots are previews. Screens and available features may change before launch.</p>
           </div>
           {appScreenshots.map((screen, index) => (
             <article className="mc-product-step" key={screen.label}>
@@ -620,8 +666,8 @@ function ProductPage() {
         </section>
 
         <section className="mc-container mc-simple-cta" aria-labelledby="product-cta-title">
-          <h2 id="product-cta-title">Get the launch update.</h2>
-          <p>Join the My Combine waitlist for news about early access.</p>
+          <h2 id="product-cta-title">Keep an eye on the launch.</h2>
+          <p>Join the My Combine interest list. Choose separately whether to receive email updates.</p>
           <a className="button button-primary" href="/#waitlist">Join the waitlist <ArrowRight size={18} aria-hidden="true" /></a>
         </section>
       </main>
@@ -636,11 +682,11 @@ function FoundersPage() {
   return (
     <div className="site-shell mc-site">
       <MarketingHeader current="founders" waitlistHref="#founder-interest" />
-      <main>
+      <main id="main-content">
         <section className="mc-container mc-page-hero mc-founders-hero" aria-labelledby="founders-title">
           <div>
             <span className="mc-eyebrow"><UsersRound size={16} aria-hidden="true" /> Planned Founding Athlete offer</span>
-            <h1 id="founders-title">A place for the athletes who show up early.</h1>
+            <h1 id="founders-title">For the athletes who show up early.</h1>
             <p className="mc-lede">We're gathering interest in a limited Founding Athlete offer for up to <strong>200 approved people</strong>.</p>
             <p className="mc-caveat">Joining the waitlist does not make you a Founder, approve you, or reserve a place.</p>
             <div className="mc-actions">
@@ -659,7 +705,7 @@ function FoundersPage() {
           <div className="mc-container">
             <span className="mc-eyebrow">The current plan</span>
             <h2 id="founder-principle-title">Interest first. Details before any decision.</h2>
-            <p>The intended offer is an annual Founder rate for approved athletes while an eligible subscription continues. Final pricing, benefits, and purchase terms still need confirmation and will be presented before any purchase.</p>
+            <p>For the first release, we're collecting interest only. Any future Founder offer depends on confirmed pricing, benefits, and subscription terms; those details will be presented before anyone can decide whether to purchase.</p>
           </div>
         </section>
 
@@ -707,7 +753,7 @@ function SupportPage() {
   return (
     <div className="site-shell mc-site">
       <MarketingHeader current="support" />
-      <main>
+      <main id="main-content">
         <section className="mc-container mc-page-hero mc-support-hero" aria-labelledby="support-title">
           <div>
             <span className="mc-eyebrow"><Mail size={16} aria-hidden="true" /> My Combine support</span>
@@ -729,8 +775,10 @@ function SupportPage() {
           </div>
           <div className="mc-faq-list">
             <details><summary>How do I update or remove my waitlist information?</summary><p>Email <a href="mailto:team@mycombineapp.com">team@mycombineapp.com</a> with your request. Please use the email address you joined with if possible.</p></details>
-            <details><summary>Does the waitlist guarantee early access or a Founder place?</summary><p>No. It records interest and lets us share launch and early-access updates. Founder participation requires a separate approval and offer.</p></details>
-            <details><summary>When will My Combine launch?</summary><p>We have not announced a launch date. Join the waitlist for updates.</p></details>
+            <details><summary>Does the waitlist guarantee early access or a Founder place?</summary><p>No. It records interest only. Email updates require a separate choice, and Founder participation requires a separate approval and offer.</p></details>
+            <details><summary>When will My Combine launch?</summary><p>We have not announced a launch date. You can opt in to email updates when joining the waitlist.</p></details>
+            <details><summary>How do I manage or cancel a subscription purchased through Apple?</summary><p>If you purchased a subscription through the App Store, follow <a href="https://support.apple.com/en-us/118428">Apple's subscription instructions</a> to manage or cancel it. Joining the waitlist or expressing Founder interest is not a purchase or a subscription.</p></details>
+            <details><summary>How do I request a refund for an App Store purchase?</summary><p>For a purchase billed by Apple, follow <a href="https://support.apple.com/en-us/118223">Apple's refund request instructions</a>. Apple reviews refund requests under its policies; submitting a request does not guarantee a refund.</p></details>
             <details><summary>Where can I read the legal and safety information?</summary><p>Read the <a href="/terms">Terms of Service</a>, <a href="/privacy">Privacy Policy</a>, <a href="/assumption-of-risk">Assumption of Risk</a>, and <a href="/health-safety">Health & Safety Notice</a>.</p></details>
           </div>
         </section>
@@ -748,7 +796,7 @@ function SupportPage() {
   );
 }
 
-function App() {
+function RoutePage() {
   const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
 
   if (normalizedPath === "/product") {
@@ -780,6 +828,15 @@ function App() {
   }
 
   return <LandingPage />;
+}
+
+function App() {
+  return (
+    <>
+      <a className="skip-link" href="#main-content">Skip to main content</a>
+      <RoutePage />
+    </>
+  );
 }
 
 export default App;
