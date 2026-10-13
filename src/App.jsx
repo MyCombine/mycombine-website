@@ -6,6 +6,8 @@ import {
   Dumbbell,
   Instagram,
   Mail,
+  Pause,
+  Play,
   Timer,
   UsersRound,
 } from "lucide-react";
@@ -111,6 +113,12 @@ const productMeta = {
   title: "The Product | My Combine",
   description:
     "Explore My Combine workouts and training features. Earlier illustrative screens may differ from the app at launch.",
+};
+
+const remoteMeta = {
+  title: "My Combine Remote | Coming Soon",
+  description:
+    "Meet the My Combine Remote concept: a developing, app-connected timing experience designed to keep athletes focused on the rep. Coming soon.",
 };
 
 const supportMeta = {
@@ -415,6 +423,7 @@ function MarketingHeader({ current, waitlistHref = "/#waitlist" }) {
       <BrandLink />
       <nav className="mc-primary-nav" aria-label="Primary navigation">
         <a href="/product" aria-current={current === "product" ? "page" : undefined}>Product</a>
+        <a href="/remote" aria-current={current === "remote" ? "page" : undefined}>Remote</a>
         <a href="/founders" aria-current={current === "founders" ? "page" : undefined}>Founding Athletes</a>
         <a href="/support" aria-current={current === "support" ? "page" : undefined}>Support</a>
       </nav>
@@ -472,6 +481,7 @@ function SiteFooter() {
       <nav className="footer-site" aria-label="Site links">
         <a href="/">Home</a>
         <a href="/product">Product</a>
+        <a href="/remote">Remote</a>
         <a href="/founders">Founding Athletes</a>
         <a href="/support">Support</a>
       </nav>
@@ -522,6 +532,122 @@ function ScreenPreview({ screen, className = "" }) {
     <div className={`mc-screen-preview ${className}`}>
       <span className="mc-preview-label">Earlier illustrative preview</span>
       <img src={screen.src} alt={screen.alt} loading="lazy" />
+    </div>
+  );
+}
+
+function RemoteVideo() {
+  const containerRef = useRef(null);
+  const videoRef = useRef(null);
+  const [inView, setInView] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
+  const [playing, setPlaying] = useState(false);
+  const [manualPlay, setManualPlay] = useState(false);
+  const [manualPause, setManualPause] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [pageVisible, setPageVisible] = useState(() => !document.hidden);
+  const [reducedMotion, setReducedMotion] = useState(
+    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updateMotion = () => setReducedMotion(media.matches);
+    media.addEventListener("change", updateMotion);
+    return () => media.removeEventListener("change", updateMotion);
+  }, []);
+
+  useEffect(() => {
+    const updateVisibility = () => setPageVisible(!document.hidden);
+    document.addEventListener("visibilitychange", updateVisibility);
+    return () => document.removeEventListener("visibilitychange", updateVisibility);
+  }, []);
+
+  useEffect(() => {
+    const element = containerRef.current;
+    if (!element) return undefined;
+    if (!("IntersectionObserver" in window)) {
+      setInView(true);
+      setShouldLoad(true);
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      setInView(entry.isIntersecting);
+      if (entry.isIntersecting) setShouldLoad(true);
+    }, { rootMargin: "160px 0px", threshold: 0.01 });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !shouldLoad || videoError) return undefined;
+    const wantsPlayback = inView && pageVisible && (manualPlay || (!manualPause && !reducedMotion));
+    if (!wantsPlayback) {
+      video.pause();
+      return undefined;
+    }
+
+    let active = true;
+    video.play().then(() => {
+      if (active) setPlaying(true);
+    }).catch(() => {
+      if (active) setPlaying(false);
+    });
+    return () => { active = false; };
+  }, [inView, manualPause, manualPlay, pageVisible, reducedMotion, shouldLoad, videoError]);
+
+  const togglePlayback = () => {
+    if (playing) {
+      setManualPause(true);
+      setManualPlay(false);
+      videoRef.current?.pause();
+    } else {
+      setShouldLoad(true);
+      setManualPause(false);
+      setManualPlay(true);
+    }
+  };
+
+  return (
+    <div className="mc-remote-video" ref={containerRef}>
+      {videoError ? (
+        <img
+          className="mc-remote-video-fallback"
+          src="/remote/remote-gentle-tilt-poster.png"
+          alt="My Combine Remote concept: black handheld device with a green side button and indicator lights."
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          aria-label="My Combine Remote concept rotating gently on a black background"
+          muted
+          loop
+          playsInline
+          preload="none"
+          poster="/remote/remote-gentle-tilt-poster.png"
+          src={shouldLoad ? "/remote/remote-gentle-tilt-loop.mp4" : undefined}
+          onError={() => setVideoError(true)}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+        >
+          <a href="/remote/remote-gentle-tilt-loop.mp4">View the My Combine Remote video</a>
+        </video>
+      )}
+      {!videoError && (
+        <button
+          className="mc-remote-video-control"
+          type="button"
+          onClick={togglePlayback}
+          aria-label={playing ? "Pause Remote video" : "Play Remote video"}
+          aria-pressed={playing}
+        >
+          {playing ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}
+          <span>{playing ? "Pause" : "Play"}</span>
+        </button>
+      )}
+      {videoError && <p className="mc-remote-video-error">Video unavailable. The still image shows the Remote concept.</p>}
     </div>
   );
 }
@@ -578,6 +704,24 @@ function LandingPage() {
             <h2 id="home-product-title">The session is right there with you.</h2>
             <p>See the drill, set up your space, and keep the next rep in focus.</p>
             <a className="mc-text-link" href="/product">See the app experience <ArrowRight size={18} aria-hidden="true" /></a>
+          </div>
+        </section>
+
+        <section className="mc-remote-teaser" aria-labelledby="remote-teaser-title">
+          <div className="mc-container mc-remote-teaser-inner">
+            <div className="mc-remote-teaser-copy">
+              <span className="mc-eyebrow">My Combine Remote / Coming Soon</span>
+              <h2 id="remote-teaser-title">Less phone.<br />More rep.</h2>
+              <p>We're developing an app-connected Remote for a more focused, hands-on timing experience.</p>
+              <a className="mc-text-link" href="/remote">Explore the Remote <ArrowRight size={18} aria-hidden="true" /></a>
+            </div>
+            <img
+              className="mc-remote-teaser-image"
+              src="/remote/remote-web-poster.png"
+              alt="My Combine Remote concept on a black background, with a green side button and indicator lights."
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </section>
 
@@ -649,6 +793,70 @@ function ProductPage() {
           <h2 id="product-cta-title">Keep an eye on the launch.</h2>
           <p>Join the My Combine interest list. Choose separately whether to receive email updates.</p>
           <a className="button button-primary" href="/#waitlist">Join the waitlist <ArrowRight size={18} aria-hidden="true" /></a>
+        </section>
+      </main>
+      <SiteFooter />
+    </div>
+  );
+}
+
+function RemotePage() {
+  usePageMeta(remoteMeta.title, remoteMeta.description, "/remote");
+
+  return (
+    <div className="site-shell mc-site">
+      <MarketingHeader current="remote" />
+      <main id="main-content">
+        <section className="mc-remote-hero" aria-labelledby="remote-title">
+          <div className="mc-container mc-remote-hero-inner">
+            <span className="mc-eyebrow">Coming Soon / In Development</span>
+            <h1 id="remote-title">My Combine<br /><span>Remote.</span></h1>
+            <p>Beyond the workout plan: a more focused, hands-on timing experience. We're developing a Remote to work with the My Combine app, so the phone can stay out of your hands during more of the rep.</p>
+            <a className="button button-primary" href="#remote-preview">See the concept <ArrowRight size={18} aria-hidden="true" /></a>
+          </div>
+        </section>
+
+        <div className="mc-remote-status" aria-label="Remote development status">
+          <div className="mc-container">
+            <span>01 / App companion</span>
+            <span>02 / Remote-assisted timing</span>
+            <span>03 / Coming soon</span>
+          </div>
+        </div>
+
+        <section className="mc-container mc-remote-preview" id="remote-preview" aria-labelledby="remote-preview-title">
+          <div className="mc-remote-preview-copy">
+            <span className="mc-eyebrow">The next part of the training experience</span>
+            <h2 id="remote-preview-title">Stay with<br />the attempt.</h2>
+            <p>The intended workflow is simple: set up a session in the app, use a physical control during the effort, then review the result in My Combine. Fewer moments handling the phone. More attention on the work.</p>
+            <p className="mc-remote-disclaimer">Concept preview. Hardware, interaction, and app integration are still in development and may change.</p>
+          </div>
+          <figure className="mc-remote-preview-media">
+            <RemoteVideo />
+            <figcaption>My Combine Remote concept / motion preview</figcaption>
+          </figure>
+        </section>
+
+        <section className="mc-remote-workflow" aria-labelledby="remote-workflow-title">
+          <div className="mc-container">
+            <div className="mc-remote-workflow-heading">
+              <span className="mc-eyebrow">Planned experience</span>
+              <h2 id="remote-workflow-title">Built around the rep.</h2>
+              <p>The Remote is being developed as a companion to the app, not a standalone timing system.</p>
+            </div>
+            <div className="mc-remote-workflow-steps">
+              <div><span>01</span><h3>Set up in the app</h3><p>Choose the drill and timing setup in My Combine.</p></div>
+              <div><span>02</span><h3>Stay in position</h3><p>Use a tactile control instead of reaching for the phone mid-effort.</p></div>
+              <div><span>03</span><h3>Review the effort</h3><p>Return to the app to review the result with your training.</p></div>
+            </div>
+          </div>
+        </section>
+
+        <section className="mc-container mc-remote-close" aria-labelledby="remote-close-title">
+          <span className="mc-eyebrow">Coming Soon</span>
+          <h2 id="remote-close-title">A new way to stay in the moment.</h2>
+          <p>Availability and final specifications have not been announced. The My Combine app remains the center of the experience.</p>
+          <a className="mc-text-link" href="/product">Explore the app <ArrowRight size={18} aria-hidden="true" /></a>
         </section>
       </main>
       <SiteFooter />
@@ -781,6 +989,10 @@ function RoutePage() {
 
   if (normalizedPath === "/product") {
     return <ProductPage />;
+  }
+
+  if (normalizedPath === "/remote") {
+    return <RemotePage />;
   }
 
   if (normalizedPath === "/founders") {

@@ -13,6 +13,7 @@
   ],
   "rewrites": [
     { "source": "/product", "destination": "/product/index.html" },
+    { "source": "/remote", "destination": "/remote/index.html" },
     { "source": "/founders", "destination": "/founders/index.html" },
     { "source": "/support", "destination": "/support/index.html" },
     { "source": "/terms", "destination": "/terms/index.html" },

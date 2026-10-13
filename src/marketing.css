@@ -874,6 +874,287 @@
   scroll-margin-top: 24px;
 }
 
+.mc-remote-teaser {
+  border-block: 1px solid var(--mc-line);
+  background: #000;
+}
+
+.mc-remote-teaser-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: center;
+  min-height: 430px;
+  padding-block: 42px;
+}
+
+.mc-remote-teaser-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.mc-remote-teaser h2 {
+  margin-block: 18px 20px;
+  font-size: clamp(2.7rem, 5.6vw, 5.6rem);
+  line-height: 0.96;
+  text-transform: uppercase;
+}
+
+.mc-remote-teaser p {
+  max-width: 490px;
+  margin: 0 0 28px;
+  color: var(--mc-muted);
+  font-size: clamp(1rem, 1.7vw, 1.2rem);
+  line-height: 1.55;
+}
+
+.mc-remote-teaser-image {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  object-position: center;
+  -webkit-mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000 45%, transparent 95%);
+  mask-image: radial-gradient(ellipse 60% 60% at 50% 50%, #000 45%, transparent 95%);
+}
+
+.mc-remote-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: min(710px, calc(100svh - 160px));
+  border-bottom: 1px solid var(--mc-line);
+  overflow: hidden;
+  background: #000;
+}
+
+.mc-remote-hero::before {
+  position: absolute;
+  inset: 0;
+  background: url("/remote/remote-web-poster.png") right center / auto 88% no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse 60% 65% at 69% 50%, #000 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 60% 65% at 69% 50%, #000 50%, transparent 100%);
+  content: "";
+}
+
+.mc-remote-hero-inner {
+  position: relative;
+  padding-block: clamp(70px, 9vw, 120px);
+}
+
+.mc-remote-hero h1 {
+  max-width: 710px;
+  margin-block: 24px 26px;
+  font-size: clamp(3.8rem, 6.3vw, 6.5rem);
+  font-weight: 950;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.mc-remote-hero h1 span {
+  color: var(--mc-green);
+}
+
+.mc-remote-hero p {
+  max-width: 470px;
+  margin: 0;
+  color: #eff4ee;
+  font-size: clamp(1.05rem, 1.7vw, 1.25rem);
+  line-height: 1.55;
+}
+
+.mc-remote-status {
+  border-bottom: 1px solid var(--mc-line);
+  background: #0b100c;
+}
+
+.mc-remote-status .mc-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px 24px;
+  padding-block: 17px;
+}
+
+.mc-remote-status span {
+  color: #b9c1ba;
+  font-size: 0.73rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.mc-remote-preview {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.82fr);
+  gap: clamp(50px, 7vw, 110px);
+  align-items: center;
+  padding-block: clamp(80px, 9vw, 140px);
+  scroll-margin-top: 20px;
+}
+
+.mc-remote-preview h2 {
+  margin-block: 20px 28px;
+  font-size: clamp(3rem, 5.6vw, 5.4rem);
+  line-height: 0.96;
+  text-transform: uppercase;
+}
+
+.mc-remote-preview-copy > p {
+  max-width: 540px;
+  color: #dae2da;
+  font-size: clamp(1.08rem, 1.8vw, 1.3rem);
+  line-height: 1.6;
+}
+
+.mc-remote-preview-copy .mc-remote-disclaimer {
+  margin-top: 34px;
+  border-left: 2px solid var(--mc-green);
+  padding-left: 16px;
+  color: var(--mc-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.mc-remote-preview-media {
+  width: min(100%, 460px);
+  justify-self: center;
+  margin: 0;
+}
+
+.mc-remote-video {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background: #000;
+}
+
+.mc-remote-video video,
+.mc-remote-video-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.mc-remote-video-control {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: inline-flex;
+  min-width: 102px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--mc-green);
+  border-radius: 4px;
+  background: #101810;
+  color: #f5f8f4;
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.mc-remote-video-control:hover {
+  background: #1a2c19;
+}
+
+.mc-remote-video-error {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  margin: 0;
+  padding: 12px;
+  background: #101810;
+  color: #f5f8f4;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.mc-remote-preview-media figcaption {
+  margin-top: 12px;
+  color: var(--mc-muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.mc-remote-workflow {
+  border-block: 1px solid var(--mc-line);
+  background: #0d120e;
+}
+
+.mc-remote-workflow .mc-container {
+  padding-block: clamp(75px, 8vw, 118px);
+}
+
+.mc-remote-workflow-heading {
+  max-width: 720px;
+}
+
+.mc-remote-workflow h2 {
+  margin-block: 18px 20px;
+  text-transform: uppercase;
+}
+
+.mc-remote-workflow-heading p {
+  color: var(--mc-muted);
+  font-size: 1.12rem;
+  line-height: 1.55;
+}
+
+.mc-remote-workflow-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(22px, 4vw, 56px);
+  margin-top: 62px;
+}
+
+.mc-remote-workflow-steps > div {
+  border-top: 1px solid rgba(57, 255, 20, 0.5);
+  padding-top: 20px;
+}
+
+.mc-remote-workflow-steps span {
+  color: var(--mc-green);
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 850;
+}
+
+.mc-remote-workflow-steps h3 {
+  margin-block: 20px 12px;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  text-transform: uppercase;
+}
+
+.mc-remote-workflow-steps p {
+  color: var(--mc-muted);
+  line-height: 1.55;
+}
+
+.mc-remote-close {
+  padding-block: clamp(80px, 10vw, 145px);
+}
+
+.mc-remote-close h2 {
+  max-width: 800px;
+  margin-block: 18px 20px;
+  text-transform: uppercase;
+}
+
+.mc-remote-close p {
+  max-width: 580px;
+  margin-bottom: 28px;
+  color: var(--mc-muted);
+  font-size: 1.08rem;
+  line-height: 1.55;
+}
+
 @media (min-width: 980px) {
   .mc-footer {
     grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, auto));
@@ -914,6 +1195,10 @@
   .mc-footer {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .mc-remote-hero h1 {
+    font-size: clamp(3.6rem, 8vw, 5.8rem);
+  }
 }
 
 @media (max-width: 699px) {
@@ -950,13 +1235,17 @@
   }
 
   .mc-primary-nav {
-    justify-content: space-between;
-    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px;
   }
 
   .mc-primary-nav a {
     min-height: 38px;
     font-size: 0.75rem;
+    justify-content: center;
+    text-align: center;
+    white-space: normal;
   }
 
   .mc-home-hero,
@@ -1173,9 +1462,97 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 30px 18px;
   }
+
+  .mc-remote-teaser-inner,
+  .mc-remote-preview,
+  .mc-remote-workflow-steps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mc-remote-teaser-inner {
+    gap: 0;
+    padding-block: 58px 26px;
+  }
+
+  .mc-remote-teaser h2 {
+    font-size: clamp(2.7rem, 11vw, 4rem);
+  }
+
+  .mc-remote-teaser-image {
+    max-height: 340px;
+    margin-top: 18px;
+  }
+
+  .mc-remote-hero {
+    align-items: flex-start;
+    min-height: max(490px, min(630px, calc(100svh - 210px)));
+  }
+
+  .mc-remote-hero::before {
+    background-image: url("/remote/remote-gentle-tilt-poster.png");
+    background-position: right bottom;
+    background-size: auto 58%;
+    -webkit-mask-image: radial-gradient(ellipse 40% 52% at 75% 76%, #000 38%, transparent 90%);
+    mask-image: radial-gradient(ellipse 40% 52% at 75% 76%, #000 38%, transparent 90%);
+  }
+
+  .mc-remote-hero-inner {
+    padding-block: 36px 24px;
+  }
+
+  .mc-remote-hero h1 {
+    margin-block: 14px 18px;
+    font-size: clamp(2.8rem, 12vw, 4.6rem);
+  }
+
+  .mc-remote-hero p {
+    max-width: 370px;
+    font-size: 0.98rem;
+    line-height: 1.42;
+  }
+
+  .mc-remote-hero .mc-actions,
+  .mc-remote-hero .button {
+    margin-top: 16px;
+  }
+
+  .mc-remote-status .mc-container {
+    gap: 8px 16px;
+  }
+
+  .mc-remote-status span {
+    font-size: 0.66rem;
+  }
+
+  .mc-remote-preview {
+    gap: 34px;
+    padding-block: 76px;
+  }
+
+  .mc-remote-preview h2 {
+    font-size: clamp(2.65rem, 11vw, 4.5rem);
+  }
+
+  .mc-remote-preview-media {
+    width: min(100%, 400px);
+  }
+
+  .mc-remote-workflow-steps {
+    gap: 28px;
+    margin-top: 42px;
+  }
 }
 
 @media (max-width: 359px) {
+  .mc-remote-hero::before {
+    background-position: calc(100% + 32px) bottom;
+  }
+
+  .mc-remote-hero p {
+    max-width: 205px;
+    font-size: 0.9rem;
+  }
+
   .mc-founders-hero h1 {
     font-size: 2.65rem;
   }

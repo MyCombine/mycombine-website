@@ -8,7 +8,7 @@ const marketingStyles = await readFile(new URL("../../src/marketing.css", import
 
 test("every route uses the shared skip target and a page-level main landmark", () => {
   assert.match(app, /className="skip-link" href="#main-content"/);
-  assert.equal((app.match(/<main id="main-content">/g) ?? []).length, 5);
+  assert.equal((app.match(/<main id="main-content">/g) ?? []).length, 6);
   assert.match(app, /<div className="site-shell legal-shell">\s*<LegalHeader \/>\s*<main id="main-content">/);
   assert.match(styles, /\.skip-link:focus\s*\{/);
 });

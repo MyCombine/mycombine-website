@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 const entry = (path) => fileURLToPath(new URL(path, import.meta.url));
 const pageRoutes = new Set([
   "/product",
+  "/remote",
   "/founders",
   "/support",
   "/terms",
@@ -41,6 +42,7 @@ export default defineConfig({
       input: {
         home: entry("./index.html"),
         product: entry("./product/index.html"),
+        remote: entry("./remote/index.html"),
         founders: entry("./founders/index.html"),
         support: entry("./support/index.html"),
         terms: entry("./terms/index.html"),

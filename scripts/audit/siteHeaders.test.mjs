@@ -40,6 +40,7 @@ test("Vercel applies baseline headers to every path", () => {
 test("public routes use dedicated pages without a homepage catch-all", () => {
   const routes = [
     "/product",
+    "/remote",
     "/founders",
     "/support",
     "/terms",
