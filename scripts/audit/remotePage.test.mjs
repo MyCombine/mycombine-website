@@ -11,7 +11,7 @@ const vercel = JSON.parse(await readFile(new URL("../../vercel.json", import.met
 test("Remote has a dedicated page, metadata, navigation, and direct-route rewrites", () => {
   assert.match(app, /if \(normalizedPath === "\/remote"\)/);
   assert.match(app, /href="\/remote" aria-current=\{current === "remote"/);
-  assert.match(app, /href="\/remote">Explore the Remote/);
+  assert.match(app, /href="\/remote">See Remote/);
   assert.match(html, /<title>My Combine Remote \| Coming Soon<\/title>/);
   assert.match(html, /property="og:image" content="https:\/\/www\.mycombineapp\.com\/remote\/remote-web-poster\.png"/);
   assert.match(vite, /remote: entry\("\.\/remote\/index\.html"\)/);
@@ -35,7 +35,8 @@ test("Remote motion has a poster, lazy source, manual control, and reduced-motio
 
 test("Remote launch claims stay provisional", () => {
   assert.match(app, /Coming Soon \/ In Development/);
-  assert.match(app, /Hardware, interaction, and app integration are still in development and may change/);
+  assert.match(app, /Hardware, interaction, and app integration may change before release/);
   assert.match(app, /Availability and final specifications have not been announced/);
+  assert.doesNotMatch(app, /See the concept|Explore the Remote concept/);
   assert.doesNotMatch(app, /preorder|pre-order|buy the remote|more accurate than phone/i);
 });

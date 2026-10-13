@@ -47,9 +47,19 @@ const productFeatures = [
   },
 ];
 
-const workoutPreview = {
-  src: "/app-screens/img-8723-active-workout.png?v=8723",
-  alt: "Earlier illustrative My Combine workout screen showing a sprint drill and setup diagram.",
+const runnerScorePreview = {
+  src: "/app-screens/runner-score-iphone.png",
+  alt: "My Combine Runner Score screen in an iPhone frame, showing a score of 65 and sprint, shuttle, and jump results.",
+};
+
+const performanceHubPreview = {
+  src: "/app-screens/performance-hub-iphone.png",
+  alt: "My Combine Performance Hub screen in an iPhone frame, showing tracked sprint results and drill scores.",
+};
+
+const officialTestDayPreview = {
+  src: "/app-screens/official-test-day-iphone.png",
+  alt: "My Combine Official Test Day screen in an iPhone frame, showing five included drills and test-day information.",
 };
 
 const founderSteps = [
@@ -112,13 +122,13 @@ const foundersMeta = {
 const productMeta = {
   title: "The Product | My Combine",
   description:
-    "Explore My Combine workouts and training features. Earlier illustrative screens may differ from the app at launch.",
+    "Preview My Combine Runner Score, Official Test Day, and Performance Hub screens. Features may change before launch.",
 };
 
 const remoteMeta = {
   title: "My Combine Remote | Coming Soon",
   description:
-    "Meet the My Combine Remote concept: a developing, app-connected timing experience designed to keep athletes focused on the rep. Coming soon.",
+    "Meet the My Combine Remote, a planned app companion for a more hands-on timing experience. Coming soon.",
 };
 
 const supportMeta = {
@@ -530,7 +540,6 @@ function LegalPage({ legalDocument }) {
 function ScreenPreview({ screen, className = "" }) {
   return (
     <div className={`mc-screen-preview ${className}`}>
-      <span className="mc-preview-label">Earlier illustrative preview</span>
       <img src={screen.src} alt={screen.alt} loading="lazy" />
     </div>
   );
@@ -616,12 +625,12 @@ function RemoteVideo() {
         <img
           className="mc-remote-video-fallback"
           src="/remote/remote-gentle-tilt-poster.png"
-          alt="My Combine Remote concept: black handheld device with a green side button and indicator lights."
+          alt="My Combine Remote: black handheld device with a green side button and indicator lights."
         />
       ) : (
         <video
           ref={videoRef}
-          aria-label="My Combine Remote concept rotating gently on a black background"
+          aria-label="My Combine Remote rotating gently on a black background"
           muted
           loop
           playsInline
@@ -647,7 +656,7 @@ function RemoteVideo() {
           <span>{playing ? "Pause" : "Play"}</span>
         </button>
       )}
-      {videoError && <p className="mc-remote-video-error">Video unavailable. The still image shows the Remote concept.</p>}
+      {videoError && <p className="mc-remote-video-error">Video unavailable. The still image shows the Remote.</p>}
     </div>
   );
 }
@@ -666,13 +675,30 @@ function LandingPage() {
             <p className="mc-lede">Your combine, wherever you train. Test speed, agility, and explosiveness, then see how your work adds up over time.</p>
             <div className="mc-actions">
               <a className="button button-primary" href="#waitlist">Join the waitlist <ArrowRight size={18} aria-hidden="true" /></a>
-              <a className="button button-secondary" href="/product">Explore the product</a>
+              <a className="button button-secondary" href="/remote">See Remote <ArrowRight size={18} aria-hidden="true" /></a>
             </div>
             <p className="mc-hero-note">Structured sessions. Recorded results. A clearer view of progress.</p>
           </div>
-          <div className="mc-home-phone" aria-label="My Combine app dashboard preview">
-            <span className="mc-preview-label">Earlier illustrative preview</span>
-            <img src="/app-screens/img-8722-home-dashboard.png?v=8722" alt="Earlier illustrative My Combine dashboard with Runner Score and a daily workout." />
+          <div className="mc-home-phone">
+            <img src={runnerScorePreview.src} alt={runnerScorePreview.alt} fetchPriority="high" />
+          </div>
+        </section>
+
+        <section className="mc-remote-teaser" aria-labelledby="remote-teaser-title">
+          <div className="mc-container mc-remote-teaser-inner">
+            <div className="mc-remote-teaser-copy">
+              <span className="mc-eyebrow">My Combine Remote / Coming Soon</span>
+              <h2 id="remote-teaser-title">Less phone.<br />More rep.</h2>
+              <p>We're developing an app-connected Remote for a more focused, hands-on timing experience.</p>
+              <a className="button button-primary" href="/remote">See Remote <ArrowRight size={18} aria-hidden="true" /></a>
+            </div>
+            <img
+              className="mc-remote-teaser-image"
+              src="/remote/remote-web-poster.png"
+              alt="My Combine Remote on a black background, with a green side button and indicator lights."
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </section>
 
@@ -698,30 +724,12 @@ function LandingPage() {
         </section>
 
         <section className="mc-container mc-home-product" aria-labelledby="home-product-title">
-          <div className="mc-home-product-image"><ScreenPreview screen={workoutPreview} /></div>
+          <div className="mc-home-product-image"><ScreenPreview screen={performanceHubPreview} /></div>
           <div className="mc-home-product-copy">
-            <span className="mc-eyebrow">Inside the app</span>
-            <h2 id="home-product-title">The session is right there with you.</h2>
-            <p>See the drill, set up your space, and keep the next rep in focus.</p>
+            <span className="mc-eyebrow">Performance Hub</span>
+            <h2 id="home-product-title">See your work in context.</h2>
+            <p>Review tracked drills, official results, and scores in one place.</p>
             <a className="mc-text-link" href="/product">See the app experience <ArrowRight size={18} aria-hidden="true" /></a>
-          </div>
-        </section>
-
-        <section className="mc-remote-teaser" aria-labelledby="remote-teaser-title">
-          <div className="mc-container mc-remote-teaser-inner">
-            <div className="mc-remote-teaser-copy">
-              <span className="mc-eyebrow">My Combine Remote / Coming Soon</span>
-              <h2 id="remote-teaser-title">Less phone.<br />More rep.</h2>
-              <p>We're developing an app-connected Remote for a more focused, hands-on timing experience.</p>
-              <a className="mc-text-link" href="/remote">Explore the Remote <ArrowRight size={18} aria-hidden="true" /></a>
-            </div>
-            <img
-              className="mc-remote-teaser-image"
-              src="/remote/remote-web-poster.png"
-              alt="My Combine Remote concept on a black background, with a green side button and indicator lights."
-              loading="lazy"
-              decoding="async"
-            />
           </div>
         </section>
 
@@ -758,22 +766,30 @@ function ProductPage() {
               <a className="button button-primary" href="/#waitlist">Join the waitlist <ArrowRight size={18} aria-hidden="true" /></a>
             </div>
           </div>
-          <ScreenPreview screen={{ src: "/app-screens/img-8722-home-dashboard.png?v=8722", alt: "Earlier illustrative My Combine dashboard with Runner Score and a daily workout." }} className="mc-product-hero-screen" />
+          <ScreenPreview screen={runnerScorePreview} className="mc-product-hero-screen" />
         </section>
 
         <section className="mc-container mc-product-sequence" aria-labelledby="sequence-title">
           <div className="mc-section-heading">
-            <span className="mc-eyebrow">Inside a workout</span>
-            <h2 id="sequence-title">Set up the next effort.</h2>
-            <p>This is an earlier illustrative app screen. Layout and available features may differ at launch.</p>
+            <span className="mc-eyebrow">Inside the app</span>
+            <h2 id="sequence-title">Test. Then review.</h2>
+            <p>These supplied app screens show the current direction. Features may change before launch.</p>
           </div>
           <article className="mc-product-step">
             <div className="mc-product-step-copy">
-              <span className="mc-eyebrow">Workout preview</span>
-              <h3>A workout you can take outside.</h3>
-              <p>See your current drill, session progress, and setup before each effort.</p>
+              <span className="mc-eyebrow">Official Test Day</span>
+              <h3>Know the test-day lineup.</h3>
+              <p>See the included drills and assessment details before you begin.</p>
             </div>
-            <ScreenPreview screen={workoutPreview} />
+            <ScreenPreview screen={officialTestDayPreview} />
+          </article>
+          <article className="mc-product-step">
+            <div className="mc-product-step-copy">
+              <span className="mc-eyebrow">Performance Hub</span>
+              <h3>Review every mark.</h3>
+              <p>Find tracked sprint results and drill scores together in one view.</p>
+            </div>
+            <ScreenPreview screen={performanceHubPreview} />
           </article>
         </section>
 
@@ -812,7 +828,7 @@ function RemotePage() {
             <span className="mc-eyebrow">Coming Soon / In Development</span>
             <h1 id="remote-title">My Combine<br /><span>Remote.</span></h1>
             <p>Beyond the workout plan: a more focused, hands-on timing experience. We're developing a Remote to work with the My Combine app, so the phone can stay out of your hands during more of the rep.</p>
-            <a className="button button-primary" href="#remote-preview">See the concept <ArrowRight size={18} aria-hidden="true" /></a>
+            <a className="button button-primary" href="#remote-preview">See Remote <ArrowRight size={18} aria-hidden="true" /></a>
           </div>
         </section>
 
@@ -829,11 +845,11 @@ function RemotePage() {
             <span className="mc-eyebrow">The next part of the training experience</span>
             <h2 id="remote-preview-title">Stay with<br />the attempt.</h2>
             <p>The intended workflow is simple: set up a session in the app, use a physical control during the effort, then review the result in My Combine. Fewer moments handling the phone. More attention on the work.</p>
-            <p className="mc-remote-disclaimer">Concept preview. Hardware, interaction, and app integration are still in development and may change.</p>
+            <p className="mc-remote-disclaimer">In development. Hardware, interaction, and app integration may change before release.</p>
           </div>
           <figure className="mc-remote-preview-media">
             <RemoteVideo />
-            <figcaption>My Combine Remote concept / motion preview</figcaption>
+            <figcaption>My Combine Remote / Motion preview</figcaption>
           </figure>
         </section>
 
