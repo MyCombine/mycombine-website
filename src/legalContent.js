@@ -513,8 +513,8 @@ export const privacyDocument = {
   title: "Privacy Policy",
   seoTitle: "My Combine Privacy Policy",
   description:
-    "Read the My Combine Privacy Policy for the My Combine mobile application, website, software, services, hardware integrations, and related offerings.",
-  effectiveDate: "June 2026",
+    "Learn how My Combine handles app account, athletic performance, subscription, and website waitlist information.",
+  effectiveDate: "October 20, 2026",
   pdfHref: "/legal/privacy-policy.pdf",
   pdfLabel: "Download Privacy Policy (PDF)",
   body: `
@@ -522,117 +522,65 @@ export const privacyDocument = {
 
 My Combine LLC ("My Combine," "we," "our," or "us") respects your privacy and is committed to protecting your personal information.
 
-This Privacy Policy explains how we collect, use, store, share, and protect information when you use the My Combine mobile application, website, software, services, hardware integrations, and related offerings (collectively, the "Services").
+This Privacy Policy explains how we collect, use, store, share, and protect information when you use the My Combine mobile application and website (the "Services").
 
 By using the Services, you agree to the collection and use of information as described in this Privacy Policy.
 
 ## 1. Information We Collect
-We may collect information you provide directly to us, information collected automatically through your use of the Services, and information obtained through future integrations and platform features.
+The information we handle depends on whether you use the mobile app, join the website waitlist, or contact us.
 
-### Account Information
-When you create an account, we may collect:
+### App Account and Profile Information
+When you create or use an app account, we collect or store:
 
-- Name
-- Username
-- Email address
-- Password credentials (stored securely through authentication providers)
-- Profile information you choose to provide
+- Your name, email address, and an account identifier used to associate your data with your account
+- Your date of birth, or age where used as a fallback, and your selected gender for Runner Score benchmarking
+- Your training level, primary goal, and optional body weight
+- Your settings and preferences, such as units, training surface, equipment, and notifications
+
+Firebase Authentication handles email and password sign-in. My Combine does not receive or store your password in plain text.
 
 ### Website Waitlist Information
-When you voluntarily join the My Combine website waitlist, we may collect:
+When you voluntarily join the website waitlist, we collect:
 
 - Email address
 - Optional first name
-- Date and time of signup
-- Signup source
-- Marketing attribution information, such as UTM source parameters
+- The date and time of signup, recorded by the waitlist service
+- Signup source, including whether you expressed interest in a possible Founder offer
+- Marketing attribution information you arrive with, such as a UTM source parameter
+
+The website also records your separate choice about requesting email updates. A waitlist signup is not, by itself, consent to receive marketing updates; a request for updates may remain pending until address ownership is verified. Expressing Founder interest does not confer eligibility or reserve a place.
 
 ### Performance and Workout Data
-We may collect and store:
+When you train or test in the app, we may store:
 
-- Workout history
-- Drill results
-- Test Day results
-- Runner Scores
-- Speed Scores
-- Agility Scores
-- Explosiveness Scores
-- Personal Records (PRs)
-- Training history
-- Progress tracking information
-- Performance analytics
+- Workout sessions, training plans, drill attempts, repetitions, results, and history
+- Timing and measurement results, timing method, training surface, and relevant equipment selections
+- Official Test Day results, personal records, Runner Score and component scores, and progress history
+- Optional timing-remote connection information and timing results when you use that feature
 
 ### Subscription and Billing Information
-If you purchase a subscription or paid feature, we may collect:
+If you subscribe through the iPhone app, we receive or store information needed to check access, including subscription status, product or entitlement information, and purchase-related records. Apple processes App Store payments, and RevenueCat helps manage subscription entitlements. My Combine does not receive your full payment card number.
 
-- Subscription status
-- Transaction information
-- Purchase history
-- Billing-related records
-
-Payment information is generally processed by third-party providers such as Apple, Google, Stripe, or other payment processors. My Combine does not store full payment card information.
-
-### Device Information
-We may collect:
-
-- Device type
-- Operating system
-- App version
-- Browser information
-- Device identifiers
-- Crash reports
-- Diagnostic information
-
-### Analytics Information
-We may use analytics tools, including Firebase Analytics and similar services, to collect information regarding:
-
-- Feature usage
-- Session activity
-- App performance
-- User engagement
-- Error reporting
-- Platform improvements
-
-### Location Information
-My Combine may collect location-related information, including:
-
-- Approximate location
-- Device-based location information
-- Location information voluntarily provided by users
-
-Location services are not currently required for core functionality, but may be used in future features such as events, leaderboards, verified testing, team functionality, or other platform services.
-
-### Future Hardware and Device Data
-Future versions of My Combine may collect information from:
-
-- Bluetooth timing remotes
-- Timing gate systems
-- Wearable devices
-- Sensors
-- Hardware integrations
-- Future performance testing equipment
-
-Such information may include timing data, device status information, performance measurements, connectivity information, and related operational data.
+### App, Website, and Diagnostic Information
+The app and website may process technical information needed to operate and protect the Services, such as app version, device or operating-system information, browser and connection information, account identifiers, and error information. The app records limited product events for functionality and troubleshooting. When app monitoring is configured, Sentry may receive sanitized crash, performance, and diagnostic events and related usage breadcrumbs. The app may keep local copies of account or workout data to support recovery and syncing.
 
 ## 2. How We Use Information
 We may use collected information to:
 
 - Provide and operate the Services
 - Create and manage user accounts
-- Generate workout recommendations
+- Generate workout recommendations using profile, training, and recent workout information
 - Track athletic performance
 - Calculate Runner Scores and related metrics
-- Improve platform functionality
-- Process subscriptions and payments
+- Check subscription access and process App Store purchase status
+- Troubleshoot errors, support syncing, and improve app functionality
 - Respond to customer support requests
 - Maintain and administer the My Combine waitlist
-- Provide launch announcements, early-access information, and availability updates
-- Communicate information about Founders or early-user opportunities if offered
+- Provide launch, early-access, and availability information in accordance with your communication choices
+- Communicate information about Founder or early-user opportunities if offered, without treating waitlist interest as approval
 - Understand which marketing sources are generating interest in My Combine
 - Maintain platform security
 - Detect fraud and abuse
-- Conduct analytics and research
-- Develop future products and services
 - Comply with legal obligations
 
 ## 3. How We Share Information
@@ -641,14 +589,16 @@ My Combine does not sell, rent, or trade personal information to advertisers, da
 We may share information in limited circumstances, including:
 
 ### Service Providers
-We may share information with trusted third-party providers that help us operate the Services, including:
+We use service providers for specific parts of the Services:
 
-- Cloud hosting providers
-- Analytics providers
-- Payment processors
-- Customer support providers
-- Authentication providers
-- Infrastructure providers used to process or store waitlist information, including Google services such as Google Sheets and Google Apps Script
+- Google Firebase for app authentication, cloud storage, and server functions
+- Apple and RevenueCat for App Store subscriptions and access status
+- Google Sheets and Google Apps Script to process and store website waitlist signups and related records
+- Sentry for app crash and diagnostic monitoring when monitoring is configured
+- OpenAI for workout-planning requests when the app uses AI-generated workout recommendations; these requests include training and workout-planning inputs, not your account email or date of birth
+- Website hosting and delivery providers needed to serve the site
+
+The information processed by each provider depends on the feature you use and the provider's role. Their handling of information is also governed by their applicable terms and privacy practices.
 
 ### Legal Compliance
 We may disclose information if required to:
@@ -662,50 +612,20 @@ We may disclose information if required to:
 ### Business Transactions
 If My Combine is involved in a merger, acquisition, financing, asset sale, restructuring, or similar transaction, user information may be transferred as part of that transaction.
 
-## 4. User-Generated Content and Future Social Features
-Future versions of the Services may include:
-
-- Leaderboards
-- Profiles
-- Coach accounts
-- Team functionality
-- Social features
-- Content sharing
-
-Information that users voluntarily choose to make public may be visible to other users.
-
-Users are responsible for information they choose to publicly share through the Services.
+## 4. Your Sharing Choices
+Your app profile and workout history are not published as a public social profile by default. If you choose to save or share an Athlete Card image, information visible in that image may be available to the people or services with whom you share it. You control that action through your device's sharing options.
 
 ## 5. Data Retention
-We retain information for as long as reasonably necessary to:
+We generally retain app account and workout information while your account remains active. We retain website waitlist information while administering the waitlist and related communications, unless you request its removal or it is no longer needed. Retention may vary by data type and provider; we do not state a single fixed period for all records.
 
-- Provide the Services
-- Maintain account functionality
-- Preserve workout history
-- Comply with legal obligations
-- Resolve disputes
-- Prevent fraud
-- Enforce agreements
-- Support legitimate business operations
+After an account deletion request is completed, some information may be retained where needed for legal obligations, billing or accounting, security, fraud prevention, or disputes. Limited copies may remain temporarily in logs, backups, archives, and service-provider systems under their normal retention processes. We review deletion and removal requests using the contact method below.
 
-Retention periods may vary depending on the type of information involved.
+## 6. Account and Waitlist Deletion
+App users can start account deletion in the app through Settings > Account & Support > Delete Account. The flow may ask you to confirm with your current password and requires a connection to complete the server-side steps. If the flow is unavailable or does not complete, contact team@mycombineapp.com for assistance; an unsuccessful attempt does not mean your account was deleted.
 
-## 6. Account Deletion Requests
-Users may request deletion of their accounts.
+Deleting a My Combine account does not cancel an active App Store subscription. You must manage or cancel that subscription separately in your Apple ID subscription settings.
 
-Upon receiving a valid request, My Combine may delete, anonymize, or remove certain account information.
-
-However, My Combine may retain information as reasonably necessary for:
-
-- Legal compliance
-- Security purposes
-- Fraud prevention
-- Billing and accounting records
-- Dispute resolution
-- Enforcement of agreements
-- Legitimate business purposes
-
-Certain information may remain in backups, archives, logs, or disaster recovery systems for a reasonable period of time.
+To request removal of a website waitlist entry or ask about personal information, email team@mycombineapp.com. The website waitlist and the mobile app account are separate; removing one does not automatically remove the other.
 
 ## 7. Data Security
 My Combine uses reasonable administrative, technical, and organizational safeguards designed to protect user information.
@@ -735,7 +655,7 @@ Requests may be submitted by contacting My Combine using the contact information
 ## 10. Changes to this Privacy Policy
 My Combine may update this Privacy Policy from time to time.
 
-When material changes are made, we may update the Effective Date and provide notice through the Services or by other appropriate means.
+When material changes are made, we will update the Effective Date and provide notice through the Services or by other appropriate means where required.
 
 Continued use of the Services after changes become effective constitutes acceptance of the revised Privacy Policy.
 
@@ -747,7 +667,7 @@ My Combine LLC
 Email: team@mycombineapp.com
 
 ### Effective Date
-This Privacy Policy is effective as of June 2026.
+This Privacy Policy is effective as of October 20, 2026.
 `.trim(),
 };
 
